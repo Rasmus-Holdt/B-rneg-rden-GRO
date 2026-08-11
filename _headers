@@ -1,0 +1,35 @@
+# Cache-regler til Netlify og Cloudflare Pages.
+# Bruger du en almindelig webhotel-server med Apache, er det .htaccess der gælder.
+#
+# Princippet: billeder og skrifter ændrer sig aldrig uden at få nyt navn, så
+# de må gemmes i et år. HTML skal tjekkes hver gang, ellers ser folk en gammel
+# udgave efter en rettelse.
+
+/billeder/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Skrifterne er beskårne og har faste navne. Skal en skrift skiftes ud, skal
+# filen have et NYT navn (fx nunito-2.woff2) – ellers ser gamle besøgende
+# den gamle i op til et år.
+/assets/skrifter/*
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+/*.ico
+  Cache-Control: public, max-age=31536000, immutable
+/*.svg
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*
+  Cache-Control: public, max-age=86400, must-revalidate
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), interest-cohort=()

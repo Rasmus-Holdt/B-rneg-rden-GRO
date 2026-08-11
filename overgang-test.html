@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Virker det hele? – Børnegården GRO</title>
+<link rel="stylesheet" href="assets/style.min.css">
+<style>
+  body{ max-width: 680px; margin: 40px auto; padding: 0 20px; }
+  .svar{ padding: 14px 18px; border-radius: 14px; margin: 10px 0; font-weight: 600; }
+  .ja{ background: #e4f1ed; border-left: 6px solid #1c8f7a; }
+  .nej{ background: #fbeae6; border-left: 6px solid #d1503f; }
+  .lidt{ background: #fdf1d6; border-left: 6px solid #e0a825; }
+  .svar span{ font-weight: 400; display: block; margin-top: 4px; font-size: .92rem; }
+  h2{ margin-top: 34px; }
+  .proeve{ font-family: "Caveat", "Caveat-reserve", cursive; font-size: 2rem; margin: 0; }
+  .proeve2{ font-family: "Baloo 2", "Baloo-reserve", sans-serif; font-weight: 700; font-size: 1.6rem; margin: 0; }
+</style>
+</head>
+<body>
+<h1>Virker det hele?</h1>
+<p>Denne side tjekker de ting, siden bygger på. Den er kun til fejlfinding og
+   skal ikke ligge på nettet – slet den, når siden går live.</p>
+
+<p><strong>Vigtigt:</strong> åbn siden gennem en rigtig adresse
+   (<code>http://localhost:8000</code>), ikke ved at dobbeltklikke på filen.
+   Sideovergange og skrifter virker ikke, når man åbner en fil direkte fra
+   harddisken – browseren tillader det ikke. Kør i mappen:
+   <code>python3 -m http.server 8000</code></p>
+
+<div id="svar"></div>
+
+<h2>Sådan ser skrifterne ud</h2>
+<p class="proeve">Gårdliv, nærvær og vild leg &mdash; æøåÆØÅ</p>
+<p class="proeve2">Børnegården GRO &mdash; 0&ndash;3 år</p>
+<p>Er de to linjer ovenfor sat i henholdsvis en håndskrift og en rund,
+   kraftig skrift, er skrifterne hentet rigtigt.</p>
+
+<script>
+(async function(){
+  const t = [];
+  const put = (navn, ok, hjaelp, delvis) => t.push({navn, ok, hjaelp, delvis});
+
+  // ---- Formater og filer ----
+  const kanHente = url => new Promise(r => {
+    const i = new Image();
+    i.onload = () => r(true); i.onerror = () => r(false);
+    i.src = url + '?t=' + Date.now();
+  });
+
+  put('Ikonet kan hentes', await kanHente('favicon-96.png'),
+      'favicon-96.png blev ikke fundet. Ligger filerne samme sted som denne side?');
+
+  put('AVIF-billederne kan vises', await kanHente('billeder/hero-gynge-1x.avif'),
+      'Enten mangler filen, eller også sender serveren den med forkert filtype. ' +
+      'På Apache skal .htaccess indeholde linjen AddType image/avif .avif.');
+
+  put('WebP virker som reserve', await kanHente('billeder/hero-gynge-1x.webp'),
+      'Reserveformatet mangler. Kør billeder/beskaer.py igen.');
+
+  // ---- Skrifter ----
+  try {
+    await document.fonts.ready;
+    const harNunito = document.fonts.check('1em "Nunito"');
+    const harBaloo  = document.fonts.check('700 1em "Baloo 2"');
+    const harCaveat = document.fonts.check('1em "Caveat"');
+    put('Skrifterne er hentet lokalt', harNunito && harBaloo && harCaveat,
+        'Mindst én skrift kunne ikke hentes fra assets/skrifter/. ' +
+        'Åbner du siden direkte fra harddisken, er det forventet – ' +
+        'browseren blokerer skriftfiler dér. Prøv via localhost.');
+  } catch (e) {
+    put('Skrifterne er hentet lokalt', false, 'Browseren kunne ikke svare på spørgsmålet.');
+  }
+
+  // ---- Overgange ----
+  put('Sideovergange understøttes', CSS.supports('view-transition-name', 'none'),
+      'Din browser klarer det ikke selv – assets/overgang.js tager over og ' +
+      'laver den samme overgang manuelt. Kræver en rigtig adresse, ikke en fil på disken.',
+      true);
+
+  const roligt = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  put('"Reducér bevægelse" er slået FRA', !roligt,
+      'Du har slået Reducér bevægelse til i systemindstillingerne. Siden ' +
+      'respekterer det og dæmper alle animationer med vilje. Det er ikke en fejl.',
+      true);
+
+  put('Plads til rullebjælken reserveres', CSS.supports('scrollbar-gutter', 'stable'),
+      'Uden dette springer indholdet nogle få pixels til siden, når man går ' +
+      'fra en lang til en kort side. Kun pynt – siden virker fint uden.', true);
+
+  put('Forudhentning af næste side', !!(HTMLScriptElement.supports &&
+      HTMLScriptElement.supports('speculationrules')),
+      'Siderne hentes ikke på forhånd ved hover. De indlæses helt normalt – ' +
+      'bare ikke øjeblikkeligt.', true);
+
+  // ---- Tegn resultatet ----
+  document.getElementById('svar').innerHTML = t.map(r => {
+    const klasse = r.ok ? 'ja' : (r.delvis ? 'lidt' : 'nej');
+    const tegn   = r.ok ? '✓' : (r.delvis ? '!' : '✗');
+    return `<div class="svar ${klasse}">${tegn} ${r.navn}` +
+           (r.ok ? '' : `<span>${r.hjaelp}</span>`) + '</div>';
+  }).join('');
+
+  // Gul betyder "virker, men uden pynt". Rød betyder "her er noget galt".
+})();
+</script>
+</body>
+</html>

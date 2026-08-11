@@ -1,0 +1,63 @@
+# Cache- og komprimeringsregler til Apache (de fleste danske webhoteller).
+# Bruger du Netlify eller Cloudflare Pages, er det _headers der gælder i stedet.
+
+# ---- Komprimering: den største enkeltgevinst på tekstfiler ----
+# Bemærk: billeder, woff2 og AVIF er ALLEREDE komprimerede. Kører man dem
+# gennem gzip igen, bliver de en anelse større og serveren arbejder for ingenting.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml application/manifest+json
+</IfModule>
+
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css text/plain text/xml
+  AddOutputFilterByType BROTLI_COMPRESS application/javascript application/json
+  AddOutputFilterByType BROTLI_COMPRESS image/svg+xml application/manifest+json
+</IfModule>
+
+# ---- Hvor længe må browseren gemme filerne ----
+<IfModule mod_expires.c>
+  ExpiresActive On
+  # Billeder og ikoner skifter aldrig uden nyt filnavn
+  ExpiresByType image/jpeg              "access plus 1 year"
+  ExpiresByType image/webp              "access plus 1 year"
+  ExpiresByType image/avif              "access plus 1 year"
+  ExpiresByType image/png               "access plus 1 year"
+  ExpiresByType image/svg+xml           "access plus 1 year"
+  ExpiresByType image/x-icon            "access plus 1 year"
+  # Skrifterne har faste navne og skiftes ikke ud
+  ExpiresByType font/woff2              "access plus 1 year"
+  # CSS og JS: et døgn, så en rettelse slår igennem hurtigt
+  ExpiresByType text/css                "access plus 1 day"
+  ExpiresByType application/javascript  "access plus 1 day"
+  # HTML skal altid tjekkes
+  ExpiresByType text/html               "access plus 0 seconds"
+</IfModule>
+
+# ---- Filtyperne skal serveres med den rigtige type ----
+# Uden AddType image/avif sender mange webhoteller AVIF-filerne som
+# "application/octet-stream", og så viser browseren dem slet ikke.
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+  AddType image/avif .avif
+  AddType font/woff2 .woff2
+  AddType application/manifest+json .webmanifest
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Permissions-Policy "geolocation=(), camera=(), microphone=(), interest-cohort=()"
+  Header set Cache-Control "public, max-age=31536000, immutable" "expr=%{REQUEST_URI} =~ m#^/assets/skrifter/#"
+</IfModule>
+
+# ---- Én adresse pr. side ----
+# Uden dette findes forsiden på både /index.html og /, og Google skal selv
+# gætte hvilken der tæller. Vi sender alle til den korte.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{THE_REQUEST} \s/index\.html[\s?] [NC]
+  RewriteRule ^index\.html$ / [R=301,L]
+</IfModule>

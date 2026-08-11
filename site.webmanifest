@@ -1,0 +1,29 @@
+{
+  "name": "Børnegården GRO",
+  "short_name": "GRO",
+  "description": "Privat pasningsordning for børn i alderen 0-3 år i Vinderslev ved Kjellerup.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fbf3e6",
+  "theme_color": "#fbf3e6",
+  "lang": "da-DK",
+  "icons": [
+    {
+      "src": "ikon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "ikon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "ikon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

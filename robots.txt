@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Kildemateriale og arbejdsfiler skal ikke i søgeresultaterne.
+# Bemærk: favicon-filerne i roden må IKKE blokeres – Google
+# skal kunne hente dem for at vise ikonet i søgeresultatet.
+Disallow: /kilder/
+Disallow: /indhold/
+Disallow: /overgang-test.html
+
+Sitemap: https://www.boernegaardengro.dk/sitemap.xml
