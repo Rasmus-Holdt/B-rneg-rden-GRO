@@ -272,7 +272,7 @@ def strukturerede_data(fil, title, desc):
                         "og en hverdag med gårdliv, nærvær og vild leg."),
         "url": DOMAENE + "/",
         "telephone": "+45" + TLF,
-        "image": DOMAENE + "/billeder/hero-gynge.jpg",
+        "image": DOMAENE + "/billeder/" + DELEBILLEDE["index.html"] + ".jpg",
         # Google bruger "logo" til at vise ikonet ved siden af virksomheden.
         # Det skal være kvadratisk og mindst 112 px – vores er 512.
         "logo": {"@type": "ImageObject",
@@ -349,7 +349,7 @@ def strukturerede_data(fil, title, desc):
                   else DOMAENE + "/#virksomhed"},
         "primaryImageOfPage": {
             "@type": "ImageObject",
-            "url": DOMAENE + "/billeder/" + DELEBILLEDE.get(fil, "hero-gynge") + ".jpg",
+            "url": DOMAENE + "/billeder/" + DELEBILLEDE.get(fil, "forside-vandloeb") + ".jpg",
         },
     }
     hjemmeside = {
@@ -442,7 +442,7 @@ MAL = '''<!DOCTYPE html>
 # Før stod kun forsiden og "her hvor vi bor" her; de fem øvrige sider ventede
 # med deres topbillede til alt andet var hentet.
 PRELOAD = {
-    'index.html':           'hero-gynge',
+    'index.html':           'forside-vandloeb',
     'mudderklubben.html':   'mk-mudder',
     'vaerdier.html':        'vd-ro',
     'her-hvor-vi-bor.html': 'sted-hus',
@@ -450,10 +450,17 @@ PRELOAD = {
     'om-mig.html':          'om-mig',
 }
 
+# Hvilken pladsstørrelse (se SIZES) det forudhentede billede vises i.
+# Forsidens topbillede sidder i den lille polaroid-plads i klyngen, ikke i
+# den brede "blok"-plads som de andre siders topbillede.
+PRELOAD_PLADS = {
+    'index.html': 'polaroid-lille',
+}
+
 # Billedet der vises, når nogen deler siden på Facebook eller i en sms.
 # Uden dette fik alle syv sider forsidens gynge – også siden om økonomi.
 DELEBILLEDE = {
-    'index.html':           'hero-gynge',
+    'index.html':           'forside-vandloeb',
     'mudderklubben.html':   'mk-mudder',
     'vaerdier.html':        'vd-ro',
     'her-hvor-vi-bor.html': 'sted-hus',
@@ -463,7 +470,7 @@ DELEBILLEDE = {
 }
 
 DELEBILLEDE_ALT = {
-    'hero-gynge':        'Barn på gyngen i haven ved Børnegården GRO',
+    'forside-vandloeb':  'Barn der graver ved vandløbet i haven hos Børnegården GRO',
     'mk-mudder':         'Børn der leger i mudderet i Mudder Klubben',
     'vd-ro':             'Barn der hviler i en rolig krog af haven',
     'sted-hus':          'Gården og huset, hvor Børnegården GRO holder til',
@@ -490,12 +497,12 @@ def skriv(fil, title, desc, indhold):
         # Browsere uden AVIF ignorerer linjen og henter WebP som normalt.
         preload = (f'<link rel="preload" as="image" type="image/avif" '
                    f'imagesrcset="billeder/{navn}-1x.avif {b1}w, billeder/{navn}.avif {b2}w" '
-                   f'imagesizes="{SIZES["blok" if navn != "hero-gynge" else "polaroid-stor"]}" '
+                   f'imagesizes="{SIZES[PRELOAD_PLADS.get(fil, "blok")]}" '
                    f'fetchpriority="high">')
     else:
         preload = ''
 
-    del_navn = DELEBILLEDE.get(fil, 'hero-gynge')
+    del_navn = DELEBILLEDE.get(fil, 'forside-vandloeb')
     del_b, del_h, _, _ = MAAL[del_navn]
 
     html = MAL.format(title=title, desc=desc, header=header(fil),
@@ -532,8 +539,8 @@ forside = f'''
         </div>
       </div>
       <div class="klynge">
-        <div class="polaroid polaroid-1">{billede('hero-gynge', 'Pige på gyngen i skrænten bag haven', 'polaroid-stor', straks=True)}</div>
-        <div class="polaroid polaroid-2">{billede('forside-vandloeb', 'Barn der graver ved vandløbet i haven', 'polaroid-lille')}</div>
+        <div class="polaroid polaroid-1 polaroid-logo">{sol('sol-logo-hero', 150)}</div>
+        <div class="polaroid polaroid-2">{billede('forside-vandloeb', 'Barn der graver ved vandløbet i haven', 'polaroid-lille', straks=True)}</div>
         <div class="polaroid polaroid-3">{billede('forside-sandkasse', 'Barn der leger i den kæmpe sandkasse omkring træet', 'polaroid-lille')}</div>
       </div>
     </div>
@@ -549,6 +556,17 @@ forside = f'''
       <p class="stor-tekst">Og der er plads til, at børn får lov at være børn &ndash; hoppe i vandpytter,
       grave i den kæmpe sandkasse og mudre løs i mudderkøkkenet, indtil de kommer hjem
       glade og lidt beskidte.</p>
+      <p>Pasningen foregår i et dedikeret dagplejehus, indrettet fra bunden til de 0&ndash;3-årige
+      &ndash; med plads til at kravle og boltre sig, og plads til at trække sig tilbage til en rolig
+      stund, når der er brug for det. Herfra er der kun få skridt til stalden, hvor dyrene bor,
+      til den kæmpe have med sandkasse og mudderkøkken, og til vores egen lille skov for enden
+      af haven. <a href="her-hvor-vi-bor.html">Se hele stedet &rarr;</a></p>
+      <p>Det hele hviler på tre ting: ro og nærvær, tillid og selvstændighed, og plads til krop,
+      sanser og det vilde. Ikke som regler på en væg, men som den måde, hverdagen rent faktisk
+      former sig på &ndash; i store og små øjeblikke, hver eneste dag.
+      <a href="vaerdier.html">Læs mere om værdierne &rarr;</a></p>
+      <p>Jeanette Riis har drevet Børnegården GRO i Vinderslev og passet børn i det daglige siden
+      2015. <a href="om-mig.html">Læs mere om Jeanette &rarr;</a></p>
     </div>
   </div>
 </section>
