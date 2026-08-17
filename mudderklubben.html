@@ -24,7 +24,7 @@
      åbnes først, og der sendes ingen besøgsdata til Google. De tre filer er
      variable og beskåret til danske tegn: 75 KB i alt mod ca. 207 KB før. -->
 <link rel="preload" href="assets/skrifter/nunito.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/skrifter/baloo2.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/skrifter/fredoka.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/style.min.css">
 <!-- Peger man på en fane, henter og optegner browseren siden på forhånd.
      Klikket bliver derefter øjeblikkeligt. "moderate" betyder: først når
@@ -33,39 +33,34 @@
 {"prerender":[{"where":{"or":[{"href_matches":"index.html"},{"href_matches":"mudderklubben.html"},{"href_matches":"vaerdier.html"},{"href_matches":"her-hvor-vi-bor.html"},{"href_matches":"praktisk.html"},{"href_matches":"om-mig.html"},{"href_matches":"kontakt.html"}]},"eagerness":"moderate"}]}
 </script>
 <link rel="preload" as="image" type="image/avif" imagesrcset="billeder/mk-mudder-1x.avif 540w, billeder/mk-mudder.avif 1080w" imagesizes="(max-width: 900px) 100vw, 530px" fetchpriority="high">
-<link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<!-- Fanebladets ikon er Jeanettes tegnede sol, se billeder/faviconer.py.
+     Fire PNG'er, én pr. størrelse browseren beder om. Hver er tegnet for sig
+     med den luft, der passer til dén størrelse, i stedet for at blive
+     skaleret ned fra én stor fil – ved 16 px er der ikke pixels at spilde.
+     Google vil have et kvadratisk favicon i en størrelse deleligt med 48
+     og tager gerne den største, der er erklæret; derfor står 96 med.
+     favicon.ico er ikke erklæret her, men ligger stadig i roden: browsere
+     og bots henter /favicon.ico af gammel vane, uanset hvad der står i
+     HTML'en. Det samme gælder favicon.svg – tegningen er pixels, ikke
+     kurver, og en SVG med et billede pakket ind i sig er kun en dyrere PNG. -->
+<link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-48.png" type="image/png" sizes="48x48">
 <link rel="icon" href="favicon-96.png" type="image/png" sizes="96x96">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <meta name="theme-color" content="#fbf3e6">
 <meta name="apple-mobile-web-app-title" content="GRO">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"ChildCare","@id":"https://www.boernegaardengro.dk/#virksomhed","name":"Børnegården GRO","alternateName":"Børnegården GRO – privat pasningsordning","description":"Privat pasningsordning for børn i alderen 0-3 år på en gård ved Vinderslev nord for Silkeborg. Dyr, have, egen lille skov og en hverdag med gårdliv, nærvær og vild leg.","url":"https://www.boernegaardengro.dk/","telephone":"+4527122307","image":"https://www.boernegaardengro.dk/billeder/forside-vandloeb.jpg","logo":{"@type":"ImageObject","url":"https://www.boernegaardengro.dk/logo-512.png","width":512,"height":512},"priceRange":"3.213 kr./md. i egenbetaling","address":{"@type":"PostalAddress","streetAddress":"Vinderslevvej 45","addressLocality":"Vinderslev","postalCode":"8620","addressRegion":"Kjellerup","addressCountry":"DK"},"geo":{"@type":"GeoCoordinates","latitude":56.25713,"longitude":9.43122},"hasMap":"https://www.google.com/maps/search/?api=1&query=56.25713,9.43122","areaServed":[{"@type":"Place","name":"Vinderslev"},{"@type":"Place","name":"Kjellerup"},{"@type":"Place","name":"Silkeborg Kommune"}],"sameAs":["https://www.instagram.com/boernegaarden.gro/"],"founder":{"@id":"https://www.boernegaardengro.dk/#jeanette"},"employee":{"@id":"https://www.boernegaardengro.dk/#jeanette"},"knowsLanguage":"da","currenciesAccepted":"DKK","audience":{"@type":"PeopleAudience","suggestedMinAge":0,"suggestedMaxAge":3},"makesOffer":{"@type":"Offer","name":"Fast pasningsplads, 0–3 år","priceCurrency":"DKK","price":"3213","priceSpecification":{"@type":"UnitPriceSpecification","price":"3213","priceCurrency":"DKK","unitText":"måned","description":"Egenbetaling efter kommunalt tilskud på 8.027 kr. fra Silkeborg Kommune."},"areaServed":{"@type":"Place","name":"Silkeborg Kommune"}}},{"@type":"Person","@id":"https://www.boernegaardengro.dk/#jeanette","name":"Jeanette Riis","jobTitle":"Privat børnepasser","description":"Driver Børnegården GRO i Vinderslev og har haft privat pasningsordning siden 2015.","url":"https://www.boernegaardengro.dk/om-mig.html","image":"https://www.boernegaardengro.dk/billeder/om-mig.jpg","worksFor":{"@id":"https://www.boernegaardengro.dk/#virksomhed"},"telephone":"+4527122307"},{"@type":"WebSite","@id":"https://www.boernegaardengro.dk/#hjemmeside","name":"Børnegården GRO","url":"https://www.boernegaardengro.dk/","inLanguage":"da-DK","publisher":{"@id":"https://www.boernegaardengro.dk/#virksomhed"}},{"@type":"WebPage","@id":"https://www.boernegaardengro.dk/mudderklubben.html","url":"https://www.boernegaardengro.dk/mudderklubben.html","name":"Børnegården GRO | Mudder Klubben, mudderpas og traktorture","description":"Mudderpas, traktorture til baghaveskoven, den kæmpe sandkasse og officiel tilladelse til at hoppe i alle vandpytter.","inLanguage":"da-DK","isPartOf":{"@id":"https://www.boernegaardengro.dk/#hjemmeside"},"about":{"@id":"https://www.boernegaardengro.dk/#virksomhed"},"primaryImageOfPage":{"@type":"ImageObject","url":"https://www.boernegaardengro.dk/billeder/mk-mudder.jpg"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Forside","item":"https://www.boernegaardengro.dk/"},{"@type":"ListItem","position":2,"name":"Mudder Klubben","item":"https://www.boernegaardengro.dk/mudderklubben.html"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"ChildCare","@id":"https://www.boernegaardengro.dk/#virksomhed","name":"Børnegården GRO","alternateName":"Børnegården GRO – privat pasningsordning","description":"Privat pasningsordning for børn i alderen 0-3 år på en gård ved Vinderslev nord for Silkeborg. Dyr, have, egen lille skov og en hverdag med gårdliv, nærvær og vild leg.","url":"https://www.boernegaardengro.dk/","telephone":"+4527122307","image":"https://www.boernegaardengro.dk/billeder/forside-vandloeb.jpg","logo":{"@type":"ImageObject","url":"https://www.boernegaardengro.dk/logo-512.png","width":512,"height":512},"priceRange":"3.213 kr./md. i egenbetaling","address":{"@type":"PostalAddress","streetAddress":"Vinderslevvej 45","addressLocality":"Vinderslev","postalCode":"8620","addressRegion":"Kjellerup","addressCountry":"DK"},"geo":{"@type":"GeoCoordinates","latitude":56.25713,"longitude":9.43122},"hasMap":"https://www.google.com/maps/search/?api=1&query=56.25713,9.43122","areaServed":[{"@type":"Place","name":"Vinderslev"},{"@type":"Place","name":"Kjellerup"},{"@type":"Place","name":"Silkeborg Kommune"}],"sameAs":["https://www.instagram.com/boernegaarden.gro/"],"founder":{"@id":"https://www.boernegaardengro.dk/#jeanette"},"employee":{"@id":"https://www.boernegaardengro.dk/#jeanette"},"knowsLanguage":"da","currenciesAccepted":"DKK","audience":{"@type":"PeopleAudience","suggestedMinAge":0,"suggestedMaxAge":3},"makesOffer":{"@type":"Offer","name":"Fast pasningsplads, 0–3 år","priceCurrency":"DKK","price":"3213","priceSpecification":{"@type":"UnitPriceSpecification","price":"3213","priceCurrency":"DKK","unitText":"måned","description":"Egenbetaling efter kommunalt tilskud på 8.027 kr. fra Silkeborg Kommune."},"areaServed":{"@type":"Place","name":"Silkeborg Kommune"}}},{"@type":"Person","@id":"https://www.boernegaardengro.dk/#jeanette","name":"Jeanette Riis","jobTitle":"Privat børnepasser","description":"Driver Børnegården GRO i Vinderslev og har haft privat pasningsordning siden 2015.","url":"https://www.boernegaardengro.dk/om-mig.html","image":"https://www.boernegaardengro.dk/billeder/jeanette.jpg","worksFor":{"@id":"https://www.boernegaardengro.dk/#virksomhed"},"telephone":"+4527122307"},{"@type":"WebSite","@id":"https://www.boernegaardengro.dk/#hjemmeside","name":"Børnegården GRO","url":"https://www.boernegaardengro.dk/","inLanguage":"da-DK","publisher":{"@id":"https://www.boernegaardengro.dk/#virksomhed"}},{"@type":"WebPage","@id":"https://www.boernegaardengro.dk/mudderklubben.html","url":"https://www.boernegaardengro.dk/mudderklubben.html","name":"Børnegården GRO | Mudder Klubben, mudderpas og traktorture","description":"Mudderpas, traktorture til baghaveskoven, den kæmpe sandkasse og officiel tilladelse til at hoppe i alle vandpytter.","inLanguage":"da-DK","isPartOf":{"@id":"https://www.boernegaardengro.dk/#hjemmeside"},"about":{"@id":"https://www.boernegaardengro.dk/#virksomhed"},"primaryImageOfPage":{"@type":"ImageObject","url":"https://www.boernegaardengro.dk/billeder/mk-mudder.jpg"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Forside","item":"https://www.boernegaardengro.dk/"},{"@type":"ListItem","position":2,"name":"Mudder Klubben","item":"https://www.boernegaardengro.dk/mudderklubben.html"}]}]}</script>
 </head>
 <body>
 <a class="spring-til" href="#indhold">Spring til indhold</a>
 <header class="top">
   <div class="top-inder">
     <a class="logo" href="index.html">
-      <svg class="sol" width="50" height="50" viewBox="0 0 120 120" role="img" aria-label="Tegnet sol">
-  <g fill="none" stroke="#e0a825" stroke-width="7" stroke-linecap="round">
-    <path d="M60 5 C61 12 60.5 16 60 20"/>
-    <path d="M60 100 C60.5 105 60 110 60 116"/>
-    <path d="M5 60 C12 59.5 16 60 20 60"/>
-    <path d="M100 60 C106 60 111 59.5 116 60"/>
-    <path d="M21 21 C25 26 28 28 31 31"/>
-    <path d="M89 89 C92 92 95 95 99 99"/>
-    <path d="M99 21 C95 25 92 28 89 31"/>
-    <path d="M31 89 C28 92 25 95 21 99"/>
-  </g>
-  <path d="M60 22 C81 22 98 39 98 60 C98 81 81 98 60 98 C39 98 22 81 22 60 C22 39 39 22 60 22 Z"
-        fill="#f7c948" stroke="#e0a825" stroke-width="5" stroke-linejoin="round"/>
-  <ellipse cx="48" cy="54" rx="4" ry="5" fill="#33302a"/>
-  <ellipse cx="72" cy="54" rx="4" ry="5" fill="#33302a"/>
-  <path d="M47 70 Q60 80 73 70" fill="none" stroke="#33302a" stroke-width="4" stroke-linecap="round"/>
-</svg>
+      <picture class="sol"><source type="image/webp" srcset="billeder/sol.webp"><img src="billeder/sol.png" alt="" aria-hidden="true" width="200" height="186" loading="lazy" decoding="async"></picture>
       <span>
-        <span class="logo-navn">Børnegården GRO</span>
+        <picture class="logo-navn"><source type="image/webp" srcset="billeder/logo-gro-lille.webp"><img src="billeder/logo-gro-lille.png" alt="Børnegården GRO" width="466" height="63" fetchpriority="high" decoding="async"></picture>
         <span class="logo-under">Privat pasningsordning &middot; 0&ndash;3 år</span>
       </span>
     </a>
@@ -87,27 +82,11 @@
 
 <div class="wrap">
   <div class="sidehoved">
-    <svg class="sol-hjoerne" width="88" height="88" viewBox="0 0 120 120" role="img" aria-label="Tegnet sol">
-  <g fill="none" stroke="#e0a825" stroke-width="7" stroke-linecap="round">
-    <path d="M60 5 C61 12 60.5 16 60 20"/>
-    <path d="M60 100 C60.5 105 60 110 60 116"/>
-    <path d="M5 60 C12 59.5 16 60 20 60"/>
-    <path d="M100 60 C106 60 111 59.5 116 60"/>
-    <path d="M21 21 C25 26 28 28 31 31"/>
-    <path d="M89 89 C92 92 95 95 99 99"/>
-    <path d="M99 21 C95 25 92 28 89 31"/>
-    <path d="M31 89 C28 92 25 95 21 99"/>
-  </g>
-  <path d="M60 22 C81 22 98 39 98 60 C98 81 81 98 60 98 C39 98 22 81 22 60 C22 39 39 22 60 22 Z"
-        fill="#f7c948" stroke="#e0a825" stroke-width="5" stroke-linejoin="round"/>
-  <ellipse cx="48" cy="54" rx="4" ry="5" fill="#33302a"/>
-  <ellipse cx="72" cy="54" rx="4" ry="5" fill="#33302a"/>
-  <path d="M47 70 Q60 80 73 70" fill="none" stroke="#33302a" stroke-width="4" stroke-linecap="round"/>
-</svg>
+    <picture class="sol-hjoerne"><source type="image/webp" srcset="billeder/sol.webp"><img src="billeder/sol.png" alt="" aria-hidden="true" width="200" height="186" loading="lazy" decoding="async"></picture>
     <p class="brodkrumme">Mudder Klubben</p>
     <h1>Velkommen til Mudder&nbsp;Klubben</h1>
-    <p class="manchet">Der findes et lille selskab i Børnegården GRO, som ikke alle børn kender til,
-    før de selv bliver en del af det.</p>
+    <p class="forord">Der findes et lille selskab i Børnegården GRO, som ikke alle børn
+    kender til, før de selv bliver en del af det:</p>
   </div>
 </div>
 
@@ -117,15 +96,15 @@
       <div class="blok-billede"><picture><source type="image/avif" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/mk-mudder-1x.avif 540w, billeder/mk-mudder.avif 1080w"><source type="image/webp" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/mk-mudder-1x.webp 540w, billeder/mk-mudder.webp 1080w"><img src="billeder/mk-mudder.jpg" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/mk-mudder-1x.jpg 540w, billeder/mk-mudder.jpg 1080w" alt="Barn i regntøj der graver i mudderet med legetøjsgravemaskine" width="1080" height="720" loading="lazy" decoding="async"></picture></div>
       <div class="blok-tekst">
         <div class="prose">
-          <p>Mudder Klubben er ikke noget, man bare er. Det er noget, man bliver optaget i
-          &ndash; med sit eget mudderpas, sit eget navn på klublisten, og retten til alt det,
-          der følger med.</p>
-          <h3>Sådan bliver man medlem</h3>
-          <p>Første dag i Børnegården GRO får jeres barn sit eget mudderpas &ndash; et lille,
-          personligt hæfte, der stemples, første gang der graves, mudres eller opdages noget nyt.</p>
-          <p>Det er ikke noget, man skal søge om eller kvalificere sig til. Man bliver simpelthen
-          inviteret ind, den dag man starter &ndash; og så er det op til stemplerne at vise,
-          hvor mange ekspeditioner det er blevet til.</p>
+          <p><strong>Mudder Klubben.</strong> Det er ikke noget, man bare er. Det er noget,
+          man bliver optaget i &ndash; med sit eget mudderpas, sit eget navn på klublisten,
+          og retten til alt det, der følger med.</p>
+          <p><strong>Sådan bliver man medlem:</strong> Første dag i Børnegården GRO får jeres
+          barn sit eget mudderpas &ndash; et lille, personligt hæfte, der stemples, første
+          gang der graves, mudres eller opdages noget nyt. Det er ikke noget, man skal søge
+          om eller kvalificere sig til. Man bliver simpelthen inviteret ind, den dag man
+          starter &ndash; og så er det op til stemplerne at vise, hvor mange ekspeditioner
+          det er blevet til.</p>
         </div>
       </div>
     </div>
@@ -146,35 +125,10 @@
         <li><span class="fordel-ikon"><svg viewBox="-1 -1 26 26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 20a10 10 0 0 1 20 0"/><path d="M6 20a6.5 6.5 0 0 1 13 0"/><path d="M9.5 20a3 3 0 0 1 6 0"/></svg></span><span class="fordel-tekst"><strong>Æresmedlemskab af regnbuen efter regn</strong>, opdagelse af orme, biller og andre skattefund inkluderet</span></li>
       </ul>
     </div>
-  </div>
-</section>
 
-<section>
-  <div class="wrap">
-    <div class="blok vendt">
-      <div class="blok-billede"><picture><source type="image/avif" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/mk-traktor-1x.avif 540w, billeder/mk-traktor.avif 1080w"><source type="image/webp" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/mk-traktor-1x.webp 540w, billeder/mk-traktor.webp 1080w"><img src="billeder/mk-traktor.jpg" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/mk-traktor-1x.jpg 540w, billeder/mk-traktor.jpg 1080w" alt="Barn på traktoren i haven" width="1080" height="720" loading="lazy" decoding="async"></picture></div>
-      <div class="blok-tekst">
-        <div class="prose">
-          <h2>Turen begynder med traktoren</h2>
-          <p>En rigtig sjov tur begynder med traktoren. Den holder klar med plads i vognen
-          &ndash; alle spændt godt fast &ndash; og så går turen op gennem baghaven og ind i
-          klubbens egen lille skovlegeplads.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="blok">
-      <div class="blok-billede"><picture><source type="image/avif" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/mk-skovhule-1x.avif 540w, billeder/mk-skovhule.avif 1080w"><source type="image/webp" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/mk-skovhule-1x.webp 540w, billeder/mk-skovhule.webp 1080w"><img src="billeder/mk-skovhule.jpg" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/mk-skovhule-1x.jpg 540w, billeder/mk-skovhule.jpg 1080w" alt="Børn der sidder i en hule bygget af grene i skoven" width="1080" height="1350" loading="lazy" decoding="async"></picture></div>
-      <div class="blok-tekst">
-        <div class="prose">
-          <h2>Skovlegepladsen</h2>
-          <p>For der venter mere: en lille naturlegeplads, som ikke er til at se fra vejen.
-          Grene der skal klatres i, stier der skal udforskes, og skjulesteder, kun medlemmer
-          kender til.</p>
-          <p>Ingen dag i skoven er ens &ndash; én dag er det pinde og balancebroer, en anden
-          dag er det en helt ny sti, ingen har prøvet før.</p>
-        </div>
-      </div>
+    <div class="galleri to luft-over">
+      <figure><picture><source type="image/avif" sizes="(max-width: 620px) 92vw, 45vw" srcset="billeder/mk-traktor-1x.avif 540w, billeder/mk-traktor.avif 1080w"><source type="image/webp" sizes="(max-width: 620px) 92vw, 45vw" srcset="billeder/mk-traktor-1x.webp 540w, billeder/mk-traktor.webp 1080w"><img src="billeder/mk-traktor.jpg" sizes="(max-width: 620px) 92vw, 45vw" srcset="billeder/mk-traktor-1x.jpg 540w, billeder/mk-traktor.jpg 1080w" alt="Barn på traktoren i haven" width="1080" height="720" loading="lazy" decoding="async"></picture><figcaption>Traktoren holder klar med plads i vognen</figcaption></figure>
+      <figure><picture><source type="image/avif" sizes="(max-width: 620px) 92vw, 45vw" srcset="billeder/mk-skovhule-1x.avif 540w, billeder/mk-skovhule.avif 707w"><source type="image/webp" sizes="(max-width: 620px) 92vw, 45vw" srcset="billeder/mk-skovhule-1x.webp 540w, billeder/mk-skovhule.webp 707w"><img src="billeder/mk-skovhule.jpg" sizes="(max-width: 620px) 92vw, 45vw" srcset="billeder/mk-skovhule-1x.jpg 540w, billeder/mk-skovhule.jpg 707w" alt="Børn der sidder i en hule bygget af grene i skoven" width="707" height="884" loading="lazy" decoding="async"></picture><figcaption>Skjulesteder, kun medlemmer kender til</figcaption></figure>
     </div>
   </div>
 </section>
@@ -182,10 +136,10 @@
 <section>
   <div class="wrap">
     <div class="kort fremhaevet smal">
-      <h2>Bag legen ligger der noget rigtig godt</h2>
-      <p class="stor-tekst">Mudder og vand er nogle af de bedste redskaber, vi har til at styrke
-      børns sanser, finmotorik og nysgerrighed. Men det behøver ikke at lyde kedeligt og fagligt
-      for at virke &ndash; det skal bare føles som ren sjov. Og det gør det.</p>
+      <p class="stor-tekst nulmargen"><strong>Bag legen ligger der noget rigtig godt:</strong>
+      mudder og vand er nogle af de bedste redskaber, vi har til at styrke børns sanser,
+      finmotorik og nysgerrighed. Men det behøver ikke at lyde kedeligt og fagligt for at
+      virke &ndash; det skal bare føles som ren sjov. Og det gør det.</p>
     </div>
   </div>
 </section>
@@ -194,25 +148,9 @@
   <div class="wrap">
     <div class="pas">
       <div class="pas-hoved">
-        <svg class="" width="54" height="54" viewBox="0 0 120 120" role="img" aria-label="Tegnet sol">
-  <g fill="none" stroke="#e0a825" stroke-width="7" stroke-linecap="round">
-    <path d="M60 5 C61 12 60.5 16 60 20"/>
-    <path d="M60 100 C60.5 105 60 110 60 116"/>
-    <path d="M5 60 C12 59.5 16 60 20 60"/>
-    <path d="M100 60 C106 60 111 59.5 116 60"/>
-    <path d="M21 21 C25 26 28 28 31 31"/>
-    <path d="M89 89 C92 92 95 95 99 99"/>
-    <path d="M99 21 C95 25 92 28 89 31"/>
-    <path d="M31 89 C28 92 25 95 21 99"/>
-  </g>
-  <path d="M60 22 C81 22 98 39 98 60 C98 81 81 98 60 98 C39 98 22 81 22 60 C22 39 39 22 60 22 Z"
-        fill="#f7c948" stroke="#e0a825" stroke-width="5" stroke-linejoin="round"/>
-  <ellipse cx="48" cy="54" rx="4" ry="5" fill="#33302a"/>
-  <ellipse cx="72" cy="54" rx="4" ry="5" fill="#33302a"/>
-  <path d="M47 70 Q60 80 73 70" fill="none" stroke="#33302a" stroke-width="4" stroke-linecap="round"/>
-</svg>
+        <picture class="sol-pas"><source type="image/webp" srcset="billeder/sol.webp"><img src="billeder/sol.png" alt="" aria-hidden="true" width="200" height="186" loading="lazy" decoding="async"></picture>
         <div>
-          <h3>Stempler i mudderpasset</h3>
+          <h2>Stempler i mudderpasset</h2>
           <p class="daempet nulmargen">Fra første dag til børnehavestart</p>
         </div>
         <span class="pas-maerke">20 stempler</span>
@@ -254,7 +192,7 @@
   <div class="wrap">
     <div class="galleri">
       <figure><picture><source type="image/avif" sizes="(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px" srcset="billeder/mk-legeplads-1x.avif 350w, billeder/mk-legeplads.avif 700w"><source type="image/webp" sizes="(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px" srcset="billeder/mk-legeplads-1x.webp 350w, billeder/mk-legeplads.webp 700w"><img src="billeder/mk-legeplads.jpg" sizes="(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px" srcset="billeder/mk-legeplads-1x.jpg 350w, billeder/mk-legeplads.jpg 700w" alt="Sandkassen med køretøjer og dæk" width="700" height="525" loading="lazy" decoding="async"></picture><figcaption>Køretøjer, dæk og en kæmpe sandkasse</figcaption></figure>
-      <figure><picture><source type="image/avif" sizes="(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px" srcset="billeder/mk-vandkanal-1x.avif 350w, billeder/mk-vandkanal.avif 700w"><source type="image/webp" sizes="(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px" srcset="billeder/mk-vandkanal-1x.webp 350w, billeder/mk-vandkanal.webp 700w"><img src="billeder/mk-vandkanal.jpg" sizes="(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px" srcset="billeder/mk-vandkanal-1x.jpg 350w, billeder/mk-vandkanal.jpg 700w" alt="Vandkanal gravet gennem sandet" width="700" height="525" loading="lazy" decoding="async"></picture><figcaption>Vand, jord og et spadestik</figcaption></figure>
+      <figure><picture><source type="image/avif" sizes="(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px" srcset="billeder/mk-vandkanal-1x.avif 350w, billeder/mk-vandkanal.avif 510w"><source type="image/webp" sizes="(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px" srcset="billeder/mk-vandkanal-1x.webp 350w, billeder/mk-vandkanal.webp 510w"><img src="billeder/mk-vandkanal.jpg" sizes="(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px" srcset="billeder/mk-vandkanal-1x.jpg 350w, billeder/mk-vandkanal.jpg 510w" alt="Vandkanal gravet gennem sandet" width="510" height="382" loading="lazy" decoding="async"></picture><figcaption>Vand, jord og et spadestik</figcaption></figure>
       <figure><picture><source type="image/avif" sizes="(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px" srcset="billeder/mk-skovsti-1x.avif 350w, billeder/mk-skovsti.avif 700w"><source type="image/webp" sizes="(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px" srcset="billeder/mk-skovsti-1x.webp 350w, billeder/mk-skovsti.webp 700w"><img src="billeder/mk-skovsti.jpg" sizes="(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px" srcset="billeder/mk-skovsti-1x.jpg 350w, billeder/mk-skovsti.jpg 700w" alt="Børn på tur i skoven" width="700" height="525" loading="lazy" decoding="async"></picture><figcaption>Stier, der skal udforskes</figcaption></figure>
     </div>
   </div>
@@ -265,12 +203,12 @@
   <div class="wrap">
     <div class="footer-grid">
       <div>
-        <h4>Børnegården GRO</h4>
+        <h2>Børnegården GRO</h2>
         <p class="daempet">Privat pasningsordning for børn i alderen 0&ndash;3 år
         på en gård ved Vinderslev, med dyr, have og en lille skov bag huset.</p>
       </div>
       <div>
-        <h4>Kontakt</h4>
+        <h2>Kontakt</h2>
         <ul class="footer-kontakt">
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.4 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg><a href="tel:+4527122307">27 12 23 07</a></li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><a href="https://www.google.com/maps/search/?api=1&amp;query=Vinderslevvej+45,+8620+Kjellerup" target="_blank" rel="noopener" title="Åbn adressen i Google Maps">Vinderslevvej 45<br>Vinderslev, 8620 Kjellerup</a></li>

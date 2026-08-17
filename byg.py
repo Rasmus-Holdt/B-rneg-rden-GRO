@@ -54,41 +54,46 @@ SIDER = [
 ]
 
 # --------------------------------------------------------------------------
-# Håndtegnet sol – bruges som gennemgående kendetegn (Principle 2)
+# Solen og navnetrækket – begge tegnet af Jeanette selv i Canva.
+#
+# Her stod tidligere en sol tegnet i SVG. Jeanette havde sin egen, og hendes
+# er bedre: den er tegnet med farveblyant, og den streg kan man ikke ramme
+# med bézierkurver. Filerne klargøres i billeder/grafik.py.
+#
+# Hvorfor <picture> og ikke bare <img>: WebP-udgaven fylder 19 KB mod PNG'ens
+# 30, og solen står i headeren på alle syv sider. Klassen sidder på <picture>
+# og ikke på <img>, fordi det er <picture>, der er elementet i layoutet –
+# billedet indeni fylder bare 100 % af den plads, CSS giver.
 # --------------------------------------------------------------------------
-def sol(cls='sol', size=50):
-    return f'''<svg class="{cls}" width="{size}" height="{size}" viewBox="0 0 120 120" role="img" aria-label="Tegnet sol">
-  <g fill="none" stroke="#e0a825" stroke-width="7" stroke-linecap="round">
-    <path d="M60 5 C61 12 60.5 16 60 20"/>
-    <path d="M60 100 C60.5 105 60 110 60 116"/>
-    <path d="M5 60 C12 59.5 16 60 20 60"/>
-    <path d="M100 60 C106 60 111 59.5 116 60"/>
-    <path d="M21 21 C25 26 28 28 31 31"/>
-    <path d="M89 89 C92 92 95 95 99 99"/>
-    <path d="M99 21 C95 25 92 28 89 31"/>
-    <path d="M31 89 C28 92 25 95 21 99"/>
-  </g>
-  <path d="M60 22 C81 22 98 39 98 60 C98 81 81 98 60 98 C39 98 22 81 22 60 C22 39 39 22 60 22 Z"
-        fill="#f7c948" stroke="#e0a825" stroke-width="5" stroke-linejoin="round"/>
-  <ellipse cx="48" cy="54" rx="4" ry="5" fill="#33302a"/>
-  <ellipse cx="72" cy="54" rx="4" ry="5" fill="#33302a"/>
-  <path d="M47 70 Q60 80 73 70" fill="none" stroke="#33302a" stroke-width="4" stroke-linecap="round"/>
-</svg>'''
+import importlib.util as _iu2
+_spec2 = _iu2.spec_from_file_location('_graf', os.path.join(UD, 'billeder', 'grafik.py'))
+_graf = _iu2.module_from_spec(_spec2); _spec2.loader.exec_module(_graf)
+GRAFIK = _graf.MAAL
+
+
+def tegning(navn, cls, alt='', straks=False):
+    b, h = GRAFIK[navn]
+    # Tom alt + aria-hidden: solen er pynt. En skærmlæser skal ikke læse
+    # "tegnet sol" op syv gange på en side, hvor den ikke betyder noget.
+    a = f'alt="{alt}"' if alt else 'alt="" aria-hidden="true"'
+    doven = '' if straks else ' loading="lazy"'
+    hast = ' fetchpriority="high"' if straks else ''
+    return (f'<picture class="{cls}">'
+            f'<source type="image/webp" srcset="billeder/{navn}.webp">'
+            f'<img src="billeder/{navn}.png" {a} width="{b}" height="{h}"'
+            f'{doven}{hast} decoding="async"></picture>')
+
+
+def sol(cls='sol', size=None):
+    """`size` bruges ikke længere – størrelsen står i CSS, ét sted pr. plads.
+    Beholdt i signaturen, så de mange kaldesteder ikke skal rettes."""
+    return tegning('sol', cls or 'sol')
 
 IKON = {
  'tlf':   '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.4 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/>',
  'pin':   '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>',
  'insta': '<rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/>',
  'mail':  '<rect x="2" y="4" width="20" height="16" rx="2.5"/><path d="m3 6.5 9 6.5 9-6.5"/>',
- 'ur':    '<circle cx="12" cy="12" r="9.5"/><path d="M12 6.5V12l3.5 2.5"/>',
- 'hus':   '<path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.8V20h13V9.8"/><path d="M10 20v-5.5h4V20"/>',
- 'stald': '<path d="M3 9.5 12 3l9 6.5V21H3z"/><path d="M12 3v18"/><path d="M3 12.5h18"/>',
- 'skov':  '<path d="M12 2.5 6.5 11h3.5L5.5 18h13L14 11h3.5z"/><path d="M12 18v3.5"/>',
- 'have':  '<path d="M12 21c0-5 3-8.5 7.5-9-.5 4.5-3.5 8-7.5 9z"/><path d="M12 21c0-5-3-8.5-7.5-9 .5 4.5 3.5 8 7.5 9z"/><path d="M12 21v-6"/>',
- 'taske': '<path d="M3 8.5h18l-1.2 11a2 2 0 0 1-2 1.8H6.2a2 2 0 0 1-2-1.8z"/><path d="M8.5 8.5V6a3.5 3.5 0 0 1 7 0v2.5"/>',
- 'flueben':'<circle cx="12" cy="12" r="9.5"/><path d="m7.8 12.3 2.9 2.9L16.2 9.6"/>',
- 'kalender':'<rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10.5h18M8 2.8v4M16 2.8v4"/>',
- 'mont':  '<circle cx="12" cy="12" r="9.5"/><path d="M12 6.6v10.8"/><path d="M14.9 9.4a3.1 3.1 0 0 0-2.9-1.6c-1.7 0-2.9.9-2.9 2.2 0 3 5.8 1.6 5.8 4.6 0 1.3-1.2 2.2-2.9 2.2a3.1 3.1 0 0 1-2.9-1.6"/>',
  # Årstider: sol, snefnug og blad
  'sommer':'<circle cx="12" cy="12" r="4.6"/><path d="M12 1.8v2.8M12 19.4v2.8M1.8 12h2.8M19.4 12h2.8M4.8 4.8l2 2M17.2 17.2l2 2M19.2 4.8l-2 2M6.8 17.2l-2 2"/>',
  'vinter':'<path d="M12 2v20M3.3 7 20.7 17M20.7 7 3.3 17"/><path d="M9.4 4.2 12 6.8l2.6-2.6M9.4 19.8 12 17.2l2.6 2.6"/><path d="M4.7 10.5 5.4 7 8.9 7.7M19.3 13.5l-.7 3.5-3.5-.7M19.3 10.5l-.7-3.5-3.5.7M4.7 13.5l.7 3.5 3.5-.7"/>',
@@ -144,16 +149,29 @@ MAAL = _besk.MAAL
 
 # Hvor bred pladsen er ved forskellige skærmbredder
 SIZES = {
-    'polaroid-stor':  '(max-width: 900px) 92vw, 280px',
-    'polaroid-lille': '(max-width: 900px) 45vw, 190px',
-    'genvej':         '(max-width: 900px) 92vw, 350px',
+    # Pladserne er regnet efter det, de faktisk fylder, ikke gættet.
+    # Genvejskortene: 900 px spalte minus to mellemrum på 24, delt med tre
+    # = 284 px. Under 900 er de to i bredden, under 620 én.
+    'genvej':         '(max-width: 620px) 88vw, (max-width: 900px) 34vw, 284px',
+    # Forsidens to billeder: samme spalte, to i bredden = 438 px.
+    'forside-foto':   '(max-width: 620px) 88vw, (max-width: 940px) 46vw, 438px',
     'blok':           '(max-width: 900px) 100vw, 530px',
     'galleri3':       '(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px',
     'galleri2':       '(max-width: 620px) 92vw, 45vw',
+    # Jeanettes portræt fra sms. Pladsen er bevidst lille: originalen er
+    # under 700 px bred, og vises den bredere, bliver den synligt uskarp.
+    # Hellere et lille, skarpt billede end et stort, grødet.
+    #
+    # 76vw er målt, ikke gættet: på en 390 px skærm er der 15 px rullebjælke,
+    # 2x20 px luft i .wrap og 2x26 px polstring i kortet tilbage at trække
+    # fra – der er 283 px til billedet, altså 73 % af skærmbredden. Stod der
+    # 62vw som før, regnede browseren med en mindre plads end den faktiske
+    # og hentede en for lille fil, som så blev strukket op.
+    'portraet':       '(max-width: 620px) 76vw, 300px',
 }
 
 
-def billede(navn, alt, plads, straks=False):
+def billede(navn, alt, plads, straks=False, cls=''):
     """Bygger et <picture> med tre spor: AVIF, WebP og JPEG.
 
     Browseren tager det første format, den kan læse. AVIF er ca. halv
@@ -168,8 +186,13 @@ def billede(navn, alt, plads, straks=False):
     doven = '' if straks else ' loading="lazy"'
     hast = ' fetchpriority="high"' if straks else ''
     sizes = SIZES[plads]
+    # Klassen sidder på <picture>, ikke på <img>: det er <picture>, der er
+    # elementet i layoutet, og det er den, der skal kunne flyde eller
+    # centreres. Sætter man klassen på <img>, kan CSS ikke få fat i den
+    # kasse, billedet faktisk optager.
+    k = f' class="{cls}"' if cls else ''
     return (
-        f'<picture>'
+        f'<picture{k}>'
         f'<source type="image/avif" sizes="{sizes}" '
         f'srcset="billeder/{navn}-1x.avif {b1}w, billeder/{navn}.avif {b2}w">'
         f'<source type="image/webp" sizes="{sizes}" '
@@ -216,9 +239,9 @@ def header(aktiv):
 <header class="top">
   <div class="top-inder">
     <a class="logo" href="index.html">
-      {sol('sol', 50)}
+      {sol('sol')}
       <span>
-        <span class="logo-navn">Børnegården GRO</span>
+        {tegning('logo-gro-lille', 'logo-navn', alt='Børnegården GRO', straks=True)}
         <span class="logo-under">Privat pasningsordning &middot; 0&ndash;3 år</span>
       </span>
     </a>
@@ -236,12 +259,12 @@ def footer():
   <div class="wrap">
     <div class="footer-grid">
       <div>
-        <h4>Børnegården GRO</h4>
+        <h2>Børnegården GRO</h2>
         <p class="daempet">Privat pasningsordning for børn i alderen 0&ndash;3 år
         på en gård ved Vinderslev, med dyr, have og en lille skov bag huset.</p>
       </div>
       <div>
-        <h4>Kontakt</h4>
+        <h2>Kontakt</h2>
         <ul class="footer-kontakt">
           <li>{ikon('tlf')}<a href="tel:+45{TLF}">{TLF_VIS}</a></li>
           <li>{ikon('pin')}{adresselink('Vinderslevvej 45<br>Vinderslev, 8620 Kjellerup')}</li>
@@ -332,7 +355,7 @@ def strukturerede_data(fil, title, desc):
         "description": ("Driver Børnegården GRO i Vinderslev og har haft "
                         "privat pasningsordning siden 2015."),
         "url": DOMAENE + "/om-mig.html",
-        "image": DOMAENE + "/billeder/om-mig.jpg",
+        "image": DOMAENE + "/billeder/jeanette.jpg",
         "worksFor": {"@id": DOMAENE + "/#virksomhed"},
         "telephone": "+45" + TLF,
     }
@@ -403,7 +426,7 @@ MAL = '''<!DOCTYPE html>
      åbnes først, og der sendes ingen besøgsdata til Google. De tre filer er
      variable og beskåret til danske tegn: 75 KB i alt mod ca. 207 KB før. -->
 <link rel="preload" href="assets/skrifter/nunito.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/skrifter/baloo2.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/skrifter/fredoka.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/style.min.css">
 <!-- Peger man på en fane, henter og optegner browseren siden på forhånd.
      Klikket bliver derefter øjeblikkeligt. "moderate" betyder: først når
@@ -412,8 +435,19 @@ MAL = '''<!DOCTYPE html>
 {spekulation}
 </script>
 {preload}
-<link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<!-- Fanebladets ikon er Jeanettes tegnede sol, se billeder/faviconer.py.
+     Fire PNG'er, én pr. størrelse browseren beder om. Hver er tegnet for sig
+     med den luft, der passer til dén størrelse, i stedet for at blive
+     skaleret ned fra én stor fil – ved 16 px er der ikke pixels at spilde.
+     Google vil have et kvadratisk favicon i en størrelse deleligt med 48
+     og tager gerne den største, der er erklæret; derfor står 96 med.
+     favicon.ico er ikke erklæret her, men ligger stadig i roden: browsere
+     og bots henter /favicon.ico af gammel vane, uanset hvad der står i
+     HTML'en. Det samme gælder favicon.svg – tegningen er pixels, ikke
+     kurver, og en SVG med et billede pakket ind i sig er kun en dyrere PNG. -->
+<link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-48.png" type="image/png" sizes="48x48">
 <link rel="icon" href="favicon-96.png" type="image/png" sizes="96x96">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
@@ -441,20 +475,25 @@ MAL = '''<!DOCTYPE html>
 #      førstebillede er den klassiske måde at ødelægge sin egen LCP-score på.
 # Før stod kun forsiden og "her hvor vi bor" her; de fem øvrige sider ventede
 # med deres topbillede til alt andet var hentet.
+# Forsiden står ikke længere her. Dens største element er nu Jeanettes
+# navnetræk øverst, ikke et foto, og det forhåndshentes for sig nedenfor –
+# det er en PNG/WebP med gennemsigtig baggrund og hører ikke til i
+# fotosporet med AVIF og srcset.
 PRELOAD = {
-    'index.html':           'forside-vandloeb',
     'mudderklubben.html':   'mk-mudder',
     'vaerdier.html':        'vd-ro',
     'her-hvor-vi-bor.html': 'sted-hus',
     'praktisk.html':        'praktisk-regntoej',
-    'om-mig.html':          'om-mig',
+    'om-mig.html':          'jeanette',
 }
 
 # Hvilken pladsstørrelse (se SIZES) det forudhentede billede vises i.
-# Forsidens topbillede sidder i den lille polaroid-plads i klyngen, ikke i
-# den brede "blok"-plads som de andre siders topbillede.
+# Forsiden står ikke længere her: dens topbillede er navnetrækket, som
+# forhåndshentes for sig i skriv(). "Om mig" starter med portrættet af
+# Jeanette, og det ligger i en smal flydende plads – ikke i den brede
+# blok-plads, resten af siderne bruger.
 PRELOAD_PLADS = {
-    'index.html': 'polaroid-lille',
+    'om-mig.html': 'portraet',
 }
 
 # Billedet der vises, når nogen deler siden på Facebook eller i en sms.
@@ -465,7 +504,7 @@ DELEBILLEDE = {
     'vaerdier.html':        'vd-ro',
     'her-hvor-vi-bor.html': 'sted-hus',
     'praktisk.html':        'praktisk-regntoej',
-    'om-mig.html':          'om-mig',
+    'om-mig.html':          'jeanette-boern',
     'kontakt.html':         'sted-hus',
 }
 
@@ -476,6 +515,7 @@ DELEBILLEDE_ALT = {
     'sted-hus':          'Gården og huset, hvor Børnegården GRO holder til',
     'praktisk-regntoej': 'Barn i regntøj og gummistøvler klar til udeleg',
     'om-mig':            'Jeanette Riis, der driver Børnegården GRO',
+    'jeanette-boern':    'Jeanette sammen med to børn ved døren til huset',
 }
 
 
@@ -499,6 +539,9 @@ def skriv(fil, title, desc, indhold):
                    f'imagesrcset="billeder/{navn}-1x.avif {b1}w, billeder/{navn}.avif {b2}w" '
                    f'imagesizes="{SIZES[PRELOAD_PLADS.get(fil, "blok")]}" '
                    f'fetchpriority="high">')
+    elif fil == 'index.html':
+        preload = ('<link rel="preload" as="image" type="image/webp" '
+                   'href="billeder/logo-gro.webp" fetchpriority="high">')
     else:
         preload = ''
 
@@ -520,69 +563,37 @@ def skriv(fil, title, desc, indhold):
 # ==========================================================================
 # FORSIDE
 # ==========================================================================
+# Forsiden er skrevet om efter Jeanettes rettelser i august:
+#   * Navnetrækket fra Canva står som overskrift i stedet for sat tekst.
+#   * "Gårdliv, nærvær og vild leg" er flyttet fra toppen ned som slutlinje.
+#   * Al brødtekst er samlet i ét bredt stykke. Før var den delt i to kort
+#     med en billedklynge imellem, og teksten blev læst i to omgange.
+#   * Teksten er hendes egen, ord for ord. De fire afsnit, der før stod her
+#     med henvisninger videre til de andre sider, er taget ud – de var
+#     skrevet af mig, ikke af hende. Vejen videre går nu gennem de tre
+#     genvejskort nederst i stedet.
+#   * Ledige pladser er væk herfra og står kun under "Praktisk".
 forside = f'''
 <section class="hero">
   <div class="wrap">
-    <div class="hero-grid">
-      <div class="hero-kort">
-        {sol('sol-hjoerne', 92)}
-        <h1>Børnegården GRO</h1>
-        <p class="under">Gårdliv, nærvær og vild leg,<br>flettet sammen til én hverdag.</p>
-        <p>Der findes en barndom, de fleste af os drømmer om til vores børn.</p>
-        <p>En barndom med jord under neglene, dufte af nybagt brød, dyr der skal fodres,
-           og dage der har plads til både ro og vild leg. Den slags minder, man selv
-           ligger og smiler af mange år senere.</p>
-        <p><strong>Det er den barndom, Børnegården GRO er bygget op omkring.</strong></p>
-        <div class="knapper">
-          <a class="knap knap-sekundaer" href="her-hvor-vi-bor.html">Se stedet</a>
-          <a class="knap knap-blank" href="#pladser">Ledige pladser</a>
-        </div>
-      </div>
-      <div class="klynge">
-        <div class="polaroid polaroid-1 polaroid-logo">{sol('sol-logo-hero', 150)}</div>
-        <div class="polaroid polaroid-2">{billede('forside-vandloeb', 'Barn der graver ved vandløbet i haven', 'polaroid-lille', straks=True)}</div>
-        <div class="polaroid polaroid-3">{billede('forside-sandkasse', 'Barn der leger i den kæmpe sandkasse omkring træet', 'polaroid-lille')}</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="kort smal">
-      <p class="stor-tekst">Her fodrer børnene dyrene om morgenen og hjælper til med rigtige opgaver &ndash;
-      det giver dem en følelse af at høre til og kunne noget. Der er tid til bare at være:
-      rolige stunder, nærvær og hygge, uden at der konstant skal ske noget.</p>
-      <p class="stor-tekst">Og der er plads til, at børn får lov at være børn &ndash; hoppe i vandpytter,
-      grave i den kæmpe sandkasse og mudre løs i mudderkøkkenet, indtil de kommer hjem
-      glade og lidt beskidte.</p>
-      <p>Pasningen foregår i et dedikeret dagplejehus, indrettet fra bunden til de 0&ndash;3-årige
-      &ndash; med plads til at kravle og boltre sig, og plads til at trække sig tilbage til en rolig
-      stund, når der er brug for det. Herfra er der kun få skridt til stalden, hvor dyrene bor,
-      til den kæmpe have med sandkasse og mudderkøkken, og til vores egen lille skov for enden
-      af haven. <a href="her-hvor-vi-bor.html">Se hele stedet &rarr;</a></p>
-      <p>Det hele hviler på tre ting: ro og nærvær, tillid og selvstændighed, og plads til krop,
-      sanser og det vilde. Ikke som regler på en væg, men som den måde, hverdagen rent faktisk
-      former sig på &ndash; i store og små øjeblikke, hver eneste dag.
-      <a href="vaerdier.html">Læs mere om værdierne &rarr;</a></p>
-      <p>Jeanette Riis har drevet Børnegården GRO i Vinderslev og passet børn i det daglige siden
-      2015. <a href="om-mig.html">Læs mere om Jeanette &rarr;</a></p>
-    </div>
-  </div>
-</section>
-
-<section id="pladser">
-  <div class="wrap">
-    <div class="pladser">
-      <h2>Der er ledige pladser</h2>
-      <p class="daempet">Ring eller skriv, hvis I vil høre nærmere eller komme forbi og se stedet.</p>
-      <ul class="pladser-liste">
-        <li><span class="pladser-tal">2</span><span class="pladser-hvornaar">pladser</span>Vinter 2026/2027</li>
-        <li><span class="pladser-tal">1</span><span class="pladser-hvornaar">plads</span>Forår 2027</li>
-      </ul>
-      <div class="knapper midt">
+    <div class="hero-kort hero-bred">
+      {sol('sol-hjoerne')}
+      <h1>{tegning('logo-gro', 'logo-tegning', alt='Børnegården GRO', straks=True)}</h1>
+      <p class="forord">Der findes en barndom, de fleste af os drømmer om til vores børn.</p>
+      <p>En barndom med jord under neglene, dufte af nybagt brød, dyr der skal fodres,
+         og dage der har plads til både ro og vild leg. Den slags minder, man selv
+         ligger og smiler af mange år senere.</p>
+      <p><strong>Det er den barndom, Børnegården GRO er bygget op omkring.</strong></p>
+      <p>Her fodrer børnene dyrene om morgenen og hjælper til med rigtige opgaver
+         &ndash; det giver dem en følelse af at høre til og kunne noget. Der er tid til
+         bare at være: rolige stunder, nærvær og hygge, uden at der konstant skal ske
+         noget. Og der er plads til, at børn får lov at være børn &ndash; hoppe i
+         vandpytter, grave i den kæmpe sandkasse og mudre løs i mudderkøkkenet, indtil
+         de kommer hjem glade og lidt beskidte.</p>
+      <p class="under">Gårdliv, nærvær og vild leg,<br>flettet sammen til én hverdag.</p>
+      <div class="knapper">
         <a class="knap knap-primaer" href="tel:+45{TLF}">{ikon('tlf')} Ring {TLF_VIS}</a>
-        <a class="knap knap-sekundaer" href="kontakt.html">{ikon('mail')} Skriv til Jeanette</a>
+        <a class="knap knap-sekundaer" href="her-hvor-vi-bor.html">Se stedet</a>
       </div>
     </div>
   </div>
@@ -590,11 +601,20 @@ forside = f'''
 
 <section>
   <div class="wrap">
-    <div class="genveje">
+    <div class="galleri to forside-spalte">
+      <figure>{billede('forside-vandloeb', 'Barn der graver ved vandløbet i haven', 'forside-foto')}</figure>
+      <figure>{billede('forside-sandkasse', 'Barn der leger i den kæmpe sandkasse omkring træet', 'forside-foto')}</figure>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="genveje forside-spalte">
       <a class="genvej" href="mudderklubben.html">
         {billede('kort-mudderklub', 'Børn der graver og bygger i sandet', 'genvej')}
         <div class="genvej-tekst">
-          <h3>Mudder Klubben</h3>
+          <h2>Mudder Klubben</h2>
           <p>Mudderpas, traktorture til baghaveskoven og officiel tilladelse til at hoppe i alle vandpytter.</p>
           <span class="pil">Se klubben &rarr;</span>
         </div>
@@ -602,7 +622,7 @@ forside = f'''
       <a class="genvej" href="vaerdier.html">
         {billede('kort-vaerdier', 'Barn der hviler i den grønne hyggekrog', 'genvej')}
         <div class="genvej-tekst">
-          <h3>Værdier</h3>
+          <h2>Værdier</h2>
           <p>Ro og nærvær, tillid og selvstændighed, krop og sanser. Tre ben, der bærer hinanden.</p>
           <span class="pil">Læs mere &rarr;</span>
         </div>
@@ -610,7 +630,7 @@ forside = f'''
       <a class="genvej" href="her-hvor-vi-bor.html">
         {billede('kort-sted', 'Børn samlet omkring bålpladsen i haven', 'genvej')}
         <div class="genvej-tekst">
-          <h3>Her hvor vi bor</h3>
+          <h2>Her hvor vi bor</h2>
           <p>Dagplejehuset, stalden, baghaveskoven og haven &ndash; fire steder, én hverdag.</p>
           <span class="pil">Se stedet &rarr;</span>
         </div>
@@ -662,14 +682,23 @@ fordel_html = '\n'.join(
     '        <li><span class="fordel-ikon">%s</span><span class="fordel-tekst"><strong>%s</strong>%s</span></li>'
     % (stempel_ikon(i), a, b) for i, a, b in FORDELE)
 
+# Skrevet om efter Jeanettes rettelser:
+#   * Manchetten er sat i Caveat som på forsiden, ikke i almindelig grå tekst.
+#   * Teksten kører nu som ét sammenhængende stykke – "ud i en smøre", som
+#     hun skrev – med fed dér hvor hun har sat fed, og afsnitsmellemrum
+#     dér hvor hun har lavet dem. Før var den brudt op i fire kort med
+#     overskrifter, jeg selv havde fundet på.
+#   * Afsnittene "Turen begynder med traktoren" og "Skovlegepladsen" er
+#     slettet efter hendes ønske. Billederne fra dem (mk-traktor og
+#     mk-skovhule) er flyttet ned i galleriet, så de ikke går tabt.
 mudder = f'''
 <div class="wrap">
   <div class="sidehoved">
-    {sol('sol-hjoerne', 88)}
+    {sol('sol-hjoerne')}
     <p class="brodkrumme">Mudder Klubben</p>
     <h1>Velkommen til Mudder&nbsp;Klubben</h1>
-    <p class="manchet">Der findes et lille selskab i Børnegården GRO, som ikke alle børn kender til,
-    før de selv bliver en del af det.</p>
+    <p class="forord">Der findes et lille selskab i Børnegården GRO, som ikke alle børn
+    kender til, før de selv bliver en del af det:</p>
   </div>
 </div>
 
@@ -679,15 +708,15 @@ mudder = f'''
       <div class="blok-billede">{billede('mk-mudder', 'Barn i regntøj der graver i mudderet med legetøjsgravemaskine', 'blok')}</div>
       <div class="blok-tekst">
         <div class="prose">
-          <p>Mudder Klubben er ikke noget, man bare er. Det er noget, man bliver optaget i
-          &ndash; med sit eget mudderpas, sit eget navn på klublisten, og retten til alt det,
-          der følger med.</p>
-          <h3>Sådan bliver man medlem</h3>
-          <p>Første dag i Børnegården GRO får jeres barn sit eget mudderpas &ndash; et lille,
-          personligt hæfte, der stemples, første gang der graves, mudres eller opdages noget nyt.</p>
-          <p>Det er ikke noget, man skal søge om eller kvalificere sig til. Man bliver simpelthen
-          inviteret ind, den dag man starter &ndash; og så er det op til stemplerne at vise,
-          hvor mange ekspeditioner det er blevet til.</p>
+          <p><strong>Mudder Klubben.</strong> Det er ikke noget, man bare er. Det er noget,
+          man bliver optaget i &ndash; med sit eget mudderpas, sit eget navn på klublisten,
+          og retten til alt det, der følger med.</p>
+          <p><strong>Sådan bliver man medlem:</strong> Første dag i Børnegården GRO får jeres
+          barn sit eget mudderpas &ndash; et lille, personligt hæfte, der stemples, første
+          gang der graves, mudres eller opdages noget nyt. Det er ikke noget, man skal søge
+          om eller kvalificere sig til. Man bliver simpelthen inviteret ind, den dag man
+          starter &ndash; og så er det op til stemplerne at vise, hvor mange ekspeditioner
+          det er blevet til.</p>
         </div>
       </div>
     </div>
@@ -703,35 +732,10 @@ mudder = f'''
 {fordel_html}
       </ul>
     </div>
-  </div>
-</section>
 
-<section>
-  <div class="wrap">
-    <div class="blok vendt">
-      <div class="blok-billede">{billede('mk-traktor', 'Barn på traktoren i haven', 'blok')}</div>
-      <div class="blok-tekst">
-        <div class="prose">
-          <h2>Turen begynder med traktoren</h2>
-          <p>En rigtig sjov tur begynder med traktoren. Den holder klar med plads i vognen
-          &ndash; alle spændt godt fast &ndash; og så går turen op gennem baghaven og ind i
-          klubbens egen lille skovlegeplads.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="blok">
-      <div class="blok-billede">{billede('mk-skovhule', 'Børn der sidder i en hule bygget af grene i skoven', 'blok')}</div>
-      <div class="blok-tekst">
-        <div class="prose">
-          <h2>Skovlegepladsen</h2>
-          <p>For der venter mere: en lille naturlegeplads, som ikke er til at se fra vejen.
-          Grene der skal klatres i, stier der skal udforskes, og skjulesteder, kun medlemmer
-          kender til.</p>
-          <p>Ingen dag i skoven er ens &ndash; én dag er det pinde og balancebroer, en anden
-          dag er det en helt ny sti, ingen har prøvet før.</p>
-        </div>
-      </div>
+    <div class="galleri to luft-over">
+      <figure>{billede('mk-traktor', 'Barn på traktoren i haven', 'galleri2')}<figcaption>Traktoren holder klar med plads i vognen</figcaption></figure>
+      <figure>{billede('mk-skovhule', 'Børn der sidder i en hule bygget af grene i skoven', 'galleri2')}<figcaption>Skjulesteder, kun medlemmer kender til</figcaption></figure>
     </div>
   </div>
 </section>
@@ -739,10 +743,10 @@ mudder = f'''
 <section>
   <div class="wrap">
     <div class="kort fremhaevet smal">
-      <h2>Bag legen ligger der noget rigtig godt</h2>
-      <p class="stor-tekst">Mudder og vand er nogle af de bedste redskaber, vi har til at styrke
-      børns sanser, finmotorik og nysgerrighed. Men det behøver ikke at lyde kedeligt og fagligt
-      for at virke &ndash; det skal bare føles som ren sjov. Og det gør det.</p>
+      <p class="stor-tekst nulmargen"><strong>Bag legen ligger der noget rigtig godt:</strong>
+      mudder og vand er nogle af de bedste redskaber, vi har til at styrke børns sanser,
+      finmotorik og nysgerrighed. Men det behøver ikke at lyde kedeligt og fagligt for at
+      virke &ndash; det skal bare føles som ren sjov. Og det gør det.</p>
     </div>
   </div>
 </section>
@@ -751,9 +755,9 @@ mudder = f'''
   <div class="wrap">
     <div class="pas">
       <div class="pas-hoved">
-        {sol('', 54)}
+        {sol('sol-pas')}
         <div>
-          <h3>Stempler i mudderpasset</h3>
+          <h2>Stempler i mudderpasset</h2>
           <p class="daempet nulmargen">Fra første dag til børnehavestart</p>
         </div>
         <span class="pas-maerke">20 stempler</span>
@@ -786,14 +790,14 @@ mudder = f'''
 # ==========================================================================
 # VÆRDIER
 # ==========================================================================
+# Overskrift og manchet er skåret væk efter Jeanettes rettelse: "det står
+# jo som jeg har bedt om, men jeg synes det lyder lidt dumt". Tilbage står
+# fanens eget navn og de tre værdier, som taler for sig selv.
 vaerdier = f'''
 <div class="wrap">
-  <div class="sidehoved">
-    {sol('sol-hjoerne', 88)}
-    <p class="brodkrumme">Værdier</p>
-    <h1>Tre ting bag alt, hvad vi laver</h1>
-    <p class="manchet">Ikke som regler på en væg, men som den måde, hverdagen rent faktisk
-    former sig på &ndash; i store og små øjeblikke, hver eneste dag.</p>
+  <div class="sidehoved sidehoved-lav">
+    {sol('sol-titel')}
+    <h1>Værdier</h1>
   </div>
 </div>
 
@@ -866,21 +870,15 @@ vaerdier = f'''
 # ==========================================================================
 # HER HVOR VI BOR
 # ==========================================================================
+# "Fire steder, én hverdag", indledningen og de fire ikoner er slettet efter
+# Jeanettes rettelse – hun ville gå direkte til Dagplejehuset. Sætningen
+# "Fire steder, én hverdag" står stadig som afslutning nederst, hvor hun
+# selv har skrevet den.
 sted = f'''
 <div class="wrap">
-  <div class="sidehoved">
-    {sol('sol-hjoerne', 88)}
-    <p class="brodkrumme">Her hvor vi bor</p>
-    <h1>Fire steder, én hverdag</h1>
-    <p class="manchet">Luk øjnene et øjeblik og forestil jer ikke et legeværelse &ndash; forestil
-    jer et helt sted. Et dedikeret dagplejehus, en stald, en lille skov og en kæmpe have,
-    bygget til præcis én ting: børns leg og opdagelser.</p>
-    <ul class="steder-oversigt">
-      <li><a href="#dagplejehuset">{ikon('hus')}Dagplejehuset</a></li>
-      <li><a href="#stalden">{ikon('stald')}Stalden</a></li>
-      <li><a href="#baghaveskoven">{ikon('skov')}Baghaveskoven</a></li>
-      <li><a href="#haven">{ikon('have')}Haven</a></li>
-    </ul>
+  <div class="sidehoved sidehoved-lav">
+    {sol('sol-titel')}
+    <h1>Her hvor vi bor</h1>
   </div>
 </div>
 
@@ -964,8 +962,8 @@ sted = f'''
 <section>
   <div class="wrap">
     <div class="citat">
-      Dagplejehuset, stalden, baghaveskoven og haven hænger sammen som ét stort legelandskab
-      &ndash; og det er her, jeres barns dage kommer til at udspille sig.
+      Fire steder, én hverdag. Dagplejehuset, stalden, baghaveskoven og haven hænger sammen
+      som ét stort legelandskab &ndash; og det er her, jeres barns dage kommer til at udspille sig.
     </div>
   </div>
 </section>
@@ -974,19 +972,13 @@ sted = f'''
 # ==========================================================================
 # PRAKTISK
 # ==========================================================================
+# Jeanette bad om at få tømt den øverste kasse for alt undtagen teksten
+# "Praktisk info". Manchetten og de fire genvejsikoner er derfor væk.
 praktisk = f'''
 <div class="wrap">
-  <div class="sidehoved">
-    {sol('sol-hjoerne', 88)}
-    <p class="brodkrumme">Praktisk</p>
+  <div class="sidehoved sidehoved-lav">
+    {sol('sol-titel')}
     <h1>Praktisk info</h1>
-    <p class="manchet">Hvad I skal have med, hvornår der er ledige pladser, og hvad det koster.</p>
-    <ul class="steder-oversigt">
-      <li><a href="#medbringe">{ikon('taske')}Hvad skal I medbringe</a></li>
-      <li><a href="#soerger-for">{ikon('flueben')}Det jeg sørger for</a></li>
-      <li><a href="#pladser">{ikon('kalender')}Ledige pladser</a></li>
-      <li><a href="#oekonomi">{ikon('mont')}Økonomi</a></li>
-    </ul>
   </div>
 </div>
 
@@ -1101,78 +1093,62 @@ praktisk = f'''
 # ==========================================================================
 # OM MIG
 # ==========================================================================
+# Skrevet helt om efter Jeanettes rettelser. Hun bad om fire ting:
+#   * "Jeg hedder Jeanette" skulle ned i almindelig skriftstørrelse. Den
+#     store overskrift er derfor væk; sætningen står nu som første linje i
+#     teksten, hvor den hører hjemme.
+#   * Alt skulle samles i én kasse uden del-overskrifter. De tre h3'er,
+#     jeg havde sat ind for at bryde teksten op, er slettet.
+#   * Hendes egen tekst, i normal størrelse.
+#   * Hendes eget portræt fra sms i stedet for det motiv, der stod her før.
+#     Det andet sms-billede, hende med de to børn, lå et stykke tid
+#     midtstillet nederst i kassen. Originalen er kun 697 px bred, så
+#     det måtte vises i 342 px for at være skarpt – halvdelen af
+#     tekstspaltens bredde. Det kom til at ligne noget, der var klistret
+#     på bagefter, og er taget ud igen. Filerne ligger stadig i billeder/,
+#     hvis der kommer en større udgave fra fotografen.
+#
+# Siden skal stadig have en h1 – uden den ved hverken Google eller en
+# skærmlæser, hvad siden hedder. Den står som fanens navn og er sat ned i
+# størrelse med .h1-dis, så den ikke råber.
 om_mig = f'''
 <div class="wrap">
-  <div class="sidehoved">
-    {sol('sol-hjoerne', 88)}
-    <p class="brodkrumme">Om mig</p>
-    <h1>Jeg hedder Jeanette</h1>
-    <p class="manchet">Jeg er 39 år, har været mor i 17 år, og har haft privat pasningsordning
-    siden 2015.</p>
+  <div class="sidehoved sidehoved-lav sidehoved-smal">
+    {sol('sol-titel')}
+    <h1 class="h1-dis">Om mig</h1>
   </div>
 </div>
 
 <section>
   <div class="wrap">
-    <div class="blok">
-      <div class="blok-billede">{billede('om-mig', 'Barn der hænger blade op på en snor ved et stort træ', 'blok')}</div>
-      <div class="blok-tekst">
-        <div class="prose">
-          <h2>De første 36 måneder kommer ikke igen</h2>
-          <p>Det er i de år, hjernen udvikler sig hurtigere end på noget andet tidspunkt i livet,
-          og det er i de år, et barn lægger grunden for tryghed, tillid og selvværd &ndash;
-          ofte uden at vi voksne lægger mærke til, hvor meget der egentlig sker.</p>
-          <p>Vi lever i en tid, hvor de fleste har travlt. Hvor en skærm nemt bliver den, der
-          holder styr på et barn, mens de voksne når det hele. Jeg tror på noget andet: at et
-          barn har mest gavn af en voksen, der er til stede &ndash; og af selv at være en del af
-          det, der sker, i stedet for kun at kigge på.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
     <div class="kort smal">
-      <p class="stor-tekst">Derfor tager jeg børnene med, når der skal fodres dyr, bages brød
-      eller ordnes ting i haven. Ikke fordi det er en aktivitet, men fordi et barn, der får lov
-      at bidrage til noget rigtigt, mærker sig selv som en del af et fællesskab &ndash; og bygger
-      en selvtillid, der sidder dybere end ros nogensinde kan give.</p>
-      <h3 class="luft-over">Roen låner de af den voksne</h3>
+      {billede('jeanette', 'Jeanette Riis, der driver Børnegården GRO', 'portraet', straks=True, cls='portraet-plads')}
+      <p>Jeg hedder Jeanette. Jeg er 39 år, har været mor i 17 år, og har haft privat
+      pasningsordning siden 2015.</p>
+      <p>De første 36 måneder af et barns liv kommer ikke igen. Det er i de år, hjernen
+      udvikler sig hurtigere end på noget andet tidspunkt i livet, og det er i de år, et barn
+      lægger grunden for tryghed, tillid og selvværd &ndash; ofte uden at vi voksne lægger
+      mærke til, hvor meget der egentlig sker.</p>
+      <p>Vi lever i en tid, hvor de fleste har travlt. Hvor en skærm nemt bliver den, der
+      holder styr på et barn, mens de voksne når det hele. Jeg tror på noget andet: at et barn
+      har mest gavn af en voksen, der er til stede &ndash; og af selv at være en del af det,
+      der sker, i stedet for kun at kigge på.</p>
+      <p>Derfor tager jeg børnene med, når der skal fodres dyr, bages brød eller ordnes ting
+      i haven. Ikke fordi det er en aktivitet, men fordi et barn, der får lov at bidrage til
+      noget rigtigt, mærker sig selv som en del af et fællesskab &ndash; og bygger en
+      selvtillid, der sidder dybere end ros nogensinde kan give.</p>
       <p>Jeg har brugt mange timer på at forstå, hvordan et lille barns hjerne og følelser
-      udvikler sig i de første leveår. Et lille barn kan endnu ikke berolige sig selv i en svær
-      følelse &ndash; det låner roen fra den voksne, det er sammen med. Når jeg selv er rolig,
-      smitter det: et barns gråd, vrede eller frustration kan finde et sted at lande, fordi der
-      er en tryg voksen at læne sig op ad.</p>
-      <p>Det er den viden, jeg tager med ind i mødet med de mindste, hver eneste dag.</p>
-      <h3 class="luft-over">Men I finder mig med gummistøvlerne på</h3>
-      <p>Lige så vigtigt er det, at I finder mig med gummistøvlerne på midt i det hele. Jeg
-      hopper selv i vandpytterne, graver med i mudderet, og sætter mig på gyngen, hvis der er
-      brug for et skub eller to. For mig er rigtig leg noget, man er en del af, ikke noget,
-      man kun står ved siden af og kigger på.</p>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="citat">
-      Den barndom, et barn får fra de er helt små, spiller ind igennem hele deres liv.<br>
-      Derfor er den så vigtig.
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="kort fremhaevet smal midtstil">
-      <h2>Kom forbi og se stedet</h2>
-      <p>Ring, så aftaler vi et tidspunkt, hvor I kan komme og hilse på &ndash; både på mig,
-      på huset og på dyrene.</p>
-      <div class="knapper midt">
-        <a class="knap knap-primaer" href="kontakt.html">{ikon('pin')} Find vej og kontakt</a>
-      </div>
+      udvikler sig i de første leveår. Et lille barn kan endnu ikke berolige sig selv i en
+      svær følelse &ndash; det låner roen fra den voksne, det er sammen med. Når jeg selv er
+      rolig, smitter det: et barns gråd, vrede eller frustration kan finde et sted at lande,
+      fordi der er en tryg voksen at læne sig op ad.</p>
+      <p>Det er den viden, jeg tager med ind i mødet med de mindste, hver eneste dag. Men lige
+      så vigtigt er det, I finder mig med gummistøvlerne på midt i det hele. Jeg hopper selv i
+      vandpytterne, graver med i mudderet, og sætter mig på gyngen, hvis der er brug for et
+      skub eller to. For mig er rigtig leg noget, man er en del af, ikke noget, man kun står
+      ved siden af og kigger på.</p>
+      <p>Den barndom, et barn får fra de er helt små, spiller ind igennem hele deres liv,
+      derfor er den så vigtig.</p>
     </div>
   </div>
 </section>
@@ -1181,12 +1157,15 @@ om_mig = f'''
 # ==========================================================================
 # KONTAKT
 # ==========================================================================
+# "Kontakt Jeanette" er slettet efter hendes rettelse; overskriften er nu
+# bare fanens navn. Kassen "Kom forbi" hedder "Adresse", og kassen med
+# ledige pladser er væk – de står under "Praktisk" og skal kun stå ét sted,
+# så der ikke er to tal at holde opdateret, når noget bliver besat.
 kontakt = f'''
 <div class="wrap">
   <div class="sidehoved">
-    {sol('sol-hjoerne', 88)}
-    <p class="brodkrumme">Kontakt</p>
-    <h1>Kontakt Jeanette</h1>
+    {sol('sol-hjoerne')}
+    <h1>Kontakt</h1>
     <p class="manchet">Ring eller skriv &ndash; og kom endelig forbi. Vil I se stedet, aftaler vi
     bare et tidspunkt. Det er altid nemmest at mærke et sted ved at stå i det.</p>
   </div>
@@ -1214,24 +1193,12 @@ kontakt = f'''
       <li>
         <a href="{KORT_URL}" target="_blank" rel="noopener" title="Åbn adressen i Google Maps">
           <span class="kontaktvej-ikon">{ikon('pin')}</span>
-          <span class="kontaktvej-navn">Kom forbi</span>
+          <span class="kontaktvej-navn">Adresse</span>
           <span class="kontaktvej-vaerdi">Vinderslevvej 45</span>
           <span class="kontaktvej-note">Vinderslev, 8620 Kjellerup</span>
         </a>
       </li>
     </ul>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="kort fremhaevet smal midtstil">
-      <h2>Der er ledige pladser</h2>
-      <p class="nulmargen"><strong>2 pladser til vinter 2026/2027</strong> og
-      <strong>1 plads til forår 2027.</strong></p>
-      <p class="daempet luft-over nulmargen">Ring, så finder vi et tidspunkt, hvor I kan komme
-      og hilse på &ndash; både på mig, på huset og på dyrene.</p>
-    </div>
   </div>
 </section>
 

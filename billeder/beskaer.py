@@ -28,8 +28,12 @@ forskellige for de to opløsninger.
 from PIL import Image
 import os
 
-SRC = '../kilder/fotos/'   # udpakket zip fra Jeanette
-OUT = './'
+# Absolutte stier ud fra filens egen placering. byg.py importerer MAAL herfra
+# og kører fra roden, ikke fra billeder/ – med relative stier ledte den efter
+# Jeanettes fotos ét niveau for højt oppe.
+_HER = os.path.dirname(os.path.abspath(__file__))
+SRC = os.path.join(_HER, '..', 'kilder', 'fotos', '')   # udpakket zip fra Jeanette
+OUT = os.path.join(_HER, '')
 
 # 2x = retina. Vises i halv størrelse, tåler hårdere komprimering.
 JPEG_KVALITET_2X = 78
@@ -57,10 +61,15 @@ LOFT_1X_KB = 70
 
 # (udfil, original, beskæring (x0,y0,x1,y1) som andele, sideforhold b/h, vis-bredde i px)
 JOBS = [
-    # ---- FORSIDE: polaroid-klynge ----
+    # ---- FORSIDE ----
+    # De to billeder sad før i en polaroid-klynge ved siden af teksten og
+    # fyldte 200 px. Da forsiden blev lagt om til ét bredt tekststykke,
+    # rykkede de ned under teksten i en dobbeltspalte og fylder nu det
+    # dobbelte. Derfor 540 i stedet for 200 – og 4/3 i stedet for kvadrat,
+    # så beskæringen sker her og ikke med object-fit i browseren.
     ('hero-gynge',        'FullSizeRender-9.jpeg', (0.00, 0.26, 1.00, 1.00), 4/5, 360),
-    ('forside-vandloeb',  'IMG_4849.JPG',          (0.05, 0.22, 0.78, 0.78), 1/1, 200),
-    ('forside-sandkasse', 'IMG_3944.JPG',          (0.00, 0.02, 1.00, 1.00), 1/1, 200),
+    ('forside-vandloeb',  'IMG_4849.JPG',          (0.05, 0.22, 0.78, 0.78), 4/3, 540),
+    ('forside-sandkasse', 'IMG_3944.JPG',          (0.00, 0.02, 1.00, 1.00), 4/3, 540),
 
     # ---- FORSIDE: tre genvejskort ----
     ('kort-mudderklub',   'IMG_4353.JPG',          (0.00, 0.00, 1.00, 1.00), 4/3, 360),
@@ -81,18 +90,37 @@ JOBS = [
     ('vd-vildt',  'FullSizeRender-1.jpeg', (0.00, 0.04, 1.00, 0.98), 4/5, 540),
 
     # ---- HER HVOR VI BOR ----
-    ('sted-hus',    'FullSizeRender-3.jpeg', (0.00, 0.10, 1.00, 0.94), 4/5, 540),
-    ('sted-hus2',   'FullSizeRender-4.jpeg', (0.00, 0.08, 1.00, 0.72), 4/5, 540),
-    ('sted-hus3',   'FullSizeRender.jpeg',   (0.00, 0.08, 1.00, 0.96), 4/5, 540),
-    ('sted-stald',  'IMG_4250.JPG',          (0.00, 0.22, 1.00, 1.00), 4/5, 540),
-    ('sted-skov',   'IMG_4239.JPG',          (0.00, 0.05, 1.00, 0.97), 3/2, 540),
-    ('sted-have',   'IMG_4553.JPG',          (0.00, 0.22, 1.00, 0.96), 4/5, 540),
+    # Alle fire steder i 3/2 og ikke 4/5. Teksten til hvert sted er tre-fire
+    # linjer, og et stående billede gjorde blokkene 641 px høje med under en
+    # tredjedel tekst i. Resten stod som tom creme, fire gange i træk.
+    # Liggende format giver blokke på ca. 340 px, hvor billede og tekst vejer
+    # det samme – og siden blev 1.200 px kortere at rulle igennem.
+    # Beskæringen tager 40 % fra toppen og 60 % fra bunden af det, der skal
+    # væk (se funktionen beskaer), så ansigter og motiv i den øverste
+    # halvdel bliver stående.
+    ('sted-hus',    'FullSizeRender-3.jpeg', (0.00, 0.10, 1.00, 0.94), 3/2, 540),
+    ('sted-hus2',   'FullSizeRender-4.jpeg', (0.00, 0.08, 1.00, 0.72), 3/2, 540),
+    ('sted-hus3',   'FullSizeRender.jpeg',   (0.00, 0.08, 1.00, 0.96), 3/2, 540),
+    ('sted-stald',  'IMG_4250.JPG',          (0.00, 0.22, 1.00, 1.00), 3/2, 540),
+    ('sted-skov',   'IMG_4239.JPG',          (0.06, 0.02, 0.94, 1.00), 3/2, 540),
+    ('sted-have',   'IMG_4553.JPG',          (0.00, 0.22, 1.00, 0.96), 3/2, 540),
     ('sted-have2',  'IMG_5020.JPG',          (0.00, 0.02, 1.00, 0.88), 4/3, 530),
     ('sted-have3',  'IMG_4554.JPG',          (0.00, 0.04, 1.00, 0.96), 4/3, 530),
 
     # ---- PRAKTISK / OM MIG ----
-    ('praktisk-regntoej', 'FullSizeRender-6.jpeg', (0.00, 0.10, 1.00, 1.00), 4/5, 540),
+    # 3/2 og ikke 4/5: teksten ved siden af er kun fire linjer, og et
+    # stående billede gjorde blokken 641 px høj med 150 px tekst i.
+    # Resten blev tom creme. Liggende format giver en blok på ca. 340 px,
+    # hvor billede og tekst vejer nogenlunde det samme.
+    ('praktisk-regntoej', 'FullSizeRender-6.jpeg', (0.00, 0.10, 1.00, 1.00), 3/2, 540),
     ('om-mig',            'IMG_4826.JPG',          (0.00, 0.02, 1.00, 0.98), 4/5, 540),
+
+    # Jeanettes egne to billeder, sendt på sms. De er de eneste med hendes
+    # ansigt på, og det er dem, siden "Om mig" skal bære. Originalerne er
+    # under 700 px brede – derfor de små vis-bredder her: bliver pladsen
+    # bredere end originalen, står der et opskaleret, sløret billede.
+    ('jeanette',       'jeanette-portraet.jpeg', (0.00, 0.00, 1.00, 1.00), 4/5, 300),
+    ('jeanette-boern', 'jeanette-boern.jpeg',    (0.00, 0.00, 1.00, 1.00), 3/2, 342),
 ]
 
 
@@ -157,11 +185,36 @@ def gem(im, sti, bredde, retina):
     return ren.size, brugt
 
 
-# Bruges også af byg.py, så HTML'ens width/height altid matcher filerne
+# Bruges også af byg.py, så HTML'ens width/height altid matcher filerne.
+#
+# Her stod før bare `_vis * 2`. Det holdt kun, så længe originalen faktisk
+# var dobbelt så bred som pladsen. Otte af Jeanettes billeder er mindre end
+# det, og for dem skriver gem() en smallere fil (den skalerer aldrig OP),
+# mens HTML'en blev ved med at love 1080 px. Browseren reserverede altså
+# plads til et billede, der aldrig kom i den størrelse, og hele siden
+# rykkede sig, når filen landede.
+#
+# Derfor regnes målene nu efter originalens virkelige størrelse. PIL læser
+# kun filhovedet for at få .size, så det koster ingenting at slå op.
+def _maal(src, box, ar, vis):
+    with Image.open(SRC + src) as _im:
+        w, h = _im.size
+    x0, y0, x1, y1 = [int(round(v * (w if i % 2 == 0 else h)))
+                      for i, v in enumerate(box)]
+    cw, ch = x1 - x0, y1 - y0
+    if cw / ch > ar:                       # for bred – der tages fra siderne
+        cw = int(round(ch * ar))
+    else:                                  # for høj – der tages fra bunden
+        ch = int(round(cw / ar))
+    def par(bredde):
+        bredde = min(bredde, cw)
+        return bredde, int(round(bredde * ch / cw))
+    return par(vis * 2) + par(vis)
+
+
 MAAL = {}
 for _ud, _src, _box, _ar, _vis in JOBS:
-    _b = _vis * 2
-    MAAL[_ud] = (_b, int(round(_b / _ar)), _vis, int(round(_vis / _ar)))
+    MAAL[_ud] = _maal(_src, _box, _ar, _vis)
 
 
 if __name__ == '__main__':

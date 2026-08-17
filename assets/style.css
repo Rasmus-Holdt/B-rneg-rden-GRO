@@ -18,10 +18,18 @@
   --sol:           #f7c948;
   --sol-kant:      #e0a825;
   --sol-vask:      #fdf1d6;
-  --teal:          #1c8f7a;
+  /* De to accentfarver er mørknet en anelse i august. Målt efter WCAG AA
+     lå de under grænsen begge veje: rød tekst på creme gav 3,87:1 og
+     hvid tekst på den røde knap 4,26:1, hvor kravet er 4,5. Det er ikke
+     et teknisk hensyn – de små røde faner og knaptekster var reelt
+     utydelige. Lysheden er sat ned med 10 % på rød og 13 % på petroleum;
+     kuløren er den samme, og forskellen er ikke til at se ved siden af
+     hinanden. Nu: rød på creme 4,57 og hvid på rød 5,03; petroleum på
+     creme 4,62 og hvid på petroleum 5,08. */
+  --teal:          #187c6a;
   --teal-dyb:      #12695a;
   --teal-vask:     #e4f1ed;
-  --roed:          #d1503f;
+  --roed:          #c5412f;
   --roed-dyb:      #a83a2c;
   --blaek:         #33302a;
   --blaek-blod:    #5c574d;
@@ -131,7 +139,7 @@ main.side-kommer-ind{
    Skrifter
    Filerne ligger på vores egen server under assets/skrifter/. Det er tre
    variable skrifter, beskåret til danske og vesteuropæiske tegn:
-   ca. 75 KB i alt mod ca. 207 KB da de blev hentet fra Google.
+   ca. 81 KB i alt mod ca. 210 KB da de blev hentet fra Google.
 
    Fordelen ud over vægten: browseren skal ikke først slå et fremmed
    domæne op og lave en ny sikker forbindelse, før teksten kan sættes.
@@ -150,11 +158,17 @@ main.side-kommer-ind{
   font-style: normal;
   font-display: swap;
 }
+/* Fredoka afløste Baloo 2 på alle overskrifter, fordi Jeanette bad om en
+   sjovere skrift. Den er rundere, tykkere og har en større versalhøjde
+   (0,70 mod 0,60) – altså mere "boblet" ved samme skriftstørrelse, og
+   dermed tættere på det navnetræk, hun selv har tegnet i Canva.
+   Baloo 2 er taget helt ud igen; to skrifter til samme opgave er 21 KB,
+   ingen får noget ud af. */
 @font-face{
-  font-family: "Baloo 2";
-  src: url("skrifter/baloo2.woff2") format("woff2-variations"),
-       url("skrifter/baloo2.woff2") format("woff2");
-  font-weight: 400 800;
+  font-family: "Fredoka";
+  src: url("skrifter/fredoka.woff2") format("woff2-variations"),
+       url("skrifter/fredoka.woff2") format("woff2");
+  font-weight: 300 700;
   font-style: normal;
   font-display: swap;
 }
@@ -179,12 +193,14 @@ main.side-kommer-ind{
   descent-override: 35%;
   line-gap-override: 0%;
 }
+/* Målt ind efter Fredokas egne tal: versalhøjde 0,70, top 0,97, bund 0,24.
+   Uden det springer alle overskrifter i højden i det sekund, filen lander. */
 @font-face{
-  font-family: "Baloo-reserve";
+  font-family: "Fredoka-reserve";
   src: local("Avenir Next"), local("Segoe UI"), local("Arial");
-  size-adjust: 106%;
-  ascent-override: 96%;
-  descent-override: 32%;
+  size-adjust: 112%;
+  ascent-override: 87%;
+  descent-override: 21%;
   line-gap-override: 0%;
 }
 /* Caveat er en håndskrift og fylder langt mere end en almindelig skrift.
@@ -236,18 +252,37 @@ body{
 img{ max-width: 100%; height: auto; display: block; }
 a{ color: var(--teal-dyb); }
 
+/* ---- Jeanettes egne tegninger: solen og navnetrækket ----------------------
+   Klassen sidder på <picture>, ikke på <img>. Det er <picture>, der ligger i
+   layoutet – billedet indeni skal bare fylde den plads ud. Derfor sættes
+   bredden ét sted pr. plads (i .logo, .hero-kort, .sidehoved osv.) og
+   højden aldrig: den følger af billedets eget sideforhold, så solen ikke
+   kan blive trykket flad, hvis nogen senere retter i et af tallene. */
+picture.sol, picture.sol-hjoerne, picture.sol-pas, picture.logo-tegning{
+  display: block;
+}
+.sol > img, .sol-hjoerne > img, .sol-pas > img, .logo-tegning > img{
+  width: 100%; height: auto;
+}
+
+/* Størrelserne er skruet ca. 8 % ned, da Baloo 2 blev skiftet ud med Fredoka.
+   Ikke fordi overskrifterne skulle være mindre – Fredokas versalhøjde er bare
+   0,70 mod Baloos 0,60, så den fylder mere ved samme tal. Uden nedskruningen
+   voksede h1 på forsiden ud over sin egen linje på en bærbar.
+   `line-height` op fra 1,15 til 1,2 af samme grund: 1,15 klippede toppen af
+   Å'et i "Børnegården". */
 h1, h2, h3, h4{
-  font-family: "Baloo 2", "Baloo-reserve", "Nunito", system-ui, sans-serif;
+  font-family: "Fredoka", "Fredoka-reserve", "Nunito", system-ui, sans-serif;
   color: var(--teal-dyb);
-  line-height: 1.15;
+  line-height: 1.2;
   margin: 0 0 .5em;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -.005em;
 }
-h1{ font-size: clamp(2.1rem, 6vw, 3.5rem); }
-h2{ font-size: clamp(1.6rem, 3.6vw, 2.35rem); }
-h3{ font-size: clamp(1.2rem, 2.3vw, 1.5rem); }
-h4{ font-size: 1.08rem; }
+h1{ font-size: clamp(1.95rem, 5.4vw, 3.15rem); }
+h2{ font-size: clamp(1.5rem, 3.3vw, 2.15rem); }
+h3{ font-size: clamp(1.15rem, 2.1vw, 1.38rem); }
+h4{ font-size: 1.04rem; }
 
 p{ margin: 0 0 1.1em; }
 p:last-child{ margin-bottom: 0; }
@@ -289,11 +324,13 @@ a:focus-visible, button:focus-visible{
 }
 
 .logo{ display: flex; align-items: center; gap: 12px; text-decoration: none; }
-.logo .sol{ flex: 0 0 auto; width: 50px; height: 50px; }
-.logo-navn{
-  font-family: "Baloo 2", "Baloo-reserve", sans-serif; font-weight: 700;
-  font-size: 1.5rem; line-height: 1.05; color: var(--teal-dyb); display: block;
-}
+.logo .sol{ flex: 0 0 auto; width: 50px; }
+/* Navnetrækket i headeren er Jeanettes tegning, ikke sat tekst. Det er det
+   samme mærke som på forsiden, i fanebladet og ude i Google – ét mærke, som
+   man kan nå at genkende. Bredden holdes nede, så det ikke gør headeren
+   højere: en fastlåst header, der fylder for meget, spiser skærmen på en
+   telefon, hvor der i forvejen ikke er meget af den. */
+.logo-navn{ display: block; width: 218px; max-width: 100%; }
 .logo-under{
   display: block; font-family: "Nunito", "Nunito-reserve", sans-serif; font-weight: 700;
   font-size: .74rem; letter-spacing: .09em; text-transform: uppercase;
@@ -322,10 +359,21 @@ nav.faner ul{
 }
 nav.faner a{
   display: flex; align-items: center; min-height: 48px; padding: 0 15px;
-  font-family: "Baloo 2", "Baloo-reserve", sans-serif; font-weight: 600; font-size: 1.02rem;
+  font-family: "Fredoka", "Fredoka-reserve", sans-serif; font-weight: 600; font-size: 1.02rem;
   color: var(--teal-dyb); text-decoration: none;
   border-bottom: 4px solid transparent;
   transition: background .12s ease, border-color .12s ease;
+}
+/* Mellem 620 og 900 px kunne de syv faner ikke være på én linje, og
+   "Kontakt" havnede alene på en tom anden række. Det ser ud som en fejl.
+   Lidt strammere afstand og skrift får dem til at passe – og de er
+   stadig 48 px høje klikflader, som er det, der betyder noget på en
+   berøringsskærm. Blokken skal stå EFTER reglen ovenfor: to regler med
+   samme vægt afgøres af rækkefølgen, ikke af at den ene står i en
+   @media. */
+@media (max-width: 900px){
+  nav.faner ul{ justify-content: center; gap: 0; }
+  nav.faner a{ padding: 0 11px; font-size: .96rem; }
 }
 @media (hover: hover){ nav.faner a:hover{ background: rgba(255,255,255,.6); } }
 nav.faner a[aria-current="page"]{
@@ -364,6 +412,24 @@ nav.faner a[aria-current="page"]{
   margin: 0 0 34px;
 }
 .kort.smal{ max-width: 800px; margin-inline: auto; }
+
+/* Linjelængde i de brede kort.
+   Et kort må gerne være 1120 px bredt – en tekstlinje må ikke. Målt på
+   siden løb de længste afsnit 111 tegn ud, og over ca. 75 tegn begynder
+   øjet at miste linjen på vej tilbage til venstre kant. Man opdager det
+   ikke som "for lang linje", man opdager det som at teksten er anstrengende.
+   Gælder kun afsnit og lister; overskrifter, gitre og tal-rækker har deres
+   egen bredde og skal fylde kortet ud. */
+/* Undtagelserne er lister, hvor hvert punkt er sin egen lille kasse eller
+   ligger i et gitter. De er ikke løbende tekst, og bindes de til
+   tekstbredden, står de med en stor tom flade ved siden af sig – det ligner
+   noget, der er gået galt, ikke et valg. Kun rigtige tekstlister bindes. */
+.kort > p,
+.kort > ul:not(.fordele):not(.saesoner):not(.stempler):not(.kontaktveje),
+.kort > ol,
+.pas > p,
+.kort .fakta p{ max-width: 72ch; }
+.kort.midtstil > p{ margin-inline: auto; }
 /* Fremhævede felter er IKKE farvede flader – al brødtekst står på samme creme.
    De markeres med en sollinje i toppen. Ét greb, brugt overalt. */
 .kort.fremhaevet{ border-top: 5px solid var(--sol); }
@@ -395,42 +461,50 @@ section:first-of-type{ padding-top: 30px; }
   position: relative;
 }
 .hero-kort .sol-hjoerne{
-  position: absolute; top: -30px; left: -26px; width: 92px; height: 92px;
+  position: absolute; top: -30px; left: -26px; width: 92px;
 }
 .hero-kort h1{ margin-top: 6px; }
+
+/* ---- Forsidens ene brede kort --------------------------------------------
+   Jeanette bad om at få hele forsidens tekst samlet i ét bredt stykke i
+   stedet for to kort med en billedklynge imellem. Linjelængden holdes
+   alligevel nede med max-width på afsnittene: et tekststykke, der løber
+   hele vejen ud til 1120 px, er ubehageligt at læse – øjet mister linjen
+   på vej tilbage. Kortet er bredt, teksten i det er det ikke. */
+/* Hele forsiden står på én spalte på 900 px: herokortet, billedrækken og
+   de tre genvejskort. Før havde de tre forskellige bredder – 900, 900 og
+   1120 – og de kanter, der ikke flugtede, læste øjet som en fejl, længe
+   før man kunne sige hvorfor.
+   900 og ikke undersidernes 1120: forsiden er ét langt tekststykke, og en
+   linje på 1120 px er for lang at læse. Undersiderne har billede og tekst
+   ved siden af hinanden og kan bære den fulde bredde. */
+.forside-spalte{ max-width: 900px; margin-inline: auto; }
+.hero-bred{ max-width: 900px; margin-inline: auto; }
+.hero-bred p{ max-width: 66ch; }
+
+/* Navnetrækket er en tegning, ikke sat tekst, så h1 skal ikke have
+   skriftstørrelse, linjeafstand eller farve – kun en bredde at fylde.
+   466 px er tegningens egen opløsning delt med to: vises den bredere,
+   begynder man at kunne se, at den er skaleret op. */
+.hero-bred h1{ margin: 0 0 18px; }
+.logo-tegning{ width: min(100%, 466px); }
+/* Den fremhævede indledning. Jeanette bad om at få den sat i den samme
+   skrift som "Gårdliv, nærvær og vild leg" – altså håndskriften Caveat,
+   tyk og let hældende. Bruges ét sted pr. side og aldrig til mere end
+   to-tre linjer: hele afsnit i håndskrift bliver trættende at læse.
+   Farven er petroleum, ikke rød, så den ikke konkurrerer med slutlinjen
+   på forsiden, der står i rødt. */
+.forord{
+  font-family: "Caveat", "Caveat-reserve", cursive;
+  font-size: 1.85rem; line-height: 1.3; font-weight: 700;
+  color: var(--teal-dyb); margin: 0 0 22px; max-width: 34ch;
+}
+.hero-kort .forord{ max-width: 24ch; }
+.sidehoved .forord{ margin-bottom: 0; max-width: 40ch; }
 .hero-kort .under{
   font-family: "Caveat", "Caveat-reserve", cursive; font-size: 1.75rem; line-height: 1.3;
-  color: var(--roed); margin: -4px 0 18px;
+  color: var(--roed); margin: 26px 0 22px;
 }
-
-/* Polaroid-klynge – grid, så den aldrig kan flyde ud over teksten nedenunder */
-.klynge{
-  display: grid;
-  grid-template-columns: 1.15fr .85fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 18px;
-  padding: 14px 10px;
-}
-.polaroid{
-  background: #fff; padding: 9px 9px 11px;
-  border-radius: 8px; box-shadow: var(--skygge-hoej);
-  align-self: stretch;
-}
-.polaroid img{ border-radius: 4px; width: 100%; height: 100%; object-fit: cover; }
-.polaroid-1{ grid-column: 1; grid-row: 1 / 3; transform: rotate(-2.2deg); }
-.polaroid-2{ grid-column: 2; grid-row: 1; transform: rotate(3deg); }
-.polaroid-3{ grid-column: 2; grid-row: 2; transform: rotate(-3.5deg); }
-.polaroid-2 img, .polaroid-3 img{ min-height: 200px; }
-
-/* Logokort i stedet for et foto – samme polaroid-ramme, men med et
-   cremet/gult felt bag den håndtegnede sol, så symbolet (Princip 2)
-   selv bliver klyngens fjerde "billede". */
-.polaroid-logo{
-  display: flex; align-items: center; justify-content: center;
-  background: linear-gradient(160deg, var(--creme), #fbe3b8);
-  min-height: 430px;
-}
-.polaroid-logo svg{ width: 58%; height: 58%; }
 
 /* ==========================================================================
    Knapper
@@ -439,7 +513,7 @@ section:first-of-type{ padding-top: 30px; }
 .knapper{ display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
 .knap{
   display: inline-flex; align-items: center; gap: 9px;
-  font-family: "Baloo 2", "Baloo-reserve", sans-serif; font-weight: 600; font-size: 1.05rem;
+  font-family: "Fredoka", "Fredoka-reserve", sans-serif; font-weight: 600; font-size: 1.05rem;
   padding: 13px 24px; border-radius: 999px; text-decoration: none;
   border: 2px solid transparent; cursor: pointer;
   transition: transform .12s ease, background .12s ease, box-shadow .12s ease;
@@ -477,7 +551,7 @@ section:first-of-type{ padding-top: 30px; }
   box-shadow: var(--skygge-lav);
 }
 .pladser-tal{
-  display: block; font-family: "Baloo 2", "Baloo-reserve", sans-serif; font-weight: 700;
+  display: block; font-family: "Fredoka", "Fredoka-reserve", sans-serif; font-weight: 700;
   font-size: 2.6rem; line-height: 1; color: var(--roed);
 }
 .pladser-hvornaar{ display: block; font-weight: 700; margin-top: 6px; }
@@ -495,10 +569,23 @@ section:first-of-type{ padding-top: 30px; }
 }
 @media (hover: hover){ .genvej:hover{ transform: translateY(-4px); box-shadow: var(--skygge-hoej); } }
 .genvej img{ width: 100%; aspect-ratio: 4/3; object-fit: cover; }
-.genvej-tekst{ padding: 22px 26px 26px; }
-.genvej h3{ margin-bottom: .3em; }
+/* Teksterne i de tre kort er ikke lige lange, så "Se klubben →" stod en
+   linje lavere end de to andre pile. Tre pile i tre forskellige højder
+   ser tilfældigt ud. Kortene er allerede lige høje – her får teksten lov
+   at fylde resten ud, og pilen skubbes ned i bunden af sin egen kasse. */
+.genvej-tekst{
+  padding: 22px 26px 26px;
+  display: flex; flex-direction: column; flex: 1;
+}
+.genvej-tekst .pil{ margin-top: auto; padding-top: 12px; }
+/* Kortenes titler er h2 af hensyn til rækkefølgen af niveauer, men de
+   skal se ud som det, de er: korttitler, ikke sidens hovedafsnit. */
+.genvej h2{ margin-bottom: .3em; font-size: 1.3rem; }
 .genvej p{ font-size: .98rem; color: var(--blaek-blod); }
-.genvej .pil{ font-family: "Baloo 2", "Baloo-reserve", sans-serif; font-weight: 600; color: var(--roed); margin-top: 12px; display: block; }
+/* Ingen margin-top her: den sættes til `auto` i .genvej-tekst ovenfor, så
+   pilen falder ned i bunden. Sætter man den til en fast værdi her, vinder
+   den, fordi de to regler vejer lige meget og denne står sidst. */
+.genvej .pil{ font-family: "Fredoka", "Fredoka-reserve", sans-serif; font-weight: 600; color: var(--roed); display: block; }
 
 /* ==========================================================================
    Sidehoved på undersider
@@ -515,7 +602,7 @@ section:first-of-type{ padding-top: 30px; }
   position: relative;
 }
 .sidehoved .sol-hjoerne{
-  position: absolute; top: -32px; left: -26px; width: 88px; height: 88px;
+  position: absolute; top: -32px; left: -26px; width: 88px;
 }
 
 /* Under 1180 px rammer indholdet skærmkanten. Solen trækkes ind, så den ikke
@@ -528,6 +615,57 @@ section:first-of-type{ padding-top: 30px; }
 }
 .sidehoved .manchet{
   font-size: 1.2rem; color: var(--blaek-blod); max-width: 60ch; margin-bottom: 0;
+}
+
+/* ---- Om mig: navnet skulle ned i almindelig størrelse --------------------
+   Jeanette syntes den store overskrift "Jeg hedder Jeanette" var "lige
+   voldsomt nok". Siden skal stadig have en h1 – uden den ved hverken
+   Google eller en skærmlæser, hvad siden hedder – så den er sat ned til
+   samme størrelse som resten og gjort til en rolig etiket i stedet for
+   et råb. Det er et af de få steder, hvor det rigtige er at gøre en
+   overskrift mindre og ikke fjerne den. */
+.h1-dis{
+  font-size: 1.15rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--roed); margin: 0;
+  font-family: "Nunito", "Nunito-reserve", sans-serif; font-weight: 800;
+}
+
+/* ---- Titellinje på de sider, der kun har en overskrift ------------------
+   Jeanette bad om at få indledningerne slettet på Værdier, Her hvor vi bor,
+   Praktisk og Om mig. Tilbage stod et stort cremefarvet kort med tre ord i
+   – en tom kasse, der ser ud som om nogen er gået fra arbejdet i utide.
+   Løsningen er ikke at finde på ny tekst, men at lade kassen svare til sit
+   indhold: solen flytter fra hjørnet ind på linjen ved siden af titlen, og
+   højden falder til det, en titel skal bruge.
+   Solen i hjørnet bliver stående på de sider, der stadig har en indledning
+   under overskriften – dér er der kortet at hænge den på. */
+.sidehoved-lav{
+  display: flex; align-items: center; gap: clamp(14px, 2vw, 22px);
+  padding: clamp(18px, 2.4vw, 26px) clamp(24px, 3.4vw, 40px);
+}
+.sidehoved-lav h1{ margin: 0; }
+.sol-titel{ flex: 0 0 auto; width: clamp(48px, 5vw, 66px); }
+
+/* "Om mig" har kun ét indholdskort, og det er et smalt et (800 px), fordi
+   siden er ét langt tekststykke. Stod titellinjen i fuld bredde ovenover,
+   sprang kanten 160 px ind, så snart man kom ned til teksten. Titlen får
+   samme bredde som det, den er titel på. */
+.sidehoved-smal{ max-width: 800px; margin-inline: auto; }
+
+/* Portrættet i "Om mig" flyder med i teksten i stedet for at ligge i sin
+   egen billedspalte. Det er ét afsnit hun har skrevet i træk, og et billede
+   i fuld bredde midt i ville skære det over. Under 620 px står det over
+   teksten i stedet – en flydende halvbred billedkant på en telefon giver
+   linjer på fire ord. */
+.kort > .portraet-plads{
+  float: right; width: 300px; max-width: 42%;
+  margin: 4px 0 20px 28px; shape-outside: margin-box;
+}
+.kort > .portraet-plads img{ border-radius: var(--r); box-shadow: var(--skygge); }
+@media (max-width: 620px){
+  .kort > .portraet-plads{
+    float: none; width: 100%; max-width: 100%; margin: 0 0 22px;
+  }
 }
 .brodkrumme{
   font-size: .82rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
@@ -697,9 +835,10 @@ figcaption{
   padding-bottom: 18px; margin-bottom: 24px;
 }
 .pas-hoved h3{ margin: 0; }
+.pas-hoved .sol-pas{ flex: 0 0 auto; width: 54px; }
 .pas-maerke{
   background: var(--roed); color: #fff;
-  font-family: "Baloo 2", "Baloo-reserve", sans-serif; font-weight: 700; font-size: .82rem;
+  font-family: "Fredoka", "Fredoka-reserve", sans-serif; font-weight: 700; font-size: .82rem;
   letter-spacing: .1em; text-transform: uppercase;
   padding: 6px 14px; border-radius: 999px;
 }
@@ -787,7 +926,7 @@ figcaption{
 .saeson-ikon svg{ width: 24px; height: 24px; }
 .saeson-tekst{ min-width: 0; font-size: .97rem; line-height: 1.5; }
 .saeson-tekst strong{
-  display: block; font-family: "Baloo 2", "Baloo-reserve", sans-serif; font-weight: 600;
+  display: block; font-family: "Fredoka", "Fredoka-reserve", sans-serif; font-weight: 600;
   font-size: 1.12rem; line-height: 1.2; margin-bottom: 2px;
   color: var(--teal-dyb);
 }
@@ -815,29 +954,13 @@ figcaption{
   display: inline-flex; align-items: center; justify-content: center;
   width: 46px; height: 46px; border-radius: 50%;
   background: var(--sol); border: 3px solid var(--sol-kant);
-  font-family: "Baloo 2", "Baloo-reserve", sans-serif; font-weight: 700; font-size: 1.3rem;
+  font-family: "Fredoka", "Fredoka-reserve", sans-serif; font-weight: 700; font-size: 1.3rem;
   color: var(--blaek); margin-bottom: 14px;
 }
 
 /* ==========================================================================
    De fire steder – oversigt
    ========================================================================== */
-
-.steder-oversigt{
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
-  list-style: none; margin: 26px 0 0; padding: 0;
-}
-.steder-oversigt a{
-  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
-  gap: 8px; height: 100%; text-align: center; text-decoration: none;
-  background: #fffdf8; border-radius: var(--r); padding: 20px 14px;
-  box-shadow: var(--skygge-lav); color: var(--teal-dyb);
-  font-family: "Baloo 2", "Baloo-reserve", sans-serif; font-weight: 600; font-size: 1.04rem;
-  line-height: 1.25;
-  transition: transform .12s ease, box-shadow .12s ease;
-}
-@media (hover: hover){ .steder-oversigt a:hover{ transform: translateY(-3px); box-shadow: var(--skygge); } }
-.steder-oversigt svg{ width: 34px; height: 34px; flex: 0 0 auto; }
 
 /* ==========================================================================
    Faktaboks / økonomi
@@ -860,7 +983,7 @@ figcaption{
 }
 .beloeb dt{ font-weight: 700; }
 .beloeb dd{
-  margin: 0; font-family: "Baloo 2", "Baloo-reserve", sans-serif; font-weight: 700;
+  margin: 0; font-family: "Fredoka", "Fredoka-reserve", sans-serif; font-weight: 700;
   font-size: 1.4rem; color: var(--teal-dyb); white-space: nowrap;
 }
 .beloeb.sum dd{ font-size: 1.85rem; color: var(--roed); }
@@ -899,7 +1022,7 @@ dl{ margin: 0; max-width: 640px; }
   text-transform: uppercase; color: var(--roed); margin-bottom: 6px;
 }
 .kontaktvej-vaerdi{
-  font-family: "Baloo 2", "Baloo-reserve", sans-serif; font-weight: 700;
+  font-family: "Fredoka", "Fredoka-reserve", sans-serif; font-weight: 700;
   font-size: 1.5rem; line-height: 1.15; color: var(--teal-dyb);
   overflow-wrap: anywhere;
 }
@@ -960,7 +1083,7 @@ dl{ margin: 0; max-width: 640px; }
   max-width: 800px; margin-inline: auto;
   padding: clamp(30px, 4vw, 52px);
   text-align: center;
-  font-family: "Baloo 2", "Baloo-reserve", sans-serif;
+  font-family: "Fredoka", "Fredoka-reserve", sans-serif;
   font-size: clamp(1.25rem, 2.6vw, 1.7rem);
   line-height: 1.4;
   color: var(--teal-dyb);
@@ -985,9 +1108,14 @@ footer{
   display: grid; grid-template-columns: 1.6fr 1fr;
   gap: clamp(28px, 6vw, 80px);
 }
-footer h4{
+/* Footerens to rubrikker er h2 og ikke h4. Det handler ikke om, hvor store
+   de skal se ud – det bestemmer linjerne herunder – men om, at en
+   skærmlæser læser overskriftsniveauerne op som en indholdsfortegnelse.
+   Sprang de fra h1 til h4, ville den melde, at der mangler noget imellem. */
+footer h2{
   color: var(--roed); font-size: .8rem; letter-spacing: .11em;
-  text-transform: uppercase; margin-bottom: 14px;
+  text-transform: uppercase; margin-bottom: 14px; line-height: 1.3;
+  font-family: "Nunito", "Nunito-reserve", sans-serif; font-weight: 800;
 }
 footer ul{ list-style: none; margin: 0; padding: 0; }
 footer a{ text-decoration: none; display: inline-block; padding: 5px 0; }
@@ -1050,24 +1178,36 @@ footer p{ font-size: .97rem; }
   .blok,
   .kontakt-grid{ grid-template-columns: 1fr; }
   .footer-grid{ grid-template-columns: 1fr 1fr; }
-  .genveje{ grid-template-columns: 1fr; }
+  /* De tre genvejskort på en tablet.
+     Først stod de under hinanden i fuld bredde, og hvert billede blev over
+     500 px højt. Så blev de sat i to spalter – men tre kort i to spalter
+     efterlader det sidste alene med et hul ved siden af, og det ser ud som
+     om der mangler et fjerde.
+     Nu ligger de vandret: billedet i venstre side, teksten i højre. Tre
+     ens kort, ingen huller, og billedhøjden er bundet af de 38 % bredde,
+     billedet får. Under 620 px er der ikke plads til to ting ved siden af
+     hinanden, og dér stables de igen. */
+  .genveje{ grid-template-columns: 1fr; gap: 18px; }
+  .genvej{ flex-direction: row; align-items: stretch; }
+  /* `display: block` skal med: <picture> er inline som udgangspunkt, og et
+     inline-element kan ikke give billedet indeni en højde at fylde ud. Uden
+     den stak billedet ud over kortets afrundede hjørne. */
+  .genvej picture{ flex: 0 0 38%; display: block; }
+  .genvej img{ width: 100%; height: 100%; aspect-ratio: auto; object-fit: cover; }
+  /* Her ligger kortene under hinanden, så pilene skal ikke rettes ind efter
+     hinanden – og skubbet ned i bunden efterlod de et hul under to linjers
+     tekst. I stedet står teksten samlet på midten. */
+  .genvej-tekst{ padding: 20px 24px; justify-content: center; }
+  .genvej-tekst .pil{ margin-top: 12px; }
   .pakkeliste{ grid-template-columns: 1fr 1fr; }
   .kontaktveje{ grid-template-columns: 1fr; }
   .saesoner{ grid-template-columns: 1fr; }
   .galleri, .galleri.to{ grid-template-columns: repeat(2, 1fr); }
   .galleri.en img{ aspect-ratio: 16/9; }
-  .steder-oversigt{ grid-template-columns: repeat(2, 1fr); }
   .blok-tekst{ padding: 28px !important; }
   .blok.vendt .blok-billede{ order: 0; }
   .blok.vendt .blok-tekst{ order: 1; }
   .blok-billede{ min-height: 0; aspect-ratio: 4/3; }
-  .klynge{ grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: 14px; padding: 8px 4px; }
-  .polaroid{ transform: none !important; }
-  .polaroid-1{ grid-column: 1 / -1; grid-row: 1; }
-  .polaroid-2{ grid-column: 1; grid-row: 2; }
-  .polaroid-3{ grid-column: 2; grid-row: 2; }
-  .polaroid-logo{ min-height: 0; aspect-ratio: 4/3; }
-  .polaroid-2 img, .polaroid-3 img{ min-height: 0; aspect-ratio: 1/1; }
   .hero-kort .sol-hjoerne{ display: none; }
 }
 
@@ -1078,13 +1218,12 @@ footer p{ font-size: .97rem; }
      Logo og ring-knap deler én række; undertitlen står alligevel i footeren. */
   .top-inder{ padding: 8px 14px; gap: 10px; flex-wrap: nowrap; }
   .logo{ gap: 9px; min-width: 0; }
-  .logo .sol{ width: 36px; height: 36px; }
-  .logo-navn{ font-size: 1.06rem; }
+  .logo .sol{ width: 36px; }
+  .logo-navn{ width: 156px; }
   .logo-under{ display: none; }
   .top-ring{ font-size: .98rem; padding: 10px 14px; white-space: nowrap; }
   .ring-lang{ display: none; }        /* kun nummeret – knappen skal kunne være der */
   /* Navnet skal blive på én linje, ellers vokser den faste header */
-  .logo-navn{ white-space: nowrap; }
   .hero-kort .under{ font-size: 1.5rem; }
   .hero{ padding: 22px 0 0; }
   section{ padding: 24px 0; }
@@ -1110,8 +1249,11 @@ footer p{ font-size: .97rem; }
   .stempler{ grid-template-columns: 1fr; }
   .stempel-ikon{ width: 42px; height: 42px; }
   .stempel-ikon svg{ width: 23px; height: 23px; }
-  .sidehoved{ margin-top: 40px; padding-top: 52px; }
-  .sidehoved .sol-hjoerne{ width: 66px; height: 66px; top: -24px; left: -12px; }
+  /* Den ekstra polstring foroven er plads til solen, der hænger ud over
+     hjørnet. Titellinjerne har solen inde på linjen og skal ikke have den. */
+  .sidehoved:not(.sidehoved-lav){ margin-top: 40px; padding-top: 52px; }
+  .sidehoved-lav{ margin-top: 40px; }
+  .sidehoved .sol-hjoerne{ width: 66px; top: -24px; left: -12px; }
   .beloeb{ flex-direction: column; gap: 2px; }
   .pladser-liste li{ width: 100%; }
   .footer-grid{ grid-template-columns: 1fr; gap: 28px; }
@@ -1120,17 +1262,23 @@ footer p{ font-size: .97rem; }
   .logo{ min-height: 46px; }
   .footer-bund{ flex-direction: column; gap: 6px; }
   .galleri, .galleri.to{ grid-template-columns: 1fr; }
-  .klynge{ grid-template-columns: 1fr 1fr; }
+  /* Den vandrette udgave fra tablet-bredden skal rulles tilbage her. Med et
+     billede i 38 % af 390 px bliver tekstspalten så smal, at der er fire ord
+     på en linje. På en telefon er der kun plads til én ting ad gangen. */
+  .genveje{ grid-template-columns: 1fr; gap: 24px; }
+  .genvej{ flex-direction: column; }
+  .genvej picture{ flex: 0 0 auto; }
+  .genvej img{ height: auto; aspect-ratio: 4/3; }
+  .genvej-tekst{ padding: 22px 26px 26px; justify-content: flex-start; }
   .pakkeliste{ grid-template-columns: 1fr; }
 }
 
 @media (max-width: 380px){
-  .logo-navn{ font-size: .98rem; }
-  .logo .sol{ width: 32px; height: 32px; }
+  .logo-navn{ width: 132px; }
+  .logo .sol{ width: 32px; }
   .top-ring{ font-size: .92rem; padding: 9px 12px; gap: 7px; }
   .wrap{ padding: 0 14px; }
   .kort, .hero-kort, .sidehoved, .pladser{ padding: 22px 20px; }
-  .steder-oversigt{ grid-template-columns: 1fr; }
 }
 
 /* ==========================================================================
@@ -1158,7 +1306,7 @@ footer p{ font-size: .97rem; }
 
   /* Knapper og kort må ikke hoppe ved hover */
   .knap:hover, .genvej:hover, .top-ring:hover,
-  .steder-oversigt a:hover, .kontaktveje a:hover,
+  .kontaktveje a:hover,
   .karrusel-pil:hover{ transform: none !important; }
 
   /* Karrusellen springer i stedet for at glide */
