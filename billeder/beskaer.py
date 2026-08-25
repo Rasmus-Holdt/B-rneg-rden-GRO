@@ -25,7 +25,7 @@ den komprimeres hårdere end 1x-filen uden at nogen kan se det – detaljerne
 bliver alligevel klemt sammen af skærmen. Det er derfor tallene nedenfor er
 forskellige for de to opløsninger.
 """
-from PIL import Image
+from PIL import Image, ImageFilter
 import os
 
 # Absolutte stier ud fra filens egen placering. byg.py importerer MAAL herfra
@@ -67,22 +67,37 @@ JOBS = [
     # rykkede de ned under teksten i en dobbeltspalte og fylder nu det
     # dobbelte. Derfor 540 i stedet for 200 – og 4/3 i stedet for kvadrat,
     # så beskæringen sker her og ikke med object-fit i browseren.
-    ('hero-gynge',        'FullSizeRender-9.jpeg', (0.00, 0.26, 1.00, 1.00), 4/5, 360),
+    # hero-gynge er ikke brugt paa nogen af de syv sider laengere (kun i
+    # overgang-test.html, som skal slettes). Jeanette sendte samme foto igen
+    # under "Baghaveskoven", saa motivet er flyttet derhen i 3/2.
     ('forside-vandloeb',  'IMG_4849.JPG',          (0.05, 0.22, 0.78, 0.78), 4/3, 540),
     ('forside-sandkasse', 'IMG_3944.JPG',          (0.00, 0.02, 1.00, 1.00), 4/3, 540),
 
     # ---- FORSIDE: tre genvejskort ----
-    ('kort-mudderklub',   'IMG_4353.JPG',          (0.00, 0.00, 1.00, 1.00), 4/3, 360),
+    # Jeanettes rettelse: kortet skal vise et af sms-billederne. IMG_4353 var
+    # kun 720x474 og blev beskaaret til 632 px; det nye er 720x694 og rammer
+    # pladsen (720x540) praecist.
+    # Rettet beskaering: barnet stod klemt ude i venstre kant med tre fjerdedele tomt mudder.
+    ('kort-mudderklub',   'sms-mudder-vandloeb.jpg', (0.00, 0.03, 0.90, 0.78), 4/3, 360),
     ('kort-vaerdier',     'IMG_3981.JPG',          (0.00, 0.06, 1.00, 0.92), 4/3, 360),
     ('kort-sted',         'FullSizeRender-8.jpeg', (0.02, 0.02, 0.98, 1.00), 4/3, 360),
 
     # ---- MUDDER KLUBBEN ----
-    ('mk-mudder',   'FullSizeRender-2.jpeg', (0.00, 0.06, 1.00, 1.00), 3/2, 540),
-    ('mk-traktor',  'FullSizeRender-7.jpeg', (0.00, 0.16, 1.00, 0.94), 3/2, 540),
-    ('mk-skovhule', 'IMG_4829.JPG',          (0.00, 0.02, 1.00, 0.98), 4/5, 540),
-    ('mk-legeplads','FullSizeRender-5.jpeg', (0.00, 0.10, 1.00, 0.80), 4/3, 350),
+    # mk-traktor og mk-skovhule er slettet efter Jeanettes rettelse. Deres
+    # plads i midten er nu tekst, og introen er blevet til en karrusel.
+    # Rettet beskaering: begge boern faldt helt ud af billedet.
+    ('mk-mudder',   'FullSizeRender-2.jpeg',        (0.00, 0.02, 1.00, 0.62), 3/2, 540),
+    ('mk-koekken',  'sms-mudder-koekken-boern.jpg', (0.00, 0.05, 1.00, 0.75), 3/2, 540),
+    # Flyttet op i karrusellen ved introteksten, hvor Jeanette bad om flere
+    # billeder at swipe mellem. Derfor 3/2 som de andre karruseldias – og
+    # derfor 540 og ikke 350: pladsen er bredere nu, og originalen paa
+    # 1169 px kan sagtens fylde den ud.
+    ('mk-legeplads','FullSizeRender-5.jpeg', (0.00, 0.10, 1.00, 0.80), 3/2, 540),
     ('mk-vandkanal','IMG_3948.JPG',          (0.00, 0.02, 1.00, 0.98), 4/3, 350),
-    ('mk-skovsti',  'IMG_4825.JPG',          (0.00, 0.04, 1.00, 0.96), 4/3, 350),
+    # Et barn stod halvt uden for venstre kant. Beskaeringen begynder inde
+    # bag det, saa der ikke staar en halv skikkelse i kanten.
+    # Rettet beskaering: barnet nederst til hoejre var skaaret midt over.
+    ('mk-skovsti',  'IMG_4825.JPG',          (0.00, 0.14, 1.00, 0.72), 4/3, 350),
 
     # ---- VÆRDIER ----
     ('vd-ro',     'IMG_4118.JPG',          (0.03, 0.09, 0.97, 0.97), 4/5, 540),
@@ -98,22 +113,78 @@ JOBS = [
     # Beskæringen tager 40 % fra toppen og 60 % fra bunden af det, der skal
     # væk (se funktionen beskaer), så ansigter og motiv i den øverste
     # halvdel bliver stående.
-    ('sted-hus',    'FullSizeRender-3.jpeg', (0.00, 0.10, 1.00, 0.94), 3/2, 540),
-    ('sted-hus2',   'FullSizeRender-4.jpeg', (0.00, 0.08, 1.00, 0.72), 3/2, 540),
-    ('sted-hus3',   'FullSizeRender.jpeg',   (0.00, 0.08, 1.00, 0.96), 3/2, 540),
-    ('sted-stald',  'IMG_4250.JPG',          (0.00, 0.22, 1.00, 1.00), 3/2, 540),
+    # Baandet laa saa hoejt, at det skar tvaers gennem barnet, der hopper
+    # oeverst i billedet – en moerk, halv skikkelse i overkanten. Sat ned,
+    # saa det begynder under hende og rammer barnet paa gulvet helt.
+    ('sted-hus',    'FullSizeRender-3.jpeg', (0.00, 0.395, 1.00, 0.835), 3/2, 540),
+    # Rettet beskaering: barnet paa klatrevaeggen var skaaret over – hovedet
+    # laa uden for billedet. Nu er hele barnet med, fra haender til bare foedder.
+    ('sted-hus2',   'FullSizeRender-4.jpeg', (0.00, 0.15, 1.00, 0.55), 3/2, 540),
+    # Rettet beskaering: hovedet paa barnet ved reolen var skaaret af.
+    ('sted-hus3',   'FullSizeRender.jpeg',   (0.00, 0.20, 1.00, 0.64), 3/2, 540),
+    # Haanden, der klapper grisen, blev skaaret over ved haandleddet og
+    # laa som en loesrevet haand i overkanten. Beskaeringen begynder nu
+    # under den; tilbage staar grisen i graesset, som alt-teksten siger.
+    ('sted-stald',  'IMG_4250.JPG',          (0.00, 0.42, 1.00, 0.96), 3/2, 540),
+
+    # Stalden, karrusel 2-8. Jeanettes egne billeder inde fra stalden, sendt
+    # paa sms. De loeser det hul, der stod i README: der fandtes ikke ét
+    # skarpt billede indefra. Alle er ca. 1170 px brede og kvadratiske, saa
+    # 3/2-beskaeringen tager fra bunden og lader motivet staa i toppen.
+    # Barnet og kaninen staar i den oeverste to tredjedele; nederste tredjedel
+    # er tom halm og en rusten rive. Derfor skaeres den fra her.
+    # Rettet beskaering: barn og kanin laa smaat i et billede fuldt af tom halm.
+    ('stald-kanin',      'sms-stald-kanin.jpg',      (0.00, 0.00, 1.00, 0.60), 3/2, 540),
+    # Kyllingerne og varmelampen sidder nederst i billedet, koen oeverst.
+    ('stald-kyllinger',  'sms-stald-kyllinger.jpg',  (0.00, 0.33, 1.00, 1.00), 3/2, 540),
+    ('stald-halmballer', 'sms-stald-halmballer.jpg', (0.00, 0.00, 1.00, 1.00), 3/2, 540),
+    ('stald-legerum',    'sms-stald-legerum.png',    (0.00, 0.00, 1.00, 1.00), 3/2, 540),
+    ('stald-aellinger',  'sms-stald-aellinger.jpg',  (0.00, 0.00, 1.00, 1.00), 3/2, 540),
+    # Aeggene ligger nede i venstre hjoerne bag en ude-af-fokus arm. Beskaaret
+    # ind paa reden, saa det er aeggene og ikke aermet, man ser.
+    # Originalen er et uskarpt videobillede. Det, der fyldte mest, var et
+    # aerme ude af fokus i hoejre side. Beskaaret ind paa reden, saa det er
+    # aeggene, man ser. Det koster bredde – men flere pixels sloer hjaelper
+    # ikke, og motivet er nu til at forstaa.
+    # Rettet beskaering: aeggene laa nede i hjoernet, aermet fyldte resten.
+    ('stald-aeg',        'sms-stald-aeg.jpg',        (0.00, 0.42, 0.68, 0.95), 3/2, 540),
+    # Rettet beskaering: hoenen var skaaret af forneden.
+    ('stald-hoene',      'sms-stald-hoene.jpg',      (0.00, 0.33, 1.00, 1.00), 3/2, 540),
+
     ('sted-skov',   'IMG_4239.JPG',          (0.06, 0.02, 0.94, 1.00), 3/2, 540),
+
+    # Baghaveskoven, karrusel 2-4.
+    # En enkelt gummistoevle stak ind i venstre kant. Skaaret fra.
+    ('skov-traedestubbe', 'sms-skov-traedestubbe.jpg', (0.05, 0.00, 1.00, 1.00), 3/2, 540),
+    ('skov-daekgynge',    'sms-skov-daekgynge.jpg',    (0.00, 0.00, 1.00, 1.00), 3/2, 540),
+    ('skov-trae',         'sms-skov-trae.jpg',         (0.00, 0.00, 1.00, 1.00), 3/2, 540),
+    ('skov-tovgynge',     'FullSizeRender-9.jpeg',     (0.00, 0.20, 1.00, 1.00), 3/2, 540),
     ('sted-have',   'IMG_4553.JPG',          (0.00, 0.22, 1.00, 0.96), 3/2, 540),
-    ('sted-have2',  'IMG_5020.JPG',          (0.00, 0.02, 1.00, 0.88), 4/3, 530),
-    ('sted-have3',  'IMG_4554.JPG',          (0.00, 0.04, 1.00, 0.96), 4/3, 530),
+    # Jeanettes rettelse: mudderkoekkenet skal vaere sms-billedet. IMG_4819 er
+    # kun 564x705 – derfor vis=282 og ikke 530, saa HTML'en ikke lover en
+    # bredde, filen ikke har. Pladsen er den samme; billedet fylder den ud.
+    # Haven har faaet karrusel ligesom Dagplejehuset, Stalden og
+    # Baghaveskoven. Derfor 3/2 og vis=540 som de andre karruseldias, hvor
+    # de foer laa i 4/3 til et galleri med to i bredden.
+    ('sted-have2',  'IMG_4819.JPG',          (0.00, 0.00, 1.00, 1.00), 3/2, 540),
+    ('sted-have3',  'IMG_4554.JPG',          (0.00, 0.04, 1.00, 0.96), 3/2, 540),
 
     # ---- PRAKTISK / OM MIG ----
     # 3/2 og ikke 4/5: teksten ved siden af er kun fire linjer, og et
     # stående billede gjorde blokken 641 px høj med 150 px tekst i.
     # Resten blev tom creme. Liggende format giver en blok på ca. 340 px,
     # hvor billede og tekst vejer nogenlunde det samme.
-    ('praktisk-regntoej', 'FullSizeRender-6.jpeg', (0.00, 0.10, 1.00, 1.00), 3/2, 540),
-    ('om-mig',            'IMG_4826.JPG',          (0.00, 0.02, 1.00, 0.98), 4/5, 540),
+    # Barnet i hoejre kant blev skaaret midt over. Der er skaaret 14 % af
+    # hoejre side, saa det er ude af billedet i stedet for halvt med.
+    # Alt-teksten lover "barn i regntoej og gummistoevler" – og det barn
+    # staar i hoejre side. Baandet er lagt om hende i stedet for om baalet,
+    # saa billedet viser det, teksten siger.
+    # Rettet beskaering: barnet til hoejre var skaaret af forneden.
+    ('praktisk-regntoej', 'FullSizeRender-6.jpeg', (0.00, 0.42, 1.00, 1.00), 3/2, 540),
+    # om-mig er taget ud. Siden "Om mig" bruger portraettet af Jeanette
+    # (jeanette), og IMG_4826 blev ikke hentet af nogen af de syv sider –
+    # jobbet lavede seks filer, ingen browser bad om. Originalen ligger
+    # stadig i kilder/fotos, hvis den skal bruges igen.
 
     # Jeanettes egne to billeder, sendt på sms. De er de eneste med hendes
     # ansigt på, og det er dem, siden "Om mig" skal bære. Originalerne er
@@ -157,11 +228,26 @@ def gem_med_loft(ren, sti, fmt, kvalitet, loft_kb, gulv, **ekstra):
         q -= 6
 
 
-def gem(im, sti, bredde, retina):
-    """Skalerer til `bredde` og gemmer som AVIF, WebP og JPEG."""
+def gem(im, sti, bredde, retina, skarp=True):
+    """Skalerer til `bredde` og gemmer som AVIF, WebP og JPEG.
+
+    Om efterskarpheden: Lanczos giver den reneste nedskalering, men enhver
+    nedskalering blødgør kanterne en anelse – detaljer, der før lå i to
+    pixels, skal nu deles om én. Et let unsharp mask bagefter henter præcis
+    den kant tilbage. Det er ikke en effekt, og det tilføjer ikke noget, der
+    ikke var der: radius 0,6 px rører kun selve kanten, og tærsklen på 3
+    holder fingrene fra flader som himmel og sand, hvor den ellers ville
+    trække kornet frem.
+
+    Det betyder mest for de billeder, hvor Jeanettes original ikke rækker
+    til dobbelt opløsning. Dem kan vi ikke give flere pixels – men vi kan
+    sørge for, at de pixels, der er, står skarpt.
+    """
     if im.width != bredde:
         h = int(round(bredde * im.height / im.width))
         im = im.resize((bredde, h), Image.LANCZOS)
+    if skarp:
+        im = im.filter(ImageFilter.UnsharpMask(radius=0.6, percent=55, threshold=3))
     ren = Image.new('RGB', im.size)      # nyt billede uden EXIF/GPS
     ren.paste(im)
 
@@ -209,7 +295,7 @@ def _maal(src, box, ar, vis):
     def par(bredde):
         bredde = min(bredde, cw)
         return bredde, int(round(bredde * ch / cw))
-    return par(vis * 2) + par(vis)
+    return par(vis * 2) + par(int(vis * 1.5)) + par(vis)
 
 
 MAAL = {}
@@ -229,11 +315,17 @@ if __name__ == '__main__':
             print(f'  ! {ud}: originalen er kun {raa.width} px bred '
                   f'(ville gerne have {vis*2})')
         stor, q2 = gem(raa, OUT + ud, min(vis * 2, raa.width), retina=True)
+        # Mellemtrinnet. Uden det maatte en helt almindelig telefon med
+        # 2x-skaerm hente den stoerste fil: den bad om 780 px, og valget stod
+        # mellem 540 og 1080. Nu er der 810, og den henter ca. en tredjedel
+        # faerre bytes uden at et eneste billede bliver mindre skarpt.
+        mellem, _ = gem(raa, OUT + ud + '-15x', min(int(vis * 1.5), raa.width), retina=True)
         lille, _ = gem(raa, OUT + ud + '-1x', min(vis, raa.width), retina=False)
 
         k = {}
         for e in i_alt:
             k[e] = (os.path.getsize(f'{OUT}{ud}.{e}')
+                    + os.path.getsize(f'{OUT}{ud}-15x.{e}')
                     + os.path.getsize(f'{OUT}{ud}-1x.{e}')) / 1024
             i_alt[e] += k[e]
         skruet_ned = '  (korn: avif sat ned til q%d)' % q2 if q2 < AVIF_KVALITET_2X else ''

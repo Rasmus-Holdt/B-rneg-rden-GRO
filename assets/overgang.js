@@ -99,8 +99,9 @@
     try { window.scrollTo({ top: 0, behavior: 'instant' }); }
     catch (e) { window.scrollTo(0, 0); }
 
-    // Karrusellen skal sættes op igen på det nye indhold
+    // Karrusellen og billedvisningen skal sættes op igen på det nye indhold
     if (window.__groKarrusel) window.__groKarrusel();
+    if (window.__groLys) window.__groLys();
 
     // Skærmlæsere skal have besked om, at der er kommet en ny side
     main.setAttribute('tabindex', '-1');
@@ -140,7 +141,18 @@
     var a = e.target.closest && e.target.closest('a[href]');
     if (a && erInternLink(a)) hent(a.href).catch(function () {});
   }
-  document.addEventListener('pointerenter', forbered, true);
+  // pointerenter bobler ikke, saa den skulle lyttes i capture-fasen – og
+  // saa fyrer den for HVERT element musen passerer, med et closest()-opslag
+  // hver gang. pointerover bobler, saa én lytter uden capture er nok, og
+  // vi springer fra med det samme, hvis vi allerede kender linket.
+  var sidste = null;
+  function forberedEn(e) {
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a || a === sidste) return;
+    sidste = a;
+    if (erInternLink(a)) hent(a.href).catch(function () {});
+  }
+  document.addEventListener('pointerover', forberedEn);
   document.addEventListener('focusin', forbered);
 
   document.addEventListener('click', function (e) {

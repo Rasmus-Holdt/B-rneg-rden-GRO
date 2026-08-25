@@ -1,3 +1,8 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# Filer der ikke bruges mere. De ligger der kun, fordi jeg kunne skrive,
+# men ikke slette, paa disken. De kommer ikke med i git og ikke med ud paa
+# hjemmesiden. "rm -rf _slet-disse" naar som helst.
+_slet-disse/

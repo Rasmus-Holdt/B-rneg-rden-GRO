@@ -1,6 +1,6 @@
 # Børnegården GRO – hjemmeside
 
-Projektstatus: **v4 – bygget helt om.**
+Projektstatus: **v6 – rettelser, billeder og ydelse gennemgået.**
 
 Kunde: Jeanette Riis, privat pasningsordning, Vinderslevvej 45, Vinderslev, 8620 Kjellerup.
 Solgt via Handyhand.
@@ -70,7 +70,11 @@ på det, der skal ses: ring, skriv, ledige pladser. Der er ingen grøn.
 
 - Responsivt: brydepunkter ved 1180, 900, 620 og 380 px.
   Verificeret i 1440, 768, 390 og 360 px bredde
-- 8 KB JavaScript i alt: karrusel og overgangs-reserve. Ingen biblioteker
+- 18 KB JavaScript i alt: karrusel, billedvisning og overgangs-reserve.
+  Ingen biblioteker
+- **`python3 kontrol/krav.py`** gennemgår Jeanettes rettelser punkt for punkt
+  mod den byggede side, og **`python3 kontrol/integritet.py`** tjekker, at hver
+  eneste billedreference passer med filen på disken. Kør dem efter `byg.py`
 - `prefers-reduced-motion` og printstylesheet respekteres
 - Alle billeder har alt-tekst, ét `<h1>` pr. side, "spring til indhold"-link,
   synlig tastaturmarkering
@@ -150,8 +154,11 @@ Gennemgået systematisk og fjernet:
 ```
 byg.py                              ← al tekst og sidestruktur. Ret her.
 assets/style.css                    ← fælles stylesheet
-assets/karrusel.js                  ← billedkarrusel (5 KB)
-assets/overgang.js                  ← sideovergange i Firefox og ældre Safari (4 KB)
+assets/karrusel.js                  ← billedkarrusel (4 KB)
+assets/lys.js                       ← klik på et billede, se det stort (7 KB)
+kontrol/krav.py                     ← Jeanettes rettelser punkt for punkt
+kontrol/integritet.py               ← hver billedreference mod filen på disken
+assets/overgang.js                  ← sideovergange i Firefox og ældre Safari (7 KB)
 assets/skrifter/                    ← Nunito, Baloo 2 og Caveat (75 KB i alt)
 assets/style.min.css                ← genereres af byg.py – ret ikke i den
 _headers, .htaccess                 ← cache-regler til hosten
@@ -167,9 +174,162 @@ indhold/02-sporgsmaal-til-kunden.md ← det der mangler afklaring
 kilder/                             ← Jeanettes to PDF'er + alle 39 originalfotos
 ```
 
+## Ændringer i v5
+
+Jeanettes anden rettelsesrunde, plus 16 billeder sendt på sms i tre kategorier.
+
+**Tekst**
+
+- Mudder Klubben: afsnittet "Det er ikke noget, man bare er…" er slettet, og
+  optagelsesteksten er erstattet af hendes nye – med kufferten til minder
+- Mudder Klubben: nyt afsnit om traktorturen op til skovlegepladsen, dér hvor
+  billederne af traktoren og hulen stod
+- Mudder Klubben: afsnittet under stemplerne er kortet ned
+- Baghaveskoven: "vores egen lille bitte skov", og sætningen om roen er væk
+- Dagplejehuset: rettet "når det er der brug for" → "når det er det, der er
+  brug for"
+- De 20 stempler og de 6 medlemsfordele er gennemgået mod hendes dokument og
+  står ord for ord, som hun har skrevet dem. Eneste undtagelse:
+  "æresmedlemsskab" står som **æresmedlemskab**, der er den rigtige stavemåde
+
+**Billeder**
+
+- Stalden, Baghaveskoven og Haven har fået karruseller ligesom Dagplejehuset
+  – samme komponent, ikke en ny. 8, 5 og 3 billeder. Haven havde før ét stort
+  billede plus et galleri med to under; nu er alle fire steder på siden bygget
+  ens
+- Mudder Klubben har fået en karrusel ved introteksten (2 billeder)
+- Forsidens mudderklub-kort og Havens mudderkøkken er skiftet ud
+- Traktor- og hulebilledet på Mudder Klubben er slettet
+- Fire af sms-billederne fandtes allerede i materialet. Se
+  `billeder/README.md` for hvad der skete med hvert af dem
+
+**Klik på et billede** (`assets/lys.js`)
+
+Hvert foto er nu en knap. Et klik viser billedet i fuld skærm, og man kan
+bladre videre med pile, piletaster eller ved at swipe – også inde fra en
+karrusel, hvor gruppen er de billeder, karrusellen indeholder. Esc lukker, og
+fokus vender tilbage til det billede, man kom fra.
+
+Der hentes ikke én ekstra byte: det store billede er den fil, browseren
+allerede har hentet til pladsen på siden. Uden JavaScript sker der ingenting
+– billederne står som før, og karrusellen kan stadig swipes.
+
+Der står ingen billedtekst under fotoet. `alt`-teksten følger stadig med til
+skærmlæsere; den skal bare ikke stå og fylde under et billede, man selv kan se.
+
+Markøren er den almindelige hånd. Her sad først `zoom-in` og et
+forstørrelsesglas, der tonede frem i hjørnet af hvert billede – to
+forstørrelsesglas, så snart musen rørte et foto. Begge dele er væk igen. Det
+var præcis den slags pynt, siden ellers ikke har.
+
+Tre overgange, alle korte (0,15–0,22 s): vinduet toner op, det toner ud igen
+når man lukker, og skiftet fra ét billede til det næste er en overtoning i
+stedet for et klip. Filen er hentet i forvejen, så overtoningen dækker ikke
+over ventetid – den er der, fordi et hårdt klip mellem to fotos river i
+øjnene. Med "reducér bevægelse" slået til er der ingen af dem.
+
+**Ydelse**
+
+Siden føltes tung at rulle i. Fire ting lavet om:
+
+| Hvad | Hvorfor det kostede | Nu |
+|---|---|---|
+| `speculationrules` stod på `prerender` | Chrome byggede hele den næste side færdig – layout, billeder, scripts – bare fordi musen hvilede på en fane. Syv faner i en menu på alle sider | `prefetch`. Kun HTML-filen (17–30 KB) hentes. Klikket er stadig øjeblikkeligt, fordi View Transitions står for skiftet |
+| Kortene tonede op med `scale(.985)` | Hvert rulle-trin tvang browseren til at rastrere hele kortet igen. På "Her hvor vi bor" animerer 14 blokke på én gang | Fade og flyt, ingen `scale`. Kører på kompositoren. Forskellen er ikke til at se |
+| `backdrop-filter: blur(4px)` på billedtælleren | Sløringen blev regnet om i hver frame, tælleren flyttede sig under rulning – gange tre karruseller på samme side | Almindelig gennemsigtig flade. Ser ens ud |
+| `pointerenter` i capture-fasen (`overgang.js`) | Fyrede for hvert eneste element, musen passerede, med et `closest()`-opslag hver gang | `pointerover` uden capture, og springer fra med det samme ved kendt link |
+| Chrome hentede dias 2–3 i hver karrusel med det samme | `loading="lazy"` er ikke præcist nok til en vandret rulleboks – dias, der kun lige ligger uden for kanten, regnes som "nær nok" | Dias 2 og frem har `fetchpriority="low"`. De står bagest i køen og stjæler ikke båndbredde fra det billede, man faktisk kigger på |
+
+Målt bagefter på alle syv sider med de rigtige billeder: **0 tabte billeder**
+under rulning, LCP mellem 88 og 156 ms (grænsen for "god" er 2.500 ms), CLS
+mellem 0 og 0,023 (grænsen er 0,1).
+
+**Prøvet og forkastet:** `content-visibility: auto` på karrusellens dias.
+Det halverede antallet af billeder, browseren hentede ved sideindlæsning
+(12 → 8), men flexboksen mister sin størrelse, når indholdet springes over:
+dias blev 4.630 px brede i stedet for 514, og CLS gik fra 0,0002 til **1,16**.
+Rullet tilbage. Prøv det ikke igen uden at måle CLS bagefter.
+
+### Billedernes opløsning
+
+Hvert billede er målt i en rigtig browser: hvad det faktisk fylder på skærmen,
+hvilken fil browseren så vælger, og hvor mange pixels den fil har. 28 af de 35
+motiver dækker en retina-skærm fuldt ud. De sidste syv kan ikke – Jeanettes
+originaler er ikke større:
+
+| Motiv | Original | Dækning | Hvorfor |
+|---|---|---|---|
+| `sted-have2` | 564 px | 56 % | IMG_4819 findes kun i den størrelse |
+| `vd-tillid` | 864 px | 63 % | IMG_4821 findes kun i den størrelse |
+| `stald-aeg` | 1170 px | 71 % | Beskåret ind på æggene; resten var et ærme ude af fokus |
+| `skov-traedestubbe` | 828 px | 77 % | Originalen findes kun i den størrelse |
+| `mk-vandkanal` | 510 px | 80 % | IMG_3948 findes kun i den størrelse |
+| `vd-ro` | 1169 px | 90 % | 6 % af bredden er skåret væk for at fjerne skærmbillede-knapper |
+| `mk-skovsti` | 750 px | 91 % | Beskåret for at få et halvt barn ud af venstre kant |
+
+Der opskaleres aldrig. Et billede, der blæses op, bliver ikke skarpere – det
+bliver grødet, og så ser man det.
+
+**Efterskarphed.** Enhver nedskalering blødgør kanterne: detaljer, der før lå i
+to pixels, skal nu deles om én. `beskaer.py` lægger derfor et let unsharp mask
+på til sidst – radius 0,6 px, 55 %, tærskel 3. Radius rører kun selve kanten,
+og tærsklen holder fingrene fra flader som himmel og sand, hvor den ellers
+ville trække kornet frem. Filerne vokser 0–7 %, og det betyder mest for de syv
+ovenfor: vi kan ikke give dem flere pixels, men vi kan sørge for, at de pixels,
+der er, står skarpt.
+
+### Tre filstørrelser i stedet for to
+
+Der var før kun to trin i `srcset`: normal og dobbelt. En helt almindelig
+telefon med 2x-skærm bad om 780 px, valget stod mellem 540 og 1080, og så tog
+den 1080. Nu ligger der et trin på 810 px imellem. Samme skarphed, ca. en
+tredjedel færre bytes: "Her hvor vi bor" gik fra 699 til 583 KB på sådan en
+telefon.
+
+### Beskæringer der blev rettet
+
+Otte beskæringer skar gennem et barn eller efterlod noget halvt i kanten. Hver
+enkelt er set igennem i fuld størrelse og sat om:
+
+| Motiv | Hvad der var galt |
+|---|---|
+| `sted-hus` | Båndet lå så højt, at det skar tværs gennem barnet i gyngen. Nu ligger det om barnet på trædestenene |
+| `sted-stald` | Hånden, der klapper grisen, var skåret over ved håndleddet |
+| `praktisk-regntoej` | Barnet i højre kant var skåret midt over. Nu ligger båndet om hende – og hun er netop barnet i regntøj og gummistøvler, som alt-teksten lover |
+| `mk-skovsti` | Et barn stod halvt uden for venstre kant |
+| `stald-kanin` | Barn og kanin blev skåret over; nederste tredjedel var tom halm |
+| `stald-kyllinger` | Kyllingerne og varmelampen faldt ud i bunden |
+| `stald-aeg` | Æggene lå bag et ærme ude af fokus |
+| `skov-traedestubbe` | En gummistøvle stak ind i venstre kant |
+
+### Hvad en besøgende henter
+
+AVIF-sporet, som næsten alle browsere tager. "Straks" er det, der hentes,
+før man rører ved noget; resten kommer, efterhånden som man ruller og swiper.
+
+| Side | Straks (telefon / computer) | Resten |
+|---|---|---|
+| Forside | 0 / 45 KB | 158 / 289 KB |
+| Mudder Klubben | 44 / 123 KB | 79 / 152 KB |
+| Værdier | 0 / 11 KB | 154 / 254 KB |
+| Her hvor vi bor | 97 / 205 KB | 512 / 972 KB |
+| Praktisk | 0 / 11 KB | 50 / 121 KB |
+| Om mig | 13 / 34 KB | 0 / 19 KB |
+| Kontakt | 0 / 11 KB | 0 / 19 KB |
+
+"Her hvor vi bor" er den tungeste, fordi den nu bærer 16 karrusel­billeder.
+Det er kun de 97 KB, der står mellem den besøgende og en færdig side.
+
 ## Mangler før den kan gå live
 
-- [ ] **Slet `overgang-test.html`** – den er kun til fejlfinding
+- [x] ~~Slet `overgang-test.html`~~ – flyttet til `_slet-disse/`
+- [ ] **Valgfrit: `rm -rf _slet-disse`** – 28 filer på 7 MB, der ikke bruges
+      mere: `mk-traktor`, `mk-skovhule`, `hero-gynge`, `om-mig`,
+      `overgang-test.html`, den ubrugte Baloo 2-skrift og to kontaktark.
+      Mappen står i `.gitignore`, så den hverken kommer med i git eller ud på
+      hjemmesiden – den fylder kun på din egen disk. Jeg kunne skrive, men
+      ikke slette, på disken herfra
 - [ ] **Rettigheder til fire fotos** – se advarslen i `billeder/README.md`
 - [ ] **Bekræft domænet** www.BoernegaardenGRO.dk
 - [ ] **Bekræft postnummer-visningen.** Adressen er slået op i DAWA og er

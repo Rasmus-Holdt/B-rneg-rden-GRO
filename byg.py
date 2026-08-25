@@ -16,7 +16,6 @@ LAT = '56.25713'
 LON = '9.43122'
 KORT_SOEG = 'Vinderslevvej+45,+8620+Kjellerup'
 INSTA = 'boernegaarden.gro'
-
 # Ét sted at rette kortlinket. Søger på selve adressen frem for koordinater,
 # fordi Google Maps så viser husnummeret i søgefeltet i stedet for to
 # talrækker – det er nemmere at genkende for den, der klikker.
@@ -157,7 +156,11 @@ SIZES = {
     'forside-foto':   '(max-width: 620px) 88vw, (max-width: 940px) 46vw, 438px',
     'blok':           '(max-width: 900px) 100vw, 530px',
     'galleri3':       '(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px',
-    'galleri2':       '(max-width: 620px) 92vw, 45vw',
+    # 45vw stod uden oevre graense. .wrap er 1180 px bred, saa spalten er
+    # 530 px og ikke mere – men paa en 1440 px skaerm regnede browseren med
+    # 648 px og hentede en stoerre fil, end pladsen bruger. Maalt i browseren:
+    # 504 px. Nu er der sat loft paa.
+    'galleri2':       '(max-width: 620px) 92vw, (max-width: 1180px) 45vw, 530px',
     # Jeanettes portræt fra sms. Pladsen er bevidst lille: originalen er
     # under 700 px bred, og vises den bredere, bliver den synligt uskarp.
     # Hellere et lille, skarpt billede end et stort, grødet.
@@ -171,7 +174,7 @@ SIZES = {
 }
 
 
-def billede(navn, alt, plads, straks=False, cls=''):
+def billede(navn, alt, plads, straks=False, cls='', lav=False):
     """Bygger et <picture> med tre spor: AVIF, WebP og JPEG.
 
     Browseren tager det første format, den kan læse. AVIF er ca. halv
@@ -182,9 +185,15 @@ def billede(navn, alt, plads, straks=False, cls=''):
     Alle andre får loading="lazy", så de først hentes, når man ruller
     ned til dem.
     """
-    b2, h2, b1, h1 = MAAL[navn]
+    b2, h2, bm, hm, b1, h1 = MAAL[navn]
     doven = '' if straks else ' loading="lazy"'
-    hast = ' fetchpriority="high"' if straks else ''
+    # Dias 2 og frem i en karrusel faar fetchpriority="low". Chrome henter
+    # nemlig gerne et par af dem alligevel, selv om de staar med
+    # loading="lazy" – de ligger jo kun lige uden for sporets kant. Med lav
+    # prioritet staar de bagest i koen og stjaeler ikke baandbredde fra det
+    # billede, man rent faktisk kigger paa.
+    hast = (' fetchpriority="high"' if straks
+            else ' fetchpriority="low"' if lav else '')
     sizes = SIZES[plads]
     # Klassen sidder på <picture>, ikke på <img>: det er <picture>, der er
     # elementet i layoutet, og det er den, der skal kunne flyde eller
@@ -194,11 +203,11 @@ def billede(navn, alt, plads, straks=False, cls=''):
     return (
         f'<picture{k}>'
         f'<source type="image/avif" sizes="{sizes}" '
-        f'srcset="billeder/{navn}-1x.avif {b1}w, billeder/{navn}.avif {b2}w">'
+        f'srcset="billeder/{navn}-1x.avif {b1}w, billeder/{navn}-15x.avif {bm}w, billeder/{navn}.avif {b2}w">'
         f'<source type="image/webp" sizes="{sizes}" '
-        f'srcset="billeder/{navn}-1x.webp {b1}w, billeder/{navn}.webp {b2}w">'
+        f'srcset="billeder/{navn}-1x.webp {b1}w, billeder/{navn}-15x.webp {bm}w, billeder/{navn}.webp {b2}w">'
         f'<img src="billeder/{navn}.jpg" sizes="{sizes}" '
-        f'srcset="billeder/{navn}-1x.jpg {b1}w, billeder/{navn}.jpg {b2}w" '
+        f'srcset="billeder/{navn}-1x.jpg {b1}w, billeder/{navn}-15x.jpg {bm}w, billeder/{navn}.jpg {b2}w" '
         f'alt="{alt}" width="{b2}" height="{h2}"{doven}{hast} decoding="async">'
         f'</picture>')
 
@@ -209,7 +218,8 @@ def karrusel(billeder, navn):
     dias = []
     for i, (fil, alt) in enumerate(billeder):
         dias.append('        <div class="karrusel-billede">'
-                    + billede(fil, alt, 'blok', straks=(i == 0)) + '</div>')
+                    + billede(fil, alt, 'blok', straks=(i == 0), lav=(i > 0))
+                    + '</div>')
     return f'''<div class="karrusel">
       <div class="karrusel-spor" tabindex="0" role="group"
            aria-roledescription="billedkarrusel" aria-label="{navn}">
@@ -462,6 +472,7 @@ MAL = '''<!DOCTYPE html>
 </main>
 {footer}
 <script src="assets/karrusel.js" defer></script>
+<script src="assets/lys.js" defer></script>
 <script src="assets/overgang.js" defer></script>
 </body>
 </html>
@@ -521,8 +532,14 @@ DELEBILLEDE_ALT = {
 
 # Forudrendering: browseren henter og optegner siden allerede når musen
 # hviler på en fane. Kun de syv rigtige sider – ikke test-filen.
+# prefetch og ikke prerender. prerender bygger hele den naeste side faerdig
+# i baggrunden – layout, billeder, scripts, det hele – naar musen bare hviler
+# paa en fane. Med syv faner i en menu, der staar paa alle sider, koster det
+# mere end det sparer, og det var det, der fik siden til at foeles tung.
+# prefetch henter kun selve HTML-filen (17-30 KB). Klikket er staadig
+# oejeblikkeligt, fordi View Transitions staar for selve skiftet.
 SPEKULATION = _json_regler = (
-    '{"prerender":[{"where":{"or":['
+    '{"prefetch":[{"where":{"or":['
     + ','.join('{"href_matches":"' + f + '"}' for f, _ in SIDER)
     + ']},"eagerness":"moderate"}]}'
 )
@@ -531,12 +548,13 @@ SPEKULATION = _json_regler = (
 def skriv(fil, title, desc, indhold):
     navn = PRELOAD.get(fil)
     if navn:
-        b2, h2, b1, h1 = MAAL[navn]
+        b2, h2, bm, hm, b1, h1 = MAAL[navn]
         # Kun AVIF forhåndshentes. Preloader man begge formater, henter
         # browseren dem begge to og dobbelt så mange bytes som nødvendigt.
         # Browsere uden AVIF ignorerer linjen og henter WebP som normalt.
         preload = (f'<link rel="preload" as="image" type="image/avif" '
-                   f'imagesrcset="billeder/{navn}-1x.avif {b1}w, billeder/{navn}.avif {b2}w" '
+                   f'imagesrcset="billeder/{navn}-1x.avif {b1}w, '
+                   f'billeder/{navn}-15x.avif {bm}w, billeder/{navn}.avif {b2}w" '
                    f'imagesizes="{SIZES[PRELOAD_PLADS.get(fil, "blok")]}" '
                    f'fetchpriority="high">')
     elif fil == 'index.html':
@@ -546,7 +564,7 @@ def skriv(fil, title, desc, indhold):
         preload = ''
 
     del_navn = DELEBILLEDE.get(fil, 'forside-vandloeb')
-    del_b, del_h, _, _ = MAAL[del_navn]
+    del_b, del_h, _, _, _, _ = MAAL[del_navn]
 
     html = MAL.format(title=title, desc=desc, header=header(fil),
                       footer=footer(), indhold=indhold, preload=preload,
@@ -612,7 +630,7 @@ forside = f'''
   <div class="wrap">
     <div class="genveje forside-spalte">
       <a class="genvej" href="mudderklubben.html">
-        {billede('kort-mudderklub', 'Børn der graver og bygger i sandet', 'genvej')}
+        {billede('kort-mudderklub', 'Barn i regntøj ved vandløbet i mudderet', 'genvej')}
         <div class="genvej-tekst">
           <h2>Mudder Klubben</h2>
           <p>Mudderpas, traktorture til baghaveskoven og officiel tilladelse til at hoppe i alle vandpytter.</p>
@@ -705,18 +723,17 @@ mudder = f'''
 <section>
   <div class="wrap">
     <div class="blok">
-      <div class="blok-billede">{billede('mk-mudder', 'Barn i regntøj der graver i mudderet med legetøjsgravemaskine', 'blok')}</div>
+      <div class="blok-billede">{karrusel([
+        ('mk-mudder',    'Barn i regntøj der graver i mudderet med legetøjsgravemaskine'),
+        ('mk-koekken',   'Børn der rører mudder i mudderkøkkenet'),
+        ('mk-legeplads', 'Sandkassen med køretøjer, dæk og mursten'),
+      ], 'Billeder fra Mudder Klubben')}</div>
       <div class="blok-tekst">
         <div class="prose">
-          <p><strong>Mudder Klubben.</strong> Det er ikke noget, man bare er. Det er noget,
-          man bliver optaget i &ndash; med sit eget mudderpas, sit eget navn på klublisten,
-          og retten til alt det, der følger med.</p>
-          <p><strong>Sådan bliver man medlem:</strong> Første dag i Børnegården GRO får jeres
-          barn sit eget mudderpas &ndash; et lille, personligt hæfte, der stemples, første
-          gang der graves, mudres eller opdages noget nyt. Det er ikke noget, man skal søge
-          om eller kvalificere sig til. Man bliver simpelthen inviteret ind, den dag man
-          starter &ndash; og så er det op til stemplerne at vise, hvor mange ekspeditioner
-          det er blevet til.</p>
+          <p><strong>Mudder Klubben.</strong> Første dag i GRO får jeres barn en lille kuffert
+          til minder og sit helt eget mudderpas &ndash; et lille, personligt hæfte, der
+          stemples, første gang der graves, mudres eller opdages noget nyt. Og så er det op
+          til stemplerne at vise, hvor mange ekspeditioner det er blevet til.</p>
         </div>
       </div>
     </div>
@@ -733,9 +750,18 @@ mudder = f'''
       </ul>
     </div>
 
-    <div class="galleri to luft-over">
-      <figure>{billede('mk-traktor', 'Barn på traktoren i haven', 'galleri2')}<figcaption>Traktoren holder klar med plads i vognen</figcaption></figure>
-      <figure>{billede('mk-skovhule', 'Børn der sidder i en hule bygget af grene i skoven', 'galleri2')}<figcaption>Skjulesteder, kun medlemmer kender til</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kort smal">
+      <p>En rigtig sjov tur begynder med traktoren. Den holder klar med plads i vognen
+      &ndash; alle spændt godt fast &ndash; og så går turen op gennem baghaven og ind i
+      klubbens egen lille bitte skovlegeplads. Grene der skal klatres i, stier der skal
+      udforskes, og skjulesteder, kun medlemmer kender til.</p>
+      <p>Ingen dag i baghaveskoven er ens &ndash; én dag er det pinde og balancebroer, en
+      anden dag er det en helt ny sti, ingen har prøvet før.</p>
     </div>
   </div>
 </section>
@@ -768,20 +794,18 @@ mudder = f'''
       <ul class="stempler">
 {stempel_html}
       </ul>
-      <p class="luft-over"><strong>Passet bliver ikke stemplet efter en fast plan.</strong>
-      Det følger, hvad det enkelte barn rent faktisk oplever og er klar til. Nogle stempler
-      kommer tidligt, andre sent, og det er meningen. Det er barnets egen rejse, ikke en
-      tjekliste, der skal nås.</p>
+      <p class="luft-over"><strong>Passet følger, hvad det enkelte barn rent faktisk
+      oplever og er klar til.</strong> Nogle stempler kommer tidligt, andre sent, og det er
+      meningen. Det er barnets egen rejse, ikke en tjekliste, der skal nås.</p>
     </div>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <div class="galleri">
-      <figure>{billede('mk-legeplads', 'Sandkassen med køretøjer og dæk', 'galleri3')}<figcaption>Køretøjer, dæk og en kæmpe sandkasse</figcaption></figure>
-      <figure>{billede('mk-vandkanal', 'Vandkanal gravet gennem sandet', 'galleri3')}<figcaption>Vand, jord og et spadestik</figcaption></figure>
-      <figure>{billede('mk-skovsti', 'Børn på tur i skoven', 'galleri3')}<figcaption>Stier, der skal udforskes</figcaption></figure>
+    <div class="galleri to">
+      <figure>{billede('mk-vandkanal', 'Vandkanal gravet gennem sandet', 'galleri2')}<figcaption>Vand, jord og et spadestik</figcaption></figure>
+      <figure>{billede('mk-skovsti', 'Børn på tur i skoven', 'galleri2')}<figcaption>Stier, der skal udforskes</figcaption></figure>
     </div>
   </div>
 </section>
@@ -896,7 +920,7 @@ sted = f'''
           <p>Vi har ikke bare et hjørne eller et værelse med legetøj &ndash; vi har et helt hus,
           indrettet fra bunden til de 0&ndash;3-årige. Plads til at kravle og boltre sig i
           &bdquo;Tumleren&ldquo;, plads til at bygge, plads til at trække sig tilbage til en rolig
-          stund, når det er der brug for.</p>
+          stund, når det er det, der er brug for.</p>
           <p>Et sted, hvor alting er i barnehøjde, fordi det er barnets hus lige så meget,
           som det er mit.</p>
         </div>
@@ -908,7 +932,16 @@ sted = f'''
 <section id="stalden">
   <div class="wrap">
     <div class="blok vendt">
-      <div class="blok-billede">{billede('sted-stald', 'Lille gris i græsset ved stalden', 'blok')}</div>
+      <div class="blok-billede">{karrusel([
+        ('sted-stald',       'Lille gris i græsset ved stalden'),
+        ('stald-kanin',      'Barn der klapper en kanin i halmen inde i stalden'),
+        ('stald-aeg',        'Barn der samler æg i reden'),
+        ('stald-hoene',      'Barn der holder om en høne'),
+        ('stald-kyllinger',  'Kyllinger under varmelampen, mens et barn kigger på'),
+        ('stald-aellinger',  'And med tre ællinger ved vandfadet'),
+        ('stald-halmballer', 'To børn der sidder i en hule af halmballer'),
+        ('stald-legerum',    'Legerummet i stalden med sandgulv og legetøj'),
+      ], 'Billeder fra stalden')}</div>
       <div class="blok-tekst">
         <div class="prose">
           <h2>Stalden</h2>
@@ -925,14 +958,19 @@ sted = f'''
 <section id="baghaveskoven">
   <div class="wrap">
     <div class="blok">
-      <div class="blok-billede">{billede('sted-skov', 'Børn der klatrer på dæk mellem træerne i baghaveskoven', 'blok')}</div>
+      <div class="blok-billede">{karrusel([
+        ('skov-traedestubbe', 'Børn der balancerer på træstubbe og en balancebro i skovlegepladsen'),
+        ('skov-daekgynge',    'Dækgynge der hænger i et træ på skovstien'),
+        ('sted-skov',         'Børn der klatrer på dæk mellem træerne'),
+        ('skov-tovgynge',     'Barn der gynger i en tovgynge mellem træerne'),
+        ('skov-trae',         'Stort træ med bord og hyggekrog under grenene'),
+      ], 'Billeder fra baghaveskoven')}</div>
       <div class="blok-tekst">
         <div class="prose">
           <h2>Baghaveskoven</h2>
-          <p>For enden af haven ligger vores egen lille skov, med en skovlegeplads gemt mellem
-          træerne. Her er stier, der skal udforskes, grene der skal klatres i, og en helt anden
-          ro end i haven &ndash; skovens egen stemning, kun et par minutters gåtur
-          (eller traktortur) hjemmefra.</p>
+          <p>For enden af haven ligger vores egen lille bitte skov, med en skovlegeplads gemt
+          mellem træerne. Her er stier, der skal udforskes, grene der skal klatres i, kun et
+          par minutters gåtur (eller traktortur) hjemmefra.</p>
         </div>
       </div>
     </div>
@@ -942,7 +980,11 @@ sted = f'''
 <section id="haven">
   <div class="wrap">
     <div class="blok vendt">
-      <div class="blok-billede">{billede('sted-have', 'Havens legeområde med sandkasse, dæk og redskaber', 'blok')}</div>
+      <div class="blok-billede">{karrusel([
+        ('sted-have',  'Havens legeområde med sandkasse, dæk og redskaber'),
+        ('sted-have2', 'Mudderkøkkenet med gryder, skåle og grønt på bordet'),
+        ('sted-have3', 'Havens borde, baljer og redskaber mellem kroge og gemmesteder'),
+      ], 'Billeder fra haven')}</div>
       <div class="blok-tekst">
         <div class="prose">
           <h2>Haven</h2>
@@ -951,10 +993,6 @@ sted = f'''
           og plads til at bygge og til at grave.</p>
         </div>
       </div>
-    </div>
-    <div class="galleri to">
-      <figure>{billede('sted-have2', 'Det lange mudderkøkken med gryder og skåle', 'galleri2')}<figcaption>Mudderkøkkenet, hvor der bages, røres og serveres</figcaption></figure>
-      <figure>{billede('sted-have3', 'Havens legeområde med borde, baljer og redskaber', 'galleri2')}<figcaption>Kroge og gemmesteder over hele haven</figcaption></figure>
     </div>
   </div>
 </section>

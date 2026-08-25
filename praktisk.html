@@ -30,9 +30,9 @@
      Klikket bliver derefter øjeblikkeligt. "moderate" betyder: først når
      musen har hvilet ca. 200 ms, så der ikke hentes sider i blinde. -->
 <script type="speculationrules">
-{"prerender":[{"where":{"or":[{"href_matches":"index.html"},{"href_matches":"mudderklubben.html"},{"href_matches":"vaerdier.html"},{"href_matches":"her-hvor-vi-bor.html"},{"href_matches":"praktisk.html"},{"href_matches":"om-mig.html"},{"href_matches":"kontakt.html"}]},"eagerness":"moderate"}]}
+{"prefetch":[{"where":{"or":[{"href_matches":"index.html"},{"href_matches":"mudderklubben.html"},{"href_matches":"vaerdier.html"},{"href_matches":"her-hvor-vi-bor.html"},{"href_matches":"praktisk.html"},{"href_matches":"om-mig.html"},{"href_matches":"kontakt.html"}]},"eagerness":"moderate"}]}
 </script>
-<link rel="preload" as="image" type="image/avif" imagesrcset="billeder/praktisk-regntoej-1x.avif 540w, billeder/praktisk-regntoej.avif 1080w" imagesizes="(max-width: 900px) 100vw, 530px" fetchpriority="high">
+<link rel="preload" as="image" type="image/avif" imagesrcset="billeder/praktisk-regntoej-1x.avif 540w, billeder/praktisk-regntoej-15x.avif 810w, billeder/praktisk-regntoej.avif 1080w" imagesizes="(max-width: 900px) 100vw, 530px" fetchpriority="high">
 <!-- Fanebladets ikon er Jeanettes tegnede sol, se billeder/faviconer.py.
      Fire PNG'er, én pr. størrelse browseren beder om. Hver er tegnet for sig
      med den luft, der passer til dén størrelse, i stedet for at blive
@@ -90,7 +90,7 @@
 <section id="medbringe">
   <div class="wrap">
     <div class="blok">
-      <div class="blok-billede"><picture><source type="image/avif" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/praktisk-regntoej-1x.avif 540w, billeder/praktisk-regntoej.avif 1080w"><source type="image/webp" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/praktisk-regntoej-1x.webp 540w, billeder/praktisk-regntoej.webp 1080w"><img src="billeder/praktisk-regntoej.jpg" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/praktisk-regntoej-1x.jpg 540w, billeder/praktisk-regntoej.jpg 1080w" alt="Barn i regntøj og gummistøvler ude i haven" width="1080" height="720" loading="lazy" decoding="async"></picture></div>
+      <div class="blok-billede"><picture><source type="image/avif" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/praktisk-regntoej-1x.avif 540w, billeder/praktisk-regntoej-15x.avif 810w, billeder/praktisk-regntoej.avif 1080w"><source type="image/webp" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/praktisk-regntoej-1x.webp 540w, billeder/praktisk-regntoej-15x.webp 810w, billeder/praktisk-regntoej.webp 1080w"><img src="billeder/praktisk-regntoej.jpg" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/praktisk-regntoej-1x.jpg 540w, billeder/praktisk-regntoej-15x.jpg 810w, billeder/praktisk-regntoej.jpg 1080w" alt="Barn i regntøj og gummistøvler ude i haven" width="1080" height="720" loading="lazy" decoding="async"></picture></div>
       <div class="blok-tekst">
         <div class="prose">
           <h2>Hvad skal I medbringe</h2>
@@ -219,6 +219,7 @@
   </div>
 </footer>
 <script src="assets/karrusel.js" defer></script>
+<script src="assets/lys.js" defer></script>
 <script src="assets/overgang.js" defer></script>
 </body>
 </html>

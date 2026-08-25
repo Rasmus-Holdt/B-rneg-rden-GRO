@@ -30,9 +30,9 @@
      Klikket bliver derefter øjeblikkeligt. "moderate" betyder: først når
      musen har hvilet ca. 200 ms, så der ikke hentes sider i blinde. -->
 <script type="speculationrules">
-{"prerender":[{"where":{"or":[{"href_matches":"index.html"},{"href_matches":"mudderklubben.html"},{"href_matches":"vaerdier.html"},{"href_matches":"her-hvor-vi-bor.html"},{"href_matches":"praktisk.html"},{"href_matches":"om-mig.html"},{"href_matches":"kontakt.html"}]},"eagerness":"moderate"}]}
+{"prefetch":[{"where":{"or":[{"href_matches":"index.html"},{"href_matches":"mudderklubben.html"},{"href_matches":"vaerdier.html"},{"href_matches":"her-hvor-vi-bor.html"},{"href_matches":"praktisk.html"},{"href_matches":"om-mig.html"},{"href_matches":"kontakt.html"}]},"eagerness":"moderate"}]}
 </script>
-<link rel="preload" as="image" type="image/avif" imagesrcset="billeder/jeanette-1x.avif 300w, billeder/jeanette.avif 600w" imagesizes="(max-width: 620px) 76vw, 300px" fetchpriority="high">
+<link rel="preload" as="image" type="image/avif" imagesrcset="billeder/jeanette-1x.avif 300w, billeder/jeanette-15x.avif 450w, billeder/jeanette.avif 600w" imagesizes="(max-width: 620px) 76vw, 300px" fetchpriority="high">
 <!-- Fanebladets ikon er Jeanettes tegnede sol, se billeder/faviconer.py.
      Fire PNG'er, én pr. størrelse browseren beder om. Hver er tegnet for sig
      med den luft, der passer til dén størrelse, i stedet for at blive
@@ -90,7 +90,7 @@
 <section>
   <div class="wrap">
     <div class="kort smal">
-      <picture class="portraet-plads"><source type="image/avif" sizes="(max-width: 620px) 76vw, 300px" srcset="billeder/jeanette-1x.avif 300w, billeder/jeanette.avif 600w"><source type="image/webp" sizes="(max-width: 620px) 76vw, 300px" srcset="billeder/jeanette-1x.webp 300w, billeder/jeanette.webp 600w"><img src="billeder/jeanette.jpg" sizes="(max-width: 620px) 76vw, 300px" srcset="billeder/jeanette-1x.jpg 300w, billeder/jeanette.jpg 600w" alt="Jeanette Riis, der driver Børnegården GRO" width="600" height="750" fetchpriority="high" decoding="async"></picture>
+      <picture class="portraet-plads"><source type="image/avif" sizes="(max-width: 620px) 76vw, 300px" srcset="billeder/jeanette-1x.avif 300w, billeder/jeanette-15x.avif 450w, billeder/jeanette.avif 600w"><source type="image/webp" sizes="(max-width: 620px) 76vw, 300px" srcset="billeder/jeanette-1x.webp 300w, billeder/jeanette-15x.webp 450w, billeder/jeanette.webp 600w"><img src="billeder/jeanette.jpg" sizes="(max-width: 620px) 76vw, 300px" srcset="billeder/jeanette-1x.jpg 300w, billeder/jeanette-15x.jpg 450w, billeder/jeanette.jpg 600w" alt="Jeanette Riis, der driver Børnegården GRO" width="600" height="750" fetchpriority="high" decoding="async"></picture>
       <p>Jeg hedder Jeanette. Jeg er 39 år, har været mor i 17 år, og har haft privat
       pasningsordning siden 2015.</p>
       <p>De første 36 måneder af et barns liv kommer ikke igen. Det er i de år, hjernen
@@ -146,6 +146,7 @@
   </div>
 </footer>
 <script src="assets/karrusel.js" defer></script>
+<script src="assets/lys.js" defer></script>
 <script src="assets/overgang.js" defer></script>
 </body>
 </html>

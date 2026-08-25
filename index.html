@@ -30,7 +30,7 @@
      Klikket bliver derefter øjeblikkeligt. "moderate" betyder: først når
      musen har hvilet ca. 200 ms, så der ikke hentes sider i blinde. -->
 <script type="speculationrules">
-{"prerender":[{"where":{"or":[{"href_matches":"index.html"},{"href_matches":"mudderklubben.html"},{"href_matches":"vaerdier.html"},{"href_matches":"her-hvor-vi-bor.html"},{"href_matches":"praktisk.html"},{"href_matches":"om-mig.html"},{"href_matches":"kontakt.html"}]},"eagerness":"moderate"}]}
+{"prefetch":[{"where":{"or":[{"href_matches":"index.html"},{"href_matches":"mudderklubben.html"},{"href_matches":"vaerdier.html"},{"href_matches":"her-hvor-vi-bor.html"},{"href_matches":"praktisk.html"},{"href_matches":"om-mig.html"},{"href_matches":"kontakt.html"}]},"eagerness":"moderate"}]}
 </script>
 <link rel="preload" as="image" type="image/webp" href="billeder/logo-gro.webp" fetchpriority="high">
 <!-- Fanebladets ikon er Jeanettes tegnede sol, se billeder/faviconer.py.
@@ -108,8 +108,8 @@
 <section>
   <div class="wrap">
     <div class="galleri to forside-spalte">
-      <figure><picture><source type="image/avif" sizes="(max-width: 620px) 88vw, (max-width: 940px) 46vw, 438px" srcset="billeder/forside-vandloeb-1x.avif 540w, billeder/forside-vandloeb.avif 876w"><source type="image/webp" sizes="(max-width: 620px) 88vw, (max-width: 940px) 46vw, 438px" srcset="billeder/forside-vandloeb-1x.webp 540w, billeder/forside-vandloeb.webp 876w"><img src="billeder/forside-vandloeb.jpg" sizes="(max-width: 620px) 88vw, (max-width: 940px) 46vw, 438px" srcset="billeder/forside-vandloeb-1x.jpg 540w, billeder/forside-vandloeb.jpg 876w" alt="Barn der graver ved vandløbet i haven" width="876" height="657" loading="lazy" decoding="async"></picture></figure>
-      <figure><picture><source type="image/avif" sizes="(max-width: 620px) 88vw, (max-width: 940px) 46vw, 438px" srcset="billeder/forside-sandkasse-1x.avif 540w, billeder/forside-sandkasse.avif 800w"><source type="image/webp" sizes="(max-width: 620px) 88vw, (max-width: 940px) 46vw, 438px" srcset="billeder/forside-sandkasse-1x.webp 540w, billeder/forside-sandkasse.webp 800w"><img src="billeder/forside-sandkasse.jpg" sizes="(max-width: 620px) 88vw, (max-width: 940px) 46vw, 438px" srcset="billeder/forside-sandkasse-1x.jpg 540w, billeder/forside-sandkasse.jpg 800w" alt="Barn der leger i den kæmpe sandkasse omkring træet" width="800" height="600" loading="lazy" decoding="async"></picture></figure>
+      <figure><picture><source type="image/avif" sizes="(max-width: 620px) 88vw, (max-width: 940px) 46vw, 438px" srcset="billeder/forside-vandloeb-1x.avif 540w, billeder/forside-vandloeb-15x.avif 810w, billeder/forside-vandloeb.avif 876w"><source type="image/webp" sizes="(max-width: 620px) 88vw, (max-width: 940px) 46vw, 438px" srcset="billeder/forside-vandloeb-1x.webp 540w, billeder/forside-vandloeb-15x.webp 810w, billeder/forside-vandloeb.webp 876w"><img src="billeder/forside-vandloeb.jpg" sizes="(max-width: 620px) 88vw, (max-width: 940px) 46vw, 438px" srcset="billeder/forside-vandloeb-1x.jpg 540w, billeder/forside-vandloeb-15x.jpg 810w, billeder/forside-vandloeb.jpg 876w" alt="Barn der graver ved vandløbet i haven" width="876" height="657" loading="lazy" decoding="async"></picture></figure>
+      <figure><picture><source type="image/avif" sizes="(max-width: 620px) 88vw, (max-width: 940px) 46vw, 438px" srcset="billeder/forside-sandkasse-1x.avif 540w, billeder/forside-sandkasse-15x.avif 800w, billeder/forside-sandkasse.avif 800w"><source type="image/webp" sizes="(max-width: 620px) 88vw, (max-width: 940px) 46vw, 438px" srcset="billeder/forside-sandkasse-1x.webp 540w, billeder/forside-sandkasse-15x.webp 800w, billeder/forside-sandkasse.webp 800w"><img src="billeder/forside-sandkasse.jpg" sizes="(max-width: 620px) 88vw, (max-width: 940px) 46vw, 438px" srcset="billeder/forside-sandkasse-1x.jpg 540w, billeder/forside-sandkasse-15x.jpg 800w, billeder/forside-sandkasse.jpg 800w" alt="Barn der leger i den kæmpe sandkasse omkring træet" width="800" height="600" loading="lazy" decoding="async"></picture></figure>
     </div>
   </div>
 </section>
@@ -118,7 +118,7 @@
   <div class="wrap">
     <div class="genveje forside-spalte">
       <a class="genvej" href="mudderklubben.html">
-        <picture><source type="image/avif" sizes="(max-width: 620px) 88vw, (max-width: 900px) 34vw, 284px" srcset="billeder/kort-mudderklub-1x.avif 360w, billeder/kort-mudderklub.avif 632w"><source type="image/webp" sizes="(max-width: 620px) 88vw, (max-width: 900px) 34vw, 284px" srcset="billeder/kort-mudderklub-1x.webp 360w, billeder/kort-mudderklub.webp 632w"><img src="billeder/kort-mudderklub.jpg" sizes="(max-width: 620px) 88vw, (max-width: 900px) 34vw, 284px" srcset="billeder/kort-mudderklub-1x.jpg 360w, billeder/kort-mudderklub.jpg 632w" alt="Børn der graver og bygger i sandet" width="632" height="474" loading="lazy" decoding="async"></picture>
+        <picture><source type="image/avif" sizes="(max-width: 620px) 88vw, (max-width: 900px) 34vw, 284px" srcset="billeder/kort-mudderklub-1x.avif 360w, billeder/kort-mudderklub-15x.avif 540w, billeder/kort-mudderklub.avif 648w"><source type="image/webp" sizes="(max-width: 620px) 88vw, (max-width: 900px) 34vw, 284px" srcset="billeder/kort-mudderklub-1x.webp 360w, billeder/kort-mudderklub-15x.webp 540w, billeder/kort-mudderklub.webp 648w"><img src="billeder/kort-mudderklub.jpg" sizes="(max-width: 620px) 88vw, (max-width: 900px) 34vw, 284px" srcset="billeder/kort-mudderklub-1x.jpg 360w, billeder/kort-mudderklub-15x.jpg 540w, billeder/kort-mudderklub.jpg 648w" alt="Barn i regntøj ved vandløbet i mudderet" width="648" height="486" loading="lazy" decoding="async"></picture>
         <div class="genvej-tekst">
           <h2>Mudder Klubben</h2>
           <p>Mudderpas, traktorture til baghaveskoven og officiel tilladelse til at hoppe i alle vandpytter.</p>
@@ -126,7 +126,7 @@
         </div>
       </a>
       <a class="genvej" href="vaerdier.html">
-        <picture><source type="image/avif" sizes="(max-width: 620px) 88vw, (max-width: 900px) 34vw, 284px" srcset="billeder/kort-vaerdier-1x.avif 360w, billeder/kort-vaerdier.avif 720w"><source type="image/webp" sizes="(max-width: 620px) 88vw, (max-width: 900px) 34vw, 284px" srcset="billeder/kort-vaerdier-1x.webp 360w, billeder/kort-vaerdier.webp 720w"><img src="billeder/kort-vaerdier.jpg" sizes="(max-width: 620px) 88vw, (max-width: 900px) 34vw, 284px" srcset="billeder/kort-vaerdier-1x.jpg 360w, billeder/kort-vaerdier.jpg 720w" alt="Barn der hviler i den grønne hyggekrog" width="720" height="540" loading="lazy" decoding="async"></picture>
+        <picture><source type="image/avif" sizes="(max-width: 620px) 88vw, (max-width: 900px) 34vw, 284px" srcset="billeder/kort-vaerdier-1x.avif 360w, billeder/kort-vaerdier-15x.avif 540w, billeder/kort-vaerdier.avif 720w"><source type="image/webp" sizes="(max-width: 620px) 88vw, (max-width: 900px) 34vw, 284px" srcset="billeder/kort-vaerdier-1x.webp 360w, billeder/kort-vaerdier-15x.webp 540w, billeder/kort-vaerdier.webp 720w"><img src="billeder/kort-vaerdier.jpg" sizes="(max-width: 620px) 88vw, (max-width: 900px) 34vw, 284px" srcset="billeder/kort-vaerdier-1x.jpg 360w, billeder/kort-vaerdier-15x.jpg 540w, billeder/kort-vaerdier.jpg 720w" alt="Barn der hviler i den grønne hyggekrog" width="720" height="540" loading="lazy" decoding="async"></picture>
         <div class="genvej-tekst">
           <h2>Værdier</h2>
           <p>Ro og nærvær, tillid og selvstændighed, krop og sanser. Tre ben, der bærer hinanden.</p>
@@ -134,7 +134,7 @@
         </div>
       </a>
       <a class="genvej" href="her-hvor-vi-bor.html">
-        <picture><source type="image/avif" sizes="(max-width: 620px) 88vw, (max-width: 900px) 34vw, 284px" srcset="billeder/kort-sted-1x.avif 360w, billeder/kort-sted.avif 720w"><source type="image/webp" sizes="(max-width: 620px) 88vw, (max-width: 900px) 34vw, 284px" srcset="billeder/kort-sted-1x.webp 360w, billeder/kort-sted.webp 720w"><img src="billeder/kort-sted.jpg" sizes="(max-width: 620px) 88vw, (max-width: 900px) 34vw, 284px" srcset="billeder/kort-sted-1x.jpg 360w, billeder/kort-sted.jpg 720w" alt="Børn samlet omkring bålpladsen i haven" width="720" height="540" loading="lazy" decoding="async"></picture>
+        <picture><source type="image/avif" sizes="(max-width: 620px) 88vw, (max-width: 900px) 34vw, 284px" srcset="billeder/kort-sted-1x.avif 360w, billeder/kort-sted-15x.avif 540w, billeder/kort-sted.avif 720w"><source type="image/webp" sizes="(max-width: 620px) 88vw, (max-width: 900px) 34vw, 284px" srcset="billeder/kort-sted-1x.webp 360w, billeder/kort-sted-15x.webp 540w, billeder/kort-sted.webp 720w"><img src="billeder/kort-sted.jpg" sizes="(max-width: 620px) 88vw, (max-width: 900px) 34vw, 284px" srcset="billeder/kort-sted-1x.jpg 360w, billeder/kort-sted-15x.jpg 540w, billeder/kort-sted.jpg 720w" alt="Børn samlet omkring bålpladsen i haven" width="720" height="540" loading="lazy" decoding="async"></picture>
         <div class="genvej-tekst">
           <h2>Her hvor vi bor</h2>
           <p>Dagplejehuset, stalden, baghaveskoven og haven &ndash; fire steder, én hverdag.</p>
@@ -170,6 +170,7 @@
   </div>
 </footer>
 <script src="assets/karrusel.js" defer></script>
+<script src="assets/lys.js" defer></script>
 <script src="assets/overgang.js" defer></script>
 </body>
 </html>

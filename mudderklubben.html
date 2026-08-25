@@ -30,9 +30,9 @@
      Klikket bliver derefter øjeblikkeligt. "moderate" betyder: først når
      musen har hvilet ca. 200 ms, så der ikke hentes sider i blinde. -->
 <script type="speculationrules">
-{"prerender":[{"where":{"or":[{"href_matches":"index.html"},{"href_matches":"mudderklubben.html"},{"href_matches":"vaerdier.html"},{"href_matches":"her-hvor-vi-bor.html"},{"href_matches":"praktisk.html"},{"href_matches":"om-mig.html"},{"href_matches":"kontakt.html"}]},"eagerness":"moderate"}]}
+{"prefetch":[{"where":{"or":[{"href_matches":"index.html"},{"href_matches":"mudderklubben.html"},{"href_matches":"vaerdier.html"},{"href_matches":"her-hvor-vi-bor.html"},{"href_matches":"praktisk.html"},{"href_matches":"om-mig.html"},{"href_matches":"kontakt.html"}]},"eagerness":"moderate"}]}
 </script>
-<link rel="preload" as="image" type="image/avif" imagesrcset="billeder/mk-mudder-1x.avif 540w, billeder/mk-mudder.avif 1080w" imagesizes="(max-width: 900px) 100vw, 530px" fetchpriority="high">
+<link rel="preload" as="image" type="image/avif" imagesrcset="billeder/mk-mudder-1x.avif 540w, billeder/mk-mudder-15x.avif 810w, billeder/mk-mudder.avif 1080w" imagesizes="(max-width: 900px) 100vw, 530px" fetchpriority="high">
 <!-- Fanebladets ikon er Jeanettes tegnede sol, se billeder/faviconer.py.
      Fire PNG'er, én pr. størrelse browseren beder om. Hver er tegnet for sig
      med den luft, der passer til dén størrelse, i stedet for at blive
@@ -93,18 +93,26 @@
 <section>
   <div class="wrap">
     <div class="blok">
-      <div class="blok-billede"><picture><source type="image/avif" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/mk-mudder-1x.avif 540w, billeder/mk-mudder.avif 1080w"><source type="image/webp" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/mk-mudder-1x.webp 540w, billeder/mk-mudder.webp 1080w"><img src="billeder/mk-mudder.jpg" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/mk-mudder-1x.jpg 540w, billeder/mk-mudder.jpg 1080w" alt="Barn i regntøj der graver i mudderet med legetøjsgravemaskine" width="1080" height="720" loading="lazy" decoding="async"></picture></div>
+      <div class="blok-billede"><div class="karrusel">
+      <div class="karrusel-spor" tabindex="0" role="group"
+           aria-roledescription="billedkarrusel" aria-label="Billeder fra Mudder Klubben">
+        <div class="karrusel-billede"><picture><source type="image/avif" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/mk-mudder-1x.avif 540w, billeder/mk-mudder-15x.avif 810w, billeder/mk-mudder.avif 1080w"><source type="image/webp" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/mk-mudder-1x.webp 540w, billeder/mk-mudder-15x.webp 810w, billeder/mk-mudder.webp 1080w"><img src="billeder/mk-mudder.jpg" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/mk-mudder-1x.jpg 540w, billeder/mk-mudder-15x.jpg 810w, billeder/mk-mudder.jpg 1080w" alt="Barn i regntøj der graver i mudderet med legetøjsgravemaskine" width="1080" height="720" fetchpriority="high" decoding="async"></picture></div>
+        <div class="karrusel-billede"><picture><source type="image/avif" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/mk-koekken-1x.avif 540w, billeder/mk-koekken-15x.avif 810w, billeder/mk-koekken.avif 1080w"><source type="image/webp" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/mk-koekken-1x.webp 540w, billeder/mk-koekken-15x.webp 810w, billeder/mk-koekken.webp 1080w"><img src="billeder/mk-koekken.jpg" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/mk-koekken-1x.jpg 540w, billeder/mk-koekken-15x.jpg 810w, billeder/mk-koekken.jpg 1080w" alt="Børn der rører mudder i mudderkøkkenet" width="1080" height="720" loading="lazy" fetchpriority="low" decoding="async"></picture></div>
+        <div class="karrusel-billede"><picture><source type="image/avif" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/mk-legeplads-1x.avif 540w, billeder/mk-legeplads-15x.avif 810w, billeder/mk-legeplads.avif 1080w"><source type="image/webp" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/mk-legeplads-1x.webp 540w, billeder/mk-legeplads-15x.webp 810w, billeder/mk-legeplads.webp 1080w"><img src="billeder/mk-legeplads.jpg" sizes="(max-width: 900px) 100vw, 530px" srcset="billeder/mk-legeplads-1x.jpg 540w, billeder/mk-legeplads-15x.jpg 810w, billeder/mk-legeplads.jpg 1080w" alt="Sandkassen med køretøjer, dæk og mursten" width="1080" height="720" loading="lazy" fetchpriority="low" decoding="async"></picture></div>
+      </div>
+      <span class="karrusel-tael" aria-hidden="true"></span>
+      <button class="karrusel-pil karrusel-forrige" type="button" aria-label="Forrige billede"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4.5 7.5 12l7.5 7.5"/></svg></button>
+      <button class="karrusel-pil karrusel-naeste" type="button" aria-label="Næste billede"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4.5 16.5 12 9 19.5"/></svg></button>
+      <div class="karrusel-bund">
+        <div class="karrusel-prikker" role="tablist" aria-label="Vælg billede"></div>
+      </div>
+    </div></div>
       <div class="blok-tekst">
         <div class="prose">
-          <p><strong>Mudder Klubben.</strong> Det er ikke noget, man bare er. Det er noget,
-          man bliver optaget i &ndash; med sit eget mudderpas, sit eget navn på klublisten,
-          og retten til alt det, der følger med.</p>
-          <p><strong>Sådan bliver man medlem:</strong> Første dag i Børnegården GRO får jeres
-          barn sit eget mudderpas &ndash; et lille, personligt hæfte, der stemples, første
-          gang der graves, mudres eller opdages noget nyt. Det er ikke noget, man skal søge
-          om eller kvalificere sig til. Man bliver simpelthen inviteret ind, den dag man
-          starter &ndash; og så er det op til stemplerne at vise, hvor mange ekspeditioner
-          det er blevet til.</p>
+          <p><strong>Mudder Klubben.</strong> Første dag i GRO får jeres barn en lille kuffert
+          til minder og sit helt eget mudderpas &ndash; et lille, personligt hæfte, der
+          stemples, første gang der graves, mudres eller opdages noget nyt. Og så er det op
+          til stemplerne at vise, hvor mange ekspeditioner det er blevet til.</p>
         </div>
       </div>
     </div>
@@ -126,9 +134,18 @@
       </ul>
     </div>
 
-    <div class="galleri to luft-over">
-      <figure><picture><source type="image/avif" sizes="(max-width: 620px) 92vw, 45vw" srcset="billeder/mk-traktor-1x.avif 540w, billeder/mk-traktor.avif 1080w"><source type="image/webp" sizes="(max-width: 620px) 92vw, 45vw" srcset="billeder/mk-traktor-1x.webp 540w, billeder/mk-traktor.webp 1080w"><img src="billeder/mk-traktor.jpg" sizes="(max-width: 620px) 92vw, 45vw" srcset="billeder/mk-traktor-1x.jpg 540w, billeder/mk-traktor.jpg 1080w" alt="Barn på traktoren i haven" width="1080" height="720" loading="lazy" decoding="async"></picture><figcaption>Traktoren holder klar med plads i vognen</figcaption></figure>
-      <figure><picture><source type="image/avif" sizes="(max-width: 620px) 92vw, 45vw" srcset="billeder/mk-skovhule-1x.avif 540w, billeder/mk-skovhule.avif 707w"><source type="image/webp" sizes="(max-width: 620px) 92vw, 45vw" srcset="billeder/mk-skovhule-1x.webp 540w, billeder/mk-skovhule.webp 707w"><img src="billeder/mk-skovhule.jpg" sizes="(max-width: 620px) 92vw, 45vw" srcset="billeder/mk-skovhule-1x.jpg 540w, billeder/mk-skovhule.jpg 707w" alt="Børn der sidder i en hule bygget af grene i skoven" width="707" height="884" loading="lazy" decoding="async"></picture><figcaption>Skjulesteder, kun medlemmer kender til</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kort smal">
+      <p>En rigtig sjov tur begynder med traktoren. Den holder klar med plads i vognen
+      &ndash; alle spændt godt fast &ndash; og så går turen op gennem baghaven og ind i
+      klubbens egen lille bitte skovlegeplads. Grene der skal klatres i, stier der skal
+      udforskes, og skjulesteder, kun medlemmer kender til.</p>
+      <p>Ingen dag i baghaveskoven er ens &ndash; én dag er det pinde og balancebroer, en
+      anden dag er det en helt ny sti, ingen har prøvet før.</p>
     </div>
   </div>
 </section>
@@ -180,20 +197,18 @@
         <li><span class="stempel-ikon"><svg viewBox="-1 -1 26 26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2.5 12.5 6 16 2.5l4.5 2.3a2 2 0 0 1 1.1 1.8v4.9h-3v10a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1v-10h-3V6.6a2 2 0 0 1 1.1-1.8z"/><path d="M12.5 6v16"/></svg></span><span class="stempel-tekst">Klaret at tage gummistøvler og regntøj på selv</span></li>
         <li><span class="stempel-ikon"><svg viewBox="-1 -1 26 26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12.5" cy="16" r="6"/><path d="M8.5 10.6 5.5 2.5h5l2.4 5.4M16.5 10.6l3-8.1h-5l-2.4 5.4"/><path d="M12.5 13.6v4.8M10.6 15.4h3.8"/></svg></span><span class="stempel-tekst">Blevet den, der viser en ny, mindre ven mudderkøkkenet</span></li>
       </ul>
-      <p class="luft-over"><strong>Passet bliver ikke stemplet efter en fast plan.</strong>
-      Det følger, hvad det enkelte barn rent faktisk oplever og er klar til. Nogle stempler
-      kommer tidligt, andre sent, og det er meningen. Det er barnets egen rejse, ikke en
-      tjekliste, der skal nås.</p>
+      <p class="luft-over"><strong>Passet følger, hvad det enkelte barn rent faktisk
+      oplever og er klar til.</strong> Nogle stempler kommer tidligt, andre sent, og det er
+      meningen. Det er barnets egen rejse, ikke en tjekliste, der skal nås.</p>
     </div>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <div class="galleri">
-      <figure><picture><source type="image/avif" sizes="(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px" srcset="billeder/mk-legeplads-1x.avif 350w, billeder/mk-legeplads.avif 700w"><source type="image/webp" sizes="(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px" srcset="billeder/mk-legeplads-1x.webp 350w, billeder/mk-legeplads.webp 700w"><img src="billeder/mk-legeplads.jpg" sizes="(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px" srcset="billeder/mk-legeplads-1x.jpg 350w, billeder/mk-legeplads.jpg 700w" alt="Sandkassen med køretøjer og dæk" width="700" height="525" loading="lazy" decoding="async"></picture><figcaption>Køretøjer, dæk og en kæmpe sandkasse</figcaption></figure>
-      <figure><picture><source type="image/avif" sizes="(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px" srcset="billeder/mk-vandkanal-1x.avif 350w, billeder/mk-vandkanal.avif 510w"><source type="image/webp" sizes="(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px" srcset="billeder/mk-vandkanal-1x.webp 350w, billeder/mk-vandkanal.webp 510w"><img src="billeder/mk-vandkanal.jpg" sizes="(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px" srcset="billeder/mk-vandkanal-1x.jpg 350w, billeder/mk-vandkanal.jpg 510w" alt="Vandkanal gravet gennem sandet" width="510" height="382" loading="lazy" decoding="async"></picture><figcaption>Vand, jord og et spadestik</figcaption></figure>
-      <figure><picture><source type="image/avif" sizes="(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px" srcset="billeder/mk-skovsti-1x.avif 350w, billeder/mk-skovsti.avif 700w"><source type="image/webp" sizes="(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px" srcset="billeder/mk-skovsti-1x.webp 350w, billeder/mk-skovsti.webp 700w"><img src="billeder/mk-skovsti.jpg" sizes="(max-width: 620px) 92vw, (max-width: 900px) 45vw, 340px" srcset="billeder/mk-skovsti-1x.jpg 350w, billeder/mk-skovsti.jpg 700w" alt="Børn på tur i skoven" width="700" height="525" loading="lazy" decoding="async"></picture><figcaption>Stier, der skal udforskes</figcaption></figure>
+    <div class="galleri to">
+      <figure><picture><source type="image/avif" sizes="(max-width: 620px) 92vw, (max-width: 1180px) 45vw, 530px" srcset="billeder/mk-vandkanal-1x.avif 350w, billeder/mk-vandkanal-15x.avif 510w, billeder/mk-vandkanal.avif 510w"><source type="image/webp" sizes="(max-width: 620px) 92vw, (max-width: 1180px) 45vw, 530px" srcset="billeder/mk-vandkanal-1x.webp 350w, billeder/mk-vandkanal-15x.webp 510w, billeder/mk-vandkanal.webp 510w"><img src="billeder/mk-vandkanal.jpg" sizes="(max-width: 620px) 92vw, (max-width: 1180px) 45vw, 530px" srcset="billeder/mk-vandkanal-1x.jpg 350w, billeder/mk-vandkanal-15x.jpg 510w, billeder/mk-vandkanal.jpg 510w" alt="Vandkanal gravet gennem sandet" width="510" height="382" loading="lazy" decoding="async"></picture><figcaption>Vand, jord og et spadestik</figcaption></figure>
+      <figure><picture><source type="image/avif" sizes="(max-width: 620px) 92vw, (max-width: 1180px) 45vw, 530px" srcset="billeder/mk-skovsti-1x.avif 350w, billeder/mk-skovsti-15x.avif 525w, billeder/mk-skovsti.avif 700w"><source type="image/webp" sizes="(max-width: 620px) 92vw, (max-width: 1180px) 45vw, 530px" srcset="billeder/mk-skovsti-1x.webp 350w, billeder/mk-skovsti-15x.webp 525w, billeder/mk-skovsti.webp 700w"><img src="billeder/mk-skovsti.jpg" sizes="(max-width: 620px) 92vw, (max-width: 1180px) 45vw, 530px" srcset="billeder/mk-skovsti-1x.jpg 350w, billeder/mk-skovsti-15x.jpg 525w, billeder/mk-skovsti.jpg 700w" alt="Børn på tur i skoven" width="700" height="525" loading="lazy" decoding="async"></picture><figcaption>Stier, der skal udforskes</figcaption></figure>
     </div>
   </div>
 </section>
@@ -223,6 +238,7 @@
   </div>
 </footer>
 <script src="assets/karrusel.js" defer></script>
+<script src="assets/lys.js" defer></script>
 <script src="assets/overgang.js" defer></script>
 </body>
 </html>

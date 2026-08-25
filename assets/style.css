@@ -393,8 +393,13 @@ nav.faner a[aria-current="page"]{
       animation-timeline: view();
       animation-range: entry 5% cover 22%;
     }
+    /* Ingen scale() her. opacity og translate koerer paa kompositoren og
+       koster ingenting; scale() tvinger browseren til at rastrere hele
+       kortet paa ny ved hvert trin i rulningen. Det var den tungeste
+       enkeltting paa "Her hvor vi bor", hvor 14 blokke animerer paa én
+       gang. Forskellen er ikke til at se; hakket var. */
     @keyframes toner-op{
-      from{ opacity: 0; transform: translateY(26px) scale(.985); }
+      from{ opacity: 0; transform: translateY(26px); }
       to{ opacity: 1; transform: none; }
     }
   }
@@ -657,13 +662,21 @@ section:first-of-type{ padding-top: 30px; }
    i fuld bredde midt i ville skære det over. Under 620 px står det over
    teksten i stedet – en flydende halvbred billedkant på en telefon giver
    linjer på fire ord. */
-.kort > .portraet-plads{
+/* Både <picture> og den knap, lys.js lægger udenom, kan bære pladsen her.
+   Uden det andet led floatede portrættet ikke længere, når JavaScript var
+   slået til: knappen stod imellem, og ".kort > .portraet-plads" ramte
+   ingenting. Billedet voksede fra 287 til 684 px, og siden blev 596 px
+   længere. */
+.kort > .portraet-plads,
+.kort > .lys-knap.portraet-plads{
   float: right; width: 300px; max-width: 42%;
   margin: 4px 0 20px 28px; shape-outside: margin-box;
 }
-.kort > .portraet-plads img{ border-radius: var(--r); box-shadow: var(--skygge); }
+.lys-knap.portraet-plads > picture{ display: block; width: 100%; }
+.portraet-plads img{ border-radius: var(--r); box-shadow: var(--skygge); }
 @media (max-width: 620px){
-  .kort > .portraet-plads{
+  .kort > .portraet-plads,
+  .kort > .lys-knap.portraet-plads{
     float: none; width: 100%; max-width: 100%; margin: 0 0 22px;
   }
 }
@@ -721,8 +734,6 @@ section:first-of-type{ padding-top: 30px; }
 .karrusel-billede img{
   width: 100%; height: 100%;
   object-fit: cover;
-  /* Billedet toner blidt op, når det glider på plads */
-  transition: opacity .5s ease, transform .6s cubic-bezier(.22,.61,.36,1);
 }
 
 /* Pile – kun synlige når der er en mus */
@@ -784,7 +795,11 @@ section:first-of-type{ padding-top: 30px; }
   padding: 4px 11px; border-radius: 999px;
   letter-spacing: .03em;
   z-index: 2;
-  backdrop-filter: blur(4px);
+  /* Havde backdrop-filter: blur(4px). Sloeringen blev regnet om i hver
+     eneste frame, taelleren flyttede sig under rulning – gange tre
+     karruseller paa "Her hvor vi bor". En lidt maerkere flade ser ens ud
+     og koster ingenting. */
+  background: rgba(28, 22, 8, .72);
 }
 
 /* Uden JavaScript: ingen pile eller prikker, bare en rulbar stribe */
@@ -1324,4 +1339,123 @@ footer p{ font-size: .97rem; }
   body{ background: #fff; }
   .top, nav.faner, footer, .knapper{ display: none; }
   .kort, .blok, .sidehoved{ box-shadow: none; border: 1px solid #ccc; }
+}
+
+/* ==========================================================================
+   KLIK PÅ ET BILLEDE – vis det stort
+   --------------------------------------------------------------------------
+   Knappen ligger uden om <picture> og fylder præcis den plads, billedet
+   fyldte i forvejen. Derfor må den ikke have hverken kant, baggrund eller
+   polstring: den skal være usynlig, indtil man peger på den.
+   ========================================================================== */
+
+.lys-knap{
+  display: block; width: 100%; height: 100%;
+  padding: 0; border: 0; background: none;
+  cursor: pointer; -webkit-appearance: none; appearance: none;
+  border-radius: inherit;
+}
+.lys-knap picture, .lys-knap img{ border-radius: inherit; }
+.lys-knap:focus-visible{ outline: 3px solid var(--sol-kant); outline-offset: 3px; }
+
+/* Her sad før et forstørrelsesglas, der tonede frem i hjørnet af hvert
+   billede, og markøren var sat til `zoom-in`. Begge dele er væk: to
+   forskellige forstørrelsesglas, der dukker op, så snart musen rører et
+   foto, er præcis den slags pynt, siden ellers ikke har. Tilbage står den
+   almindelige hånd – det er den, alle kender, og den siger det samme. */
+
+/* ---- Selve vinduet ------------------------------------------------------- */
+dialog.lys{
+  width: 100%; max-width: 100%; height: 100%; max-height: 100%;
+  padding: 0; border: 0; background: transparent; overflow: hidden;
+}
+dialog.lys::backdrop{ background: rgba(24, 20, 12, .88); }
+
+.lys-ramme{
+  display: grid; place-items: center; align-content: center;
+  width: 100%; height: 100%; padding: 24px; gap: 14px;
+}
+.lys-foto{
+  max-width: min(1100px, 100%);
+  max-height: calc(100vh - 130px);
+  width: auto; height: auto;
+  border-radius: var(--r-lille);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .5);
+  background: var(--creme);
+}
+.lys-luk, .lys-pil{
+  position: fixed; z-index: 2;
+  width: 48px; height: 48px; border-radius: 50%; border: 0;
+  background: rgba(255, 253, 248, .94) center / 22px 22px no-repeat;
+  color: var(--teal-dyb); cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .4);
+}
+.lys-luk{
+  top: 18px; right: 18px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2312695a' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E");
+}
+.lys-pil{ top: 50%; transform: translateY(-50%); }
+.lys-forrige{
+  left: 18px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2312695a' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 5l-7 7 7 7'/%3E%3C/svg%3E");
+}
+.lys-naeste{
+  right: 18px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2312695a' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 5l7 7-7 7'/%3E%3C/svg%3E");
+}
+.lys-pil[disabled]{ opacity: .3; cursor: default; }
+.lys-pil[hidden]{ display: none; }
+
+.lys-tael{
+  position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%);
+  background: rgba(28, 22, 8, .72); color: #fff;
+  font-size: .8rem; font-weight: 700; letter-spacing: .03em;
+  padding: 5px 13px; border-radius: 999px;
+}
+
+/* På telefon er der ikke plads til pile ude i siderne – man swiper i
+   stedet, og lukkeknappen bliver den eneste, der fylder noget. */
+@media (max-width: 620px){
+  .lys-ramme{ padding: 12px; }
+  .lys-foto{ max-height: calc(100vh - 108px); }
+  .lys-pil{ display: none; }
+  .lys-luk{ top: 12px; right: 12px; }
+}
+
+/* ---- Bløde overgange ----------------------------------------------------
+   Tre steder: vinduet der åbner, vinduet der lukker, og skiftet fra ét
+   billede til det næste. Alle tre er korte med vilje – 0,15-0,22 s. Det er
+   længe nok til, at øjet ikke oplever et snit, og kort nok til, at man ikke
+   står og venter på en animation, man har set før.
+
+   Filen er hentet i forvejen, så overtoningen dækker ikke over ventetid.
+   Den er der kun, fordi et hårdt klip mellem to fotos river i øjnene. */
+
+.lys-foto{ transition: opacity .16s ease; }
+.lys-foto.lys-skifter{ opacity: 0; }
+
+@media (prefers-reduced-motion: no-preference){
+  dialog.lys[open]{ animation: lys-ind .22s cubic-bezier(.2,.8,.3,1) both; }
+  dialog.lys[open]::backdrop{ animation: lys-dug .22s ease both; }
+
+  dialog.lys.lys-lukker{ animation: lys-ud .17s ease both; }
+  dialog.lys.lys-lukker::backdrop{ animation: lys-dug .17s ease reverse both; }
+
+  @keyframes lys-ind{
+    from{ opacity: 0; transform: scale(.965); }
+    to  { opacity: 1; transform: none; }
+  }
+  @keyframes lys-ud{
+    from{ opacity: 1; transform: none; }
+    to  { opacity: 0; transform: scale(.975); }
+  }
+  @keyframes lys-dug{ from{ opacity: 0; } to{ opacity: 1; } }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .lys-foto{ transition: none; }
+}
+
+@media print{
+  dialog.lys{ display: none; }
 }
