@@ -70,15 +70,15 @@ JOBS = [
     # hero-gynge er ikke brugt paa nogen af de syv sider laengere (kun i
     # overgang-test.html, som skal slettes). Jeanette sendte samme foto igen
     # under "Baghaveskoven", saa motivet er flyttet derhen i 3/2.
-    ('forside-vandloeb',  'IMG_4849.JPG',          (0.05, 0.22, 0.78, 0.78), 4/3, 540),
-    ('forside-sandkasse', 'IMG_3944.JPG',          (0.00, 0.02, 1.00, 1.00), 4/3, 540),
+    ('forside-vandloeb',  'sr-forside-vandloeb.jpg', (0.00, 0.00, 1.00, 1.00), 4/3, 540),
+    ('forside-sandkasse', 'sr-forside-sandkasse.jpg', (0.00, 0.00, 1.00, 1.00), 4/3, 540),
 
     # ---- FORSIDE: tre genvejskort ----
     # Jeanettes rettelse: kortet skal vise et af sms-billederne. IMG_4353 var
     # kun 720x474 og blev beskaaret til 632 px; det nye er 720x694 og rammer
     # pladsen (720x540) praecist.
     # Rettet beskaering: barnet stod klemt ude i venstre kant med tre fjerdedele tomt mudder.
-    ('kort-mudderklub',   'sms-mudder-vandloeb.jpg', (0.00, 0.03, 0.90, 0.78), 4/3, 360),
+    ('kort-mudderklub',   'sr-kort-mudderklub.jpg', (0.00, 0.00, 1.00, 1.00), 4/3, 360),
     ('kort-vaerdier',     'IMG_3981.JPG',          (0.00, 0.06, 1.00, 0.92), 4/3, 360),
     ('kort-sted',         'FullSizeRender-8.jpeg', (0.02, 0.02, 0.98, 1.00), 4/3, 360),
 
@@ -93,15 +93,15 @@ JOBS = [
     # derfor 540 og ikke 350: pladsen er bredere nu, og originalen paa
     # 1169 px kan sagtens fylde den ud.
     ('mk-legeplads','FullSizeRender-5.jpeg', (0.00, 0.10, 1.00, 0.80), 3/2, 540),
-    ('mk-vandkanal','IMG_3948.JPG',          (0.00, 0.02, 1.00, 0.98), 4/3, 350),
+    ('mk-vandkanal','sr-mk-vandkanal.jpg',   (0.00, 0.00, 1.00, 1.00), 4/3, 350),
     # Et barn stod halvt uden for venstre kant. Beskaeringen begynder inde
     # bag det, saa der ikke staar en halv skikkelse i kanten.
     # Rettet beskaering: barnet nederst til hoejre var skaaret midt over.
     ('mk-skovsti',  'IMG_4825.JPG',          (0.00, 0.14, 1.00, 0.72), 4/3, 350),
 
     # ---- VÆRDIER ----
-    ('vd-ro',     'IMG_4118.JPG',          (0.03, 0.09, 0.97, 0.97), 4/5, 540),
-    ('vd-tillid', 'IMG_4821.JPG',          (0.00, 0.04, 1.00, 0.98), 4/5, 540),
+    ('vd-ro',     'sr-vd-ro.jpg',          (0.00, 0.00, 1.00, 1.00), 4/5, 540),
+    ('vd-tillid', 'sr-vd-tillid.jpg',      (0.00, 0.00, 1.00, 1.00), 4/5, 540),
     ('vd-vildt',  'FullSizeRender-1.jpeg', (0.00, 0.04, 1.00, 0.98), 4/5, 540),
 
     # ---- HER HVOR VI BOR ----
@@ -116,7 +116,10 @@ JOBS = [
     # Baandet laa saa hoejt, at det skar tvaers gennem barnet, der hopper
     # oeverst i billedet – en moerk, halv skikkelse i overkanten. Sat ned,
     # saa det begynder under hende og rammer barnet paa gulvet helt.
-    ('sted-hus',    'FullSizeRender-3.jpeg', (0.00, 0.395, 1.00, 0.835), 3/2, 540),
+    # Rettet beskaering: udsnittet laa midt imellem to boern og skar begge
+    # over – benet paa barnet i gyngen foroven og foedderne paa barnet
+    # forneden. Nu staar barnet paa traedehynderne helt i billedet.
+    ('sted-hus',    'FullSizeRender-3.jpeg', (0.00, 0.42, 1.00, 0.858), 3/2, 540),
     # Rettet beskaering: barnet paa klatrevaeggen var skaaret over – hovedet
     # laa uden for billedet. Nu er hele barnet med, fra haender til bare foedder.
     ('sted-hus2',   'FullSizeRender-4.jpeg', (0.00, 0.15, 1.00, 0.55), 3/2, 540),
@@ -134,7 +137,7 @@ JOBS = [
     # Barnet og kaninen staar i den oeverste to tredjedele; nederste tredjedel
     # er tom halm og en rusten rive. Derfor skaeres den fra her.
     # Rettet beskaering: barn og kanin laa smaat i et billede fuldt af tom halm.
-    ('stald-kanin',      'sms-stald-kanin.jpg',      (0.00, 0.00, 1.00, 0.60), 3/2, 540),
+    ('stald-kanin',      'sr-stald-kanin.jpg',       (0.00, 0.00, 1.00, 1.00), 3/2, 540),
     # Kyllingerne og varmelampen sidder nederst i billedet, koen oeverst.
     ('stald-kyllinger',  'sms-stald-kyllinger.jpg',  (0.00, 0.33, 1.00, 1.00), 3/2, 540),
     ('stald-halmballer', 'sms-stald-halmballer.jpg', (0.00, 0.00, 1.00, 1.00), 3/2, 540),
@@ -147,15 +150,19 @@ JOBS = [
     # aeggene, man ser. Det koster bredde – men flere pixels sloer hjaelper
     # ikke, og motivet er nu til at forstaa.
     # Rettet beskaering: aeggene laa nede i hjoernet, aermet fyldte resten.
-    ('stald-aeg',        'sms-stald-aeg.jpg',        (0.00, 0.42, 0.68, 0.95), 3/2, 540),
+    # Anden rettelse: aermet og den sorte jakke fyldte stadig naesten
+    # halvdelen af billedet. Skaaret strammere ind, saa aeggene og haanden,
+    # der raekker ud efter dem, fylder det meste – jakken er nu kun en
+    # smal kant i hoejre side.
+    ('stald-aeg',        'sr-stald-aeg.jpg',         (0.00, 0.00, 1.00, 1.00), 3/2, 540),
     # Rettet beskaering: hoenen var skaaret af forneden.
     ('stald-hoene',      'sms-stald-hoene.jpg',      (0.00, 0.33, 1.00, 1.00), 3/2, 540),
 
-    ('sted-skov',   'IMG_4239.JPG',          (0.06, 0.02, 0.94, 1.00), 3/2, 540),
+    ('sted-skov',   'sr-sted-skov.jpg',      (0.00, 0.00, 1.00, 1.00), 3/2, 540),
 
     # Baghaveskoven, karrusel 2-4.
     # En enkelt gummistoevle stak ind i venstre kant. Skaaret fra.
-    ('skov-traedestubbe', 'sms-skov-traedestubbe.jpg', (0.05, 0.00, 1.00, 1.00), 3/2, 540),
+    ('skov-traedestubbe', 'sr-skov-traedestubbe.jpg',  (0.00, 0.00, 1.00, 1.00), 3/2, 540),
     ('skov-daekgynge',    'sms-skov-daekgynge.jpg',    (0.00, 0.00, 1.00, 1.00), 3/2, 540),
     ('skov-trae',         'sms-skov-trae.jpg',         (0.00, 0.00, 1.00, 1.00), 3/2, 540),
     ('skov-tovgynge',     'FullSizeRender-9.jpeg',     (0.00, 0.20, 1.00, 1.00), 3/2, 540),
@@ -166,7 +173,7 @@ JOBS = [
     # Haven har faaet karrusel ligesom Dagplejehuset, Stalden og
     # Baghaveskoven. Derfor 3/2 og vis=540 som de andre karruseldias, hvor
     # de foer laa i 4/3 til et galleri med to i bredden.
-    ('sted-have2',  'IMG_4819.JPG',          (0.00, 0.00, 1.00, 1.00), 3/2, 540),
+    ('sted-have2',  'sr-sted-have2.jpg',     (0.00, 0.00, 1.00, 1.00), 3/2, 540),
     ('sted-have3',  'IMG_4554.JPG',          (0.00, 0.04, 1.00, 0.96), 3/2, 540),
 
     # ---- PRAKTISK / OM MIG ----

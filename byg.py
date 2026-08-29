@@ -52,6 +52,20 @@ SIDER = [
     ('kontakt.html',         'Kontakt'),
 ]
 
+# Ét sted at rette ledige pladser. Tallet stod tidligere hårdkodet BÅDE i
+# selve <ul>-listen på "Praktisk" OG i forsidens meta-description – to
+# steder, der let gled fra hinanden, hvis man kun huskede at rette det ene.
+# Nu bygges begge dele herfra, så de aldrig kan sige to forskellige ting.
+# (antal, "ledige pladser"/"ledig plads", hvornår)
+PLADSER = [
+    (2, 'ledige pladser', 'Vinter 2026/2027'),
+    (1, 'ledig plads',    'Forår 2027'),
+]
+# Den korteste, første ledige plads – det, der reelt haster mest, og det
+# eneste, der er plads til i en meta-description på under 160 tegn.
+_p0 = PLADSER[0]
+PLADSER_KORT = f'{_p0[0]} {_p0[1]} {_p0[2].lower()}'
+
 # --------------------------------------------------------------------------
 # Solen og navnetrækket – begge tegnet af Jeanette selv i Canva.
 #
@@ -1012,6 +1026,11 @@ sted = f'''
 # ==========================================================================
 # Jeanette bad om at få tømt den øverste kasse for alt undtagen teksten
 # "Praktisk info". Manchetten og de fire genvejsikoner er derfor væk.
+pladser_html = '\n        '.join(
+    f'<li><span class="pladser-tal">{antal}</span>'
+    f'<span class="pladser-hvornaar">{enhed}</span>{hvornaar}</li>'
+    for antal, enhed, hvornaar in PLADSER
+)
 praktisk = f'''
 <div class="wrap">
   <div class="sidehoved sidehoved-lav">
@@ -1100,8 +1119,7 @@ praktisk = f'''
       <h2>Ledige pladser</h2>
       <p class="daempet">Sådan ser det ud lige nu:</p>
       <ul class="pladser-liste">
-        <li><span class="pladser-tal">2</span><span class="pladser-hvornaar">ledige pladser</span>Vinter 2026/2027</li>
-        <li><span class="pladser-tal">1</span><span class="pladser-hvornaar">ledig plads</span>Forår 2027</li>
+        {pladser_html}
       </ul>
       <div class="knapper midt">
         <a class="knap knap-primaer" href="kontakt.html">{ikon('mail')} Hør nærmere om en plads</a>
@@ -1265,7 +1283,7 @@ skriv('index.html',
       # hvem det er. Søgeordene står lige efter og er stadig med i de 60
       # tegn, Google viser – ingen af delene ofres.
       'Børnegården GRO | Pasningsordning i Vinderslev ved Kjellerup',
-      'Privat pasningsordning for børn på 0-3 år i Vinderslev ved Kjellerup. Gård med dyr, egen skov og stor have. 2 ledige pladser vinter 2026/2027. Ring 27 12 23 07.',
+      f'Privat pasningsordning for børn på 0-3 år i Vinderslev ved Kjellerup. Gård med dyr, egen skov og stor have. {PLADSER_KORT}. Ring 27 12 23 07.',
       forside)
 skriv('mudderklubben.html',
       'Børnegården GRO | Mudder Klubben, mudderpas og traktorture',

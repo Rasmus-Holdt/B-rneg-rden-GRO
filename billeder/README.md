@@ -42,37 +42,37 @@ billederne på Mudder Klubben slettet) og `hero-gynge` (flyttet, se ovenfor).
 
 | Motiv | Bruges på | Original | Størrelse (2x) | AVIF |
 |---|---|---|---|---|
-| `forside-vandloeb` | Forside, polaroid + delebillede | IMG_4849.JPG | 876×657 | 84 KB |
-| `forside-sandkasse` | Forside, polaroid | IMG_3944.JPG | 800×600 | 71 KB |
-| `kort-mudderklub` | Forside, genvejskort | sms-mudder-vandloeb.jpg | 720×540 | 39 KB |
+| `forside-vandloeb` | Forside, polaroid + delebillede | sr-forside-vandloeb.jpg (opskaleret, af IMG_4849.JPG) | 1080×810 | 108 KB |
+| `forside-sandkasse` | Forside, polaroid | sr-forside-sandkasse.jpg (opskaleret, af IMG_3944.JPG) | 1080×810 | 99 KB |
+| `kort-mudderklub` | Forside, genvejskort | sr-kort-mudderklub.jpg (opskaleret, af sms-mudder-vandloeb.jpg) | 720×540 | 36 KB |
 | `kort-vaerdier` | Forside, genvejskort | IMG_3981.JPG | 720×540 | 17 KB |
 | `kort-sted` | Forside, genvejskort | FullSizeRender-8.jpeg | 720×540 | 60 KB |
 | `mk-mudder` | Mudder Klubben, karrusel 1/2 | FullSizeRender-2.jpeg | 1080×720 | 113 KB |
 | `mk-koekken` | Mudder Klubben, karrusel 2/2 | sms-mudder-koekken-boern.jpg | 1080×720 | 30 KB |
 | `mk-legeplads` | Mudder Klubben, galleri | FullSizeRender-5.jpeg | 700×525 | 34 KB |
-| `mk-vandkanal` | Mudder Klubben, galleri | IMG_3948.JPG | 510×382 | 28 KB |
+| `mk-vandkanal` | Mudder Klubben, galleri | sr-mk-vandkanal.jpg (opskaleret, af IMG_3948.JPG) | 700×525 | 43 KB |
 | `mk-skovsti` | Mudder Klubben, galleri | IMG_4825.JPG | 700×525 | 41 KB |
-| `vd-ro` | Værdier 1 – Ro og nærvær | IMG_4118.JPG | 920×1150 | 50 KB |
-| `vd-tillid` | Værdier 2 – Tillid | IMG_4821.JPG | 650×813 | 67 KB |
+| `vd-ro` | Værdier 1 – Ro og nærvær | sr-vd-ro.jpg (opskaleret, af IMG_4118.JPG) | 1080×1350 | 62 KB |
+| `vd-tillid` | Værdier 2 – Tillid | sr-vd-tillid.jpg (opskaleret, af IMG_4821.JPG) | 1080×1350 | 98 KB |
 | `vd-vildt` | Værdier 3 – Krop og sanser | FullSizeRender-1.jpeg | 1080×1350 | 119 KB |
 | `sted-hus` | Dagplejehuset, karrusel 1/3 | FullSizeRender-3.jpeg | 1080×720 | 29 KB |
 | `sted-hus2` | Dagplejehuset, karrusel 2/3 | FullSizeRender-4.jpeg | 1080×720 | 20 KB |
 | `sted-hus3` | Dagplejehuset, karrusel 3/3 | FullSizeRender.jpeg | 1080×720 | 26 KB |
 | `sted-stald` | Stalden, karrusel 1/8 | IMG_4250.JPG | 1080×720 | 62 KB |
-| `stald-kanin` | Stalden, karrusel 2/8 | sms-stald-kanin.jpg | 1080×720 | 113 KB |
-| `stald-aeg` | Stalden, karrusel 3/8 | sms-stald-aeg.jpg | 913×609 | 19 KB |
+| `stald-kanin` | Stalden, karrusel 2/8 | sr-stald-kanin.jpg (opskaleret, af sms-stald-kanin.jpg) | 1080×720 | 108 KB |
+| `stald-aeg` | Stalden, karrusel 3/8 | sr-stald-aeg.jpg (opskaleret+beskåret, af sms-stald-aeg.jpg) | 1080×720 | 22 KB |
 | `stald-hoene` | Stalden, karrusel 4/8 | sms-stald-hoene.jpg | 1080×720 | 19 KB |
 | `stald-kyllinger` | Stalden, karrusel 5/8 | sms-stald-kyllinger.jpg | 1080×720 | 68 KB |
 | `stald-aellinger` | Stalden, karrusel 6/8 | sms-stald-aellinger.jpg | 1080×720 | 73 KB |
 | `stald-halmballer` | Stalden, karrusel 7/8 | sms-stald-halmballer.jpg | 1080×720 | 59 KB |
 | `stald-legerum` | Stalden, karrusel 8/8 | sms-stald-legerum.png | 1080×720 | 76 KB |
-| `sted-skov` | Baghaveskoven, karrusel 1/5 | IMG_4239.JPG | 1030×687 | 103 KB |
-| `skov-traedestubbe` | Baghaveskoven, karrusel 2/5 | sms-skov-traedestubbe.jpg | 828×552 | 50 KB |
+| `sted-skov` | Baghaveskoven, karrusel 1/5 | sr-sted-skov.jpg (opskaleret, af IMG_4239.JPG) | 1080×720 | 111 KB |
+| `skov-traedestubbe` | Baghaveskoven, karrusel 2/5 | sr-skov-traedestubbe.jpg (opskaleret, af sms-skov-traedestubbe.jpg) | 1080×720 | 64 KB |
 | `skov-daekgynge` | Baghaveskoven, karrusel 3/5 | sms-skov-daekgynge.jpg | 1080×720 | 75 KB |
 | `skov-tovgynge` | Baghaveskoven, karrusel 4/5 | FullSizeRender-9.jpeg | 1080×720 | 105 KB |
 | `skov-trae` | Baghaveskoven, karrusel 5/5 | sms-skov-trae.jpg | 1080×720 | 119 KB |
 | `sted-have` | Haven, karrusel 1/3 | IMG_4553.JPG | 1080×720 | 43 KB |
-| `sted-have2` | Haven, karrusel 2/3 – mudderkøkkenet | IMG_4819.JPG | 564×423 | 35 KB |
+| `sted-have2` | Haven, karrusel 2/3 – mudderkøkkenet | sr-sted-have2.jpg (opskaleret, af IMG_4819.JPG) | 1080×720 | 65 KB |
 | `sted-have3` | Haven, karrusel 3/3 | IMG_4554.JPG | 1060×795 | 52 KB |
 | `praktisk-regntoej` | Praktisk info | FullSizeRender-6.jpeg | 1080×720 | 102 KB |
 | `jeanette` | Om mig + header på alle sider | jeanette-portraet.jpeg | 600×750 | 23 KB |
@@ -94,19 +94,43 @@ Det er stadig den tungeste side på hjemmesiden. Vil man have den ned, er den
 korteste vej at skære et par dias af Stalden-karrusellen – ikke at
 komprimere hårdere.
 
+## Opskalerede billeder (AI-superresolution)
+
+Elleve motiver var mindre end den plads, de fylder på siden – enten fordi
+selve originalfotoet var lille (`sted-have2`, `mk-vandkanal`, `vd-tillid`),
+eller fordi en stram, rigtig beskæring kostede bredde (`stald-aeg`,
+`forside-vandloeb`, `kort-mudderklub`, `vd-ro`, `sted-skov`,
+`skov-traedestubbe`, `stald-kanin`, `forside-sandkasse`). De blev vist i
+under 75 % af den tilsigtede opløsning – synligt bløde på en skarp skærm.
+
+`beskaer.py` skalerer aldrig op – almindelig opskalering (bicubic/Lanczos)
+tilføjer ingen ægte detalje, kun sløring, og ville gøre billederne dårligere,
+ikke bedre. I stedet er de kørt igennem FSRCNN, et lille neuralt
+superresolution-netværk (OpenCV's `dnn_superres`, model `FSRCNN_x2`), som
+genopbygger kanter og struktur ud fra mønstre i selve billedet – i praksis
+det samme, en fotograf ville gøre med Topaz eller Lightrooms
+opskaleringsværktøj. Resultatet er gemt som en ny kildefil
+(`kilder/fotos/sr-<motiv>.jpg`) og sat ind i `JOBS` i stedet for det
+oprindelige foto, med beskæringen allerede foretaget (box `0,0,1,1`) – selve
+beskæringsvalget er ikke ændret, kun opløsningen.
+
+Kontrolleret for hvert af de 11 billeder: gennemsnitlig farveafvigelse pixel
+for pixel er under 0,3 ud af 255 pr. kanal – umuligt at se, og langt under
+JPEG-kompressionens egen støj. Ingen finjustering af farve, hvidbalance
+eller kontrast er lavet. Alle 11 rammer nu den fulde 2×-målopløsning
+(1080 px, eller det tilsvarende for kort-/mindre motiver).
+
+Originalfotos­ne ligger stadig urørt i `kilder/fotos/` under deres
+oprindelige navne, hvis motivet skal beskæres om.
+
 ## Billeder der er værd at kigge på igen
 
 **`stald-aeg` er teknisk svag.** Originalen er et uskarpt videobillede, og
-det, der fylder mest, er et ærme ude af fokus. Beskæringen er sat ind på
-æggene, så godt det kan lade sig gøre, men det er det svageste af de otte
-staldbilleder. Det ville ikke koste noget at lade det ude.
-
-**`skov-traedestubbe` er kun 828 px bred.** Den fylder 540 px på skærmen, så
-den er skarp nok på telefon, men ikke helt på en stor skærm.
-
-**`sted-have2` er kun 564 px bred.** Det er alt, der findes af IMG_4819.
-Pladsen i galleriet er 530 px, så billedet lige akkurat dækker den – men
-uden reserve til en skærm med høj opløsning.
+det, der fylder mest, er et ærme ude af fokus. Beskæringen er skåret
+strammere ind om æggene og hånden, så den sorte jakke kun er en smal kant i
+højre side i stedet for at fylde næsten halvdelen af billedet – men det er
+stadig det svageste af de otte staldbilleder. Det ville ikke koste noget at
+lade det ude.
 
 **`om-mig` er taget ud.** Jobbet lavede seks filer, som ingen af de syv
 sider hentede – siden "Om mig" bruger portrættet af Jeanette. Originalen
