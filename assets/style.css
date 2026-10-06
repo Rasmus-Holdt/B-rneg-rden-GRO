@@ -1163,6 +1163,7 @@ footer p{ font-size: .97rem; }
    kunne ses at være klikbar. En stiplet streg under siger "her sker noget"
    uden at råbe lige så højt som en almindelig blå link-streg. */
 .footer-bund a{
+  display: inline-block; padding: 8px 0;
   color: inherit;
   text-decoration: underline;
   text-decoration-style: dotted;
@@ -1317,6 +1318,10 @@ footer p{ font-size: .97rem; }
   .top-ring{ font-size: .92rem; padding: 9px 12px; gap: 7px; }
   .wrap{ padding: 0 14px; }
   .kort, .hero-kort, .sidehoved, .pladser{ padding: 22px 20px; }
+  /* "Mudder Klubben" står sammen med et hårdt mellemrum og kan ikke brydes;
+     på 320 px stak det ud i højre side. */
+  .sidehoved-lav h1{ font-size: 1.55rem; min-width: 0; }
+  .sol-titel{ width: 40px; }
 }
 
 /* ==========================================================================
@@ -1482,3 +1487,7 @@ dialog.lys::backdrop{ background: rgba(24, 20, 12, .88); }
 @media print{
   dialog.lys{ display: none; }
 }
+
+/* Et enkeltstående tekstlink på sin egen linje ("Se Mudder Klubben →") får
+   en fingerstor flade. */
+.prose p > a:only-child{ display: inline-block; padding: 10px 0; }
