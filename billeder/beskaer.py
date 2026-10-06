@@ -77,22 +77,23 @@ JOBS = [
     # Jeanettes rettelse: kortet skal vise et af sms-billederne. IMG_4353 var
     # kun 720x474 og blev beskaaret til 632 px; det nye er 720x694 og rammer
     # pladsen (720x540) praecist.
-    # Rettet beskaering: barnet stod klemt ude i venstre kant med tre fjerdedele tomt mudder.
-    ('kort-mudderklub',   'sr-kort-mudderklub.jpg', (0.00, 0.00, 1.00, 1.00), 4/3, 360),
+    # Jeanettes tredje rettelse: kortet skal vise et af de tre sms-billeder
+    # under "Mudder Klubben". Det er nu børnene i mudderkøkkenet. x-grænserne
+    # 1,5 % og 98,5 % skærer den lyserøde/grønne skærmbilledramme væk.
+    ('kort-mudderklub',   'sms-mudder-koekken-boern.jpg', (0.015, 0.10, 0.985, 0.60), 4/3, 360),
     ('kort-vaerdier',     'IMG_3981.JPG',          (0.00, 0.06, 1.00, 0.92), 4/3, 360),
     ('kort-sted',         'FullSizeRender-8.jpeg', (0.02, 0.02, 0.98, 1.00), 4/3, 360),
 
     # ---- MUDDER KLUBBEN ----
-    # mk-traktor og mk-skovhule er slettet efter Jeanettes rettelse. Deres
-    # plads i midten er nu tekst, og introen er blevet til en karrusel.
-    # Rettet beskaering: begge boern faldt helt ud af billedet.
-    ('mk-mudder',   'FullSizeRender-2.jpeg',        (0.00, 0.02, 1.00, 0.62), 3/2, 540),
-    ('mk-koekken',  'sms-mudder-koekken-boern.jpg', (0.00, 0.05, 1.00, 0.75), 3/2, 540),
-    # Flyttet op i karrusellen ved introteksten, hvor Jeanette bad om flere
-    # billeder at swipe mellem. Derfor 3/2 som de andre karruseldias – og
-    # derfor 540 og ikke 350: pladsen er bredere nu, og originalen paa
-    # 1169 px kan sagtens fylde den ud.
-    ('mk-legeplads','FullSizeRender-5.jpeg', (0.00, 0.10, 1.00, 0.80), 3/2, 540),
+    # Karrusellen ved introteksten er byttet ud med de tre billeder, Jeanette
+    # sendte på sms under "Mudder Klubben": vandløbet, børnene i mudderkøkkenet
+    # og bordet med gryder (sidstnævnte er motivet 'sted-have2', som også
+    # står i Haven – samme fil, ingen ny).
+    # mk-mudder og mk-legeplads er taget ud af siden.
+    # Barnet står i 59-541 px af de 694; vinduet er lagt, så hele barnet er med.
+    ('mk-vandloeb', 'sms-mudder-vandloeb.jpg',      (0.00, 0.085, 1.00, 0.78), 3/2, 540),
+    # x 1,5-98,5 %: skærmbilledrammen (lyserød/grøn) er skåret væk.
+    ('mk-koekken',  'sms-mudder-koekken-boern.jpg', (0.015, 0.14, 0.985, 0.571), 3/2, 540),
     ('mk-vandkanal','sr-mk-vandkanal.jpg',   (0.00, 0.00, 1.00, 1.00), 4/3, 350),
     # Et barn stod halvt uden for venstre kant. Beskaeringen begynder inde
     # bag det, saa der ikke staar en halv skikkelse i kanten.
@@ -154,9 +155,13 @@ JOBS = [
     # halvdelen af billedet. Skaaret strammere ind, saa aeggene og haanden,
     # der raekker ud efter dem, fylder det meste – jakken er nu kun en
     # smal kant i hoejre side.
-    ('stald-aeg',        'sr-stald-aeg.jpg',         (0.00, 0.00, 1.00, 1.00), 3/2, 540),
+    # Tredje rettelse: "billede 3 og 4 virker zoomede". Det gjorde de, fordi
+    # begge var skåret ind til 3/2 af et kvadratisk/stående foto. Nu vises hele
+    # fotoet i fuld højde, og siderne fyldes med en sløret udgave af det selv
+    # (tilstanden 'ramme'). Ingen skæring, ingen opskalering.
+    ('stald-aeg',        'sms-stald-aeg.jpg',        (0.00, 0.00, 1.00, 1.00), 3/2, 540, 'ramme'),
     # Rettet beskaering: hoenen var skaaret af forneden.
-    ('stald-hoene',      'sms-stald-hoene.jpg',      (0.00, 0.33, 1.00, 1.00), 3/2, 540),
+    ('stald-hoene',      'sms-stald-hoene.jpg',      (0.00, 0.00, 1.00, 1.00), 3/2, 540, 'ramme'),
 
     ('sted-skov',   'sr-sted-skov.jpg',      (0.00, 0.00, 1.00, 1.00), 3/2, 540),
 
@@ -164,7 +169,9 @@ JOBS = [
     # En enkelt gummistoevle stak ind i venstre kant. Skaaret fra.
     ('skov-traedestubbe', 'sr-skov-traedestubbe.jpg',  (0.00, 0.00, 1.00, 1.00), 3/2, 540),
     ('skov-daekgynge',    'sms-skov-daekgynge.jpg',    (0.00, 0.00, 1.00, 1.00), 3/2, 540),
-    ('skov-trae',         'sms-skov-trae.jpg',         (0.00, 0.00, 1.00, 1.00), 3/2, 540),
+    # skov-trae er slettet efter Jeanettes rettelse. I stedet står de to børn
+    # med skovler (samme foto som Værdier 3, som hun selv har bedt om).
+    ('skov-boern-graver', 'FullSizeRender-1.jpeg',     (0.00, 0.44, 1.00, 0.985), 3/2, 540),
     ('skov-tovgynge',     'FullSizeRender-9.jpeg',     (0.00, 0.20, 1.00, 1.00), 3/2, 540),
     ('sted-have',   'IMG_4553.JPG',          (0.00, 0.22, 1.00, 0.96), 3/2, 540),
     # Jeanettes rettelse: mudderkoekkenet skal vaere sms-billedet. IMG_4819 er
@@ -202,7 +209,26 @@ JOBS = [
 ]
 
 
-def beskaer(im, box, ar):
+def ramme(im, ar):
+    """Hele fotoet i fuld højde midt i et ar-format billede; siderne fyldes
+    med en sløret, mørkere udgave af fotoet selv. Bruges, hvor en beskæring
+    til 3/2 ville skære for meget af et stående eller kvadratisk foto væk."""
+    W = im.width
+    H = int(round(W / ar))
+    s = max(W / im.width, H / im.height)
+    bg = im.resize((int(round(im.width * s)), int(round(im.height * s))), Image.LANCZOS)
+    bx, by = (bg.width - W) // 2, (bg.height - H) // 2
+    bg = bg.crop((bx, by, bx + W, by + H)).filter(ImageFilter.GaussianBlur(W * 0.025))
+    bg = Image.eval(bg, lambda v: int(v * 0.88))
+    f = min(W / im.width, H / im.height)
+    fg = im.resize((int(round(im.width * f)), int(round(im.height * f))), Image.LANCZOS)
+    bg.paste(fg, ((W - fg.width) // 2, (H - fg.height) // 2))
+    return bg
+
+
+def beskaer(im, box, ar, tilstand=None):
+    if tilstand == 'ramme':
+        return ramme(im, ar)
     w, h = im.size
     x0, y0, x1, y1 = [int(round(v * (w if i % 2 == 0 else h)))
                       for i, v in enumerate(box)]
@@ -289,9 +315,12 @@ def gem(im, sti, bredde, retina, skarp=True):
 #
 # Derfor regnes målene nu efter originalens virkelige størrelse. PIL læser
 # kun filhovedet for at få .size, så det koster ingenting at slå op.
-def _maal(src, box, ar, vis):
+def _maal(src, box, ar, vis, tilstand=None):
     with Image.open(SRC + src) as _im:
         w, h = _im.size
+    if tilstand == 'ramme':
+        box = (0, 0, 1, 1)
+        h = int(round(w / ar))
     x0, y0, x1, y1 = [int(round(v * (w if i % 2 == 0 else h)))
                       for i, v in enumerate(box)]
     cw, ch = x1 - x0, y1 - y0
@@ -306,18 +335,26 @@ def _maal(src, box, ar, vis):
 
 
 MAAL = {}
-for _ud, _src, _box, _ar, _vis in JOBS:
-    MAAL[_ud] = _maal(_src, _box, _ar, _vis)
+for _ud, _src, _box, _ar, _vis, *_t in JOBS:
+    MAAL[_ud] = _maal(_src, _box, _ar, _vis, *_t)
 
 
 if __name__ == '__main__':
     originaler = [j[1] for j in JOBS]
-    dubletter = {x for x in originaler if originaler.count(x) > 1}
+    # Jeanette har selv bedt om, at to fotos står to steder: børnene i
+    # mudderkøkkenet (forsidekort + karrusel) og de to børn med skovler
+    # (Værdier 3 + Baghaveskoven). Alt andet må stadig kun bruges én gang.
+    TILLADT_DUBLET = {'sms-mudder-koekken-boern.jpg', 'FullSizeRender-1.jpeg'}
+    dubletter = {x for x in originaler if originaler.count(x) > 1} - TILLADT_DUBLET
     assert not dubletter, f'Samme original bruges flere gange: {dubletter}'
 
     i_alt = {'jpg': 0, 'webp': 0, 'avif': 0}
-    for ud, src, box, ar, vis in JOBS:
-        raa = beskaer(Image.open(SRC + src).convert('RGB'), box, ar)
+    import sys
+    kun = set(sys.argv[1:])
+    for ud, src, box, ar, vis, *t in JOBS:
+        if kun and ud not in kun:
+            continue
+        raa = beskaer(Image.open(SRC + src).convert('RGB'), box, ar, *t)
         if raa.width < vis * 2:
             print(f'  ! {ud}: originalen er kun {raa.width} px bred '
                   f'(ville gerne have {vis*2})')

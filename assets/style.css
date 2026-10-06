@@ -703,6 +703,19 @@ section:first-of-type{ padding-top: 30px; }
 .blok.vendt .blok-tekst{ order: 1; padding-left: clamp(26px, 3.6vw, 48px); padding-right: 0; }
 .blok-tekst .prose{ max-width: 46ch; }
 
+/* Mudder Klubben: medlemsfordelene og turen til skoven står side om side i
+   ét opslag i stedet for to kort under hinanden. */
+.mk-saet{
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 30px; align-items: stretch; margin-bottom: 30px;
+}
+.mk-saet .kort{ padding: clamp(24px, 3vw, 40px); }
+.mk-saet .kort.kortkort{ padding: 0; display: flex; flex-direction: column; }
+.mk-tur-billede{ aspect-ratio: 4/3; flex: 0 0 auto; }
+.mk-tur-tekst{ padding: clamp(24px, 3vw, 40px); }
+.mk-tur-tekst p:last-child{ margin-bottom: 0; }
+.mk-saet .fordele li{ padding: 14px 16px; gap: 14px; }
+
 /* ==========================================================================
    Billedkarrusel
    Bevægelsen er ren CSS scroll-snap, så swipe på telefon føles rigtigt.
@@ -880,7 +893,11 @@ figcaption{
   border: 2px solid var(--teal);
   transform: rotate(-6deg);
 }
-.stempel-ikon svg{ width: 25px; height: 25px; }
+/* Jeanettes egne emojis. Skriftfamilien sættes eksplicit, så hver enhed bruger sin egen emojiskrift. */
+.stempel-ikon{
+  font-size: 1.45rem; line-height: 1;
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+}
 .stempler li:nth-child(3n)   .stempel-ikon{ transform: rotate(5deg); }
 .stempler li:nth-child(3n+1) .stempel-ikon{ transform: rotate(-3deg); }
 .stempler li:nth-child(4n)   .stempel-ikon{
@@ -1012,8 +1029,11 @@ dl{ margin: 0; max-width: 640px; }
 /* Tre store, tastevenlige kontaktveje – hele kortet er ét klikfelt */
 .kontaktveje{
   list-style: none; margin: 0; padding: 0;
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 24px;
 }
+/* Kortene står tre på en række, og en rest (fx 3 + 2) lægges midt på linjen
+   i stedet for at efterlade et hul i højre side. */
+.kontaktveje li{ flex: 0 1 calc((100% - 48px) / 3); min-width: 0; }
 .kontaktveje a{
   display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
   height: 100%; text-align: center; text-decoration: none; color: inherit;
@@ -1041,6 +1061,8 @@ dl{ margin: 0; max-width: 640px; }
   font-size: 1.5rem; line-height: 1.15; color: var(--teal-dyb);
   overflow-wrap: anywhere;
 }
+/* E-mailadressen er længere end de andre værdier og skal stå på én linje */
+.kontaktvej-vaerdi.lang{ font-size: 1.2rem; overflow-wrap: normal; }
 .kontaktvej-note{
   font-size: .93rem; color: var(--blaek-blod); margin-top: 8px; line-height: 1.45;
 }
@@ -1215,11 +1237,12 @@ footer p{ font-size: .97rem; }
   .genvej-tekst{ padding: 20px 24px; justify-content: center; }
   .genvej-tekst .pil{ margin-top: 12px; }
   .pakkeliste{ grid-template-columns: 1fr 1fr; }
-  .kontaktveje{ grid-template-columns: 1fr; }
+  .kontaktveje li{ flex-basis: 100%; }
   .saesoner{ grid-template-columns: 1fr; }
   .galleri, .galleri.to{ grid-template-columns: repeat(2, 1fr); }
   .galleri.en img{ aspect-ratio: 16/9; }
   .blok-tekst{ padding: 28px !important; }
+  .mk-saet{ grid-template-columns: 1fr; }
   .blok.vendt .blok-billede{ order: 0; }
   .blok.vendt .blok-tekst{ order: 1; }
   .blok-billede{ min-height: 0; aspect-ratio: 4/3; }
@@ -1263,7 +1286,7 @@ footer p{ font-size: .97rem; }
   }
   .stempler{ grid-template-columns: 1fr; }
   .stempel-ikon{ width: 42px; height: 42px; }
-  .stempel-ikon svg{ width: 23px; height: 23px; }
+  .stempel-ikon{ font-size: 1.3rem; }
   /* Den ekstra polstring foroven er plads til solen, der hænger ud over
      hjørnet. Titellinjerne har solen inde på linjen og skal ikke have den. */
   .sidehoved:not(.sidehoved-lav){ margin-top: 40px; padding-top: 52px; }

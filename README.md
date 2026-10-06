@@ -1,6 +1,6 @@
 # Børnegården GRO – hjemmeside
 
-Projektstatus: **v6 – rettelser, billeder og ydelse gennemgået.**
+Projektstatus: **v7 – Jeanettes tredje rettelsesrunde indarbejdet.**
 
 Kunde: Jeanette Riis, privat pasningsordning, Vinderslevvej 45, Vinderslev, 8620 Kjellerup.
 Solgt via Handyhand.
@@ -99,6 +99,28 @@ til **115 px**:
   efter et tryk
 - `-webkit-text-size-adjust: 100%` så iOS ikke selv skalerer teksten
 - `scroll-padding-top` så spring-til-links lander under den faste header
+
+## Ændringer i v7
+
+Jeanettes tredje rettelsesrunde (`Hjemmesidtekst til Børnegården GRO_3.pdf`).
+
+- **Forsiden:** Mudder Klubben-kortet viser nu børnene i mudderkøkkenet (sms-billede)
+- **Mudder Klubben:** "Der findes et lille selskab …" slettet, og det fede "Mudder Klubben." foran
+  introteksten er taget ud (hendes tekst starter med "Første dag i GRO"). Karrusellen er byttet til
+  hendes tre sms-billeder: vandløbet, børnene i mudderkøkkenet og bordet med gryder. Sidetoppen er
+  nu en lav titellinje som på Værdier og Her hvor vi bor
+- **Stalden:** legerummet er billede 1, grisen nr. 2. Æg og høne vises nu i fuld ramme med sløret
+  baggrund (`'ramme'` i `beskaer.py`) i stedet for en tæt beskæring, der virkede zoomet
+- **Baghaveskoven:** billede 5 (træet med bordet) er slettet; de to børn med skovle er indsat
+  (samme foto som Værdier 3, som hun selv bad om – `TILLADT_DUBLET` i `beskaer.py`)
+- **Her hvor vi bor:** "Fire steder, én hverdag." er slettet; resten af afslutningen står
+- **Om mig:** ny tekst, ord for ord. Titel, beskrivelse og strukturerede data siger nu
+  "næsten 10 års erfaring" i stedet for "siden 2015"
+- **Kontakt:** e-mail og sms er tilføjet. Messenger/Facebook vises, så snart `FACEBOOK` øverst i
+  `byg.py` er udfyldt (linket mangler). Kontaktsidens overskrift var rettet i den byggede HTML
+  uden at `byg.py` var fulgt med – det er samlet i `byg.py` igen
+- `beskaer.py` kan nu køres for enkelte motiver: `python3 beskaer.py mk-vandloeb stald-aeg`
+- Ikke længere i brug (kan slettes): `mk-mudder`, `mk-legeplads`, `skov-trae`
 
 ## Ændringer fra v3
 

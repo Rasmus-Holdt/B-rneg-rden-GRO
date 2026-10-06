@@ -16,6 +16,12 @@ LAT = '56.25713'
 LON = '9.43122'
 KORT_SOEG = 'Vinderslevvej+45,+8620+Kjellerup'
 INSTA = 'boernegaarden.gro'
+MAIL = 'jeanette-riis@outlook.com'
+# Facebook-siden. Jeanette har bedt om Messenger/Facebook som kontaktvej, men
+# linket mangler endnu. Skriv sidens navn her (den sidste del af adressen,
+# facebook.com/<navn>), kør byg.py igen – så dukker kortet op på Kontakt,
+# og Facebook kommer med i de strukturerede data. Tom = vises ikke.
+FACEBOOK = ''
 # Ét sted at rette kortlinket. Søger på selve adressen frem for koordinater,
 # fordi Google Maps så viser husnummeret i søgefeltet i stedet for to
 # talrækker – det er nemmere at genkende for den, der klikker.
@@ -111,6 +117,8 @@ IKON = {
  'sommer':'<circle cx="12" cy="12" r="4.6"/><path d="M12 1.8v2.8M12 19.4v2.8M1.8 12h2.8M19.4 12h2.8M4.8 4.8l2 2M17.2 17.2l2 2M19.2 4.8l-2 2M6.8 17.2l-2 2"/>',
  'vinter':'<path d="M12 2v20M3.3 7 20.7 17M20.7 7 3.3 17"/><path d="M9.4 4.2 12 6.8l2.6-2.6M9.4 19.8 12 17.2l2.6 2.6"/><path d="M4.7 10.5 5.4 7 8.9 7.7M19.3 13.5l-.7 3.5-3.5-.7M19.3 10.5l-.7-3.5-3.5.7M4.7 13.5l.7 3.5 3.5-.7"/>',
  'foraar':'<path d="M12 22v-8.4"/><path d="M12 13.6c0-4-3.2-7.2-7.2-7.2 0 4 3.2 7.2 7.2 7.2z"/><path d="M12 13.6c0-3.4 2.8-6.2 6.2-6.2 0 3.4-2.8 6.2-6.2 6.2z"/>',
+ 'sms':    '<path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.6-.8L3 21l1.9-5.2A8.4 8.4 0 0 1 3 11.5 8.5 8.5 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z"/>',
+ 'messenger': '<path d="M12 2.5C6.7 2.5 2.5 6.4 2.5 11.3c0 2.7 1.3 5.1 3.3 6.7v3.7l3.4-1.9c.9.2 1.8.4 2.8.4 5.3 0 9.5-3.9 9.5-8.8S17.3 2.5 12 2.5z"/><path d="m6.8 14 3.4-3.6 2.3 2.2 3.6-2.2-3.4 3.6-2.3-2.2z"/>',
  'venstre':'<path d="M15 4.5 7.5 12l7.5 7.5"/>',
  'hoejre': '<path d="M9 4.5 16.5 12 9 19.5"/>',
 }
@@ -343,7 +351,8 @@ def strukturerede_data(fil, title, desc):
             {"@type": "Place", "name": "Kjellerup"},
             {"@type": "Place", "name": "Silkeborg Kommune"},
         ],
-        "sameAs": ["https://www.instagram.com/" + INSTA + "/"],
+        "sameAs": (["https://www.instagram.com/" + INSTA + "/"]
+                   + (["https://www.facebook.com/" + FACEBOOK] if FACEBOOK else [])),
         "founder": {"@id": DOMAENE + "/#jeanette"},
         "employee": {"@id": DOMAENE + "/#jeanette"},
         "knowsLanguage": "da",
@@ -376,8 +385,8 @@ def strukturerede_data(fil, title, desc):
         "@id": DOMAENE + "/#jeanette",
         "name": "Jeanette Riis",
         "jobTitle": "Privat børnepasser",
-        "description": ("Driver Børnegården GRO i Vinderslev og har haft "
-                        "privat pasningsordning siden 2015."),
+        "description": ("Driver Børnegården GRO i Vinderslev og har næsten "
+                        "10 års erfaring med dagpleje og privat pasningsordning."),
         "url": DOMAENE + "/om-mig.html",
         "image": DOMAENE + "/billeder/jeanette.jpg",
         "worksFor": {"@id": DOMAENE + "/#virksomhed"},
@@ -505,7 +514,7 @@ MAL = '''<!DOCTYPE html>
 # det er en PNG/WebP med gennemsigtig baggrund og hører ikke til i
 # fotosporet med AVIF og srcset.
 PRELOAD = {
-    'mudderklubben.html':   'mk-mudder',
+    'mudderklubben.html':   'mk-vandloeb',
     'vaerdier.html':        'vd-ro',
     'her-hvor-vi-bor.html': 'sted-hus',
     'praktisk.html':        'praktisk-regntoej',
@@ -525,7 +534,7 @@ PRELOAD_PLADS = {
 # Uden dette fik alle syv sider forsidens gynge – også siden om økonomi.
 DELEBILLEDE = {
     'index.html':           'forside-vandloeb',
-    'mudderklubben.html':   'mk-mudder',
+    'mudderklubben.html':   'mk-vandloeb',
     'vaerdier.html':        'vd-ro',
     'her-hvor-vi-bor.html': 'sted-hus',
     'praktisk.html':        'praktisk-regntoej',
@@ -535,7 +544,7 @@ DELEBILLEDE = {
 
 DELEBILLEDE_ALT = {
     'forside-vandloeb':  'Barn der graver ved vandløbet i haven hos Børnegården GRO',
-    'mk-mudder':         'Børn der leger i mudderet i Mudder Klubben',
+    'mk-vandloeb':       'Barn i gul regnjakke ved et gravet vandløb i mudderet hos Mudder Klubben',
     'vd-ro':             'Barn der hviler i en rolig krog af haven',
     'sted-hus':          'Gården og huset, hvor Børnegården GRO holder til',
     'praktisk-regntoej': 'Barn i regntøj og gummistøvler klar til udeleg',
@@ -644,7 +653,7 @@ forside = f'''
   <div class="wrap">
     <div class="genveje forside-spalte">
       <a class="genvej" href="mudderklubben.html">
-        {billede('kort-mudderklub', 'Barn i regntøj ved vandløbet i mudderet', 'genvej')}
+        {billede('kort-mudderklub', 'To børn der rører mudder i mudderkøkkenet', 'genvej')}
         <div class="genvej-tekst">
           <h2>Mudder Klubben</h2>
           <p>Mudderpas, traktorture til baghaveskoven og officiel tilladelse til at hoppe i alle vandpytter.</p>
@@ -663,7 +672,7 @@ forside = f'''
         {billede('kort-sted', 'Børn samlet omkring bålpladsen i haven', 'genvej')}
         <div class="genvej-tekst">
           <h2>Her hvor vi bor</h2>
-          <p>Dagplejehuset, stalden, baghaveskoven og haven &ndash; fire steder, én hverdag.</p>
+          <p>Dagplejehuset, stalden, baghaveskoven og haven.</p>
           <span class="pil">Se stedet &rarr;</span>
         </div>
       </a>
@@ -675,31 +684,33 @@ forside = f'''
 # ==========================================================================
 # MUDDER KLUBBEN
 # ==========================================================================
+# Emojierne er Jeanettes egne, fra hendes tekstdokument. Kun "Klappet en kanin" er rettet:
+# hun havde sat 🌱 dér (formentlig et glip i listen), og det er nu 🐰.
 STEMPLER = [
- ('haand',   'Lavet et mudderhåndaftryk', ''),
- ('fod',     'Fodaftryk i sandkassen', ''),
- ('draabe',  'Bare tæer i en vandpyt', ''),
- ('kanin',   'Klappet en kanin', ''),
- ('aeg',     'Samlet æg ved hønsene', ''),
- ('brod',    'Første gang med hænderne i dejen', 'når der bages brød'),
- ('orm',     'Fundet en regnorm', ''),
- ('plask',   'Første rigtige vandpyt-hop', 'med begge fødder på én gang'),
- ('gulerod', 'Hjulpet med at give dyrene mad', ''),
- ('blad',    'Samlet blade eller kastanjer', ''),
- ('traktor', 'Første tur i traktorvognen', 'op til baghaveskoven'),
- ('spand',   'Bygget et &bdquo;slot&ldquo; eller hul', 'i sandkassen'),
- ('gryde',   'Lavet en lækker ret i mudderkøkkenet', ''),
- ('regnbue', 'Set en regnbue efter regn', ''),
- ('gren',    'Kravlet på den første gren eller stub', ''),
- ('gris',    'Kendt en af gårdens dyr ved navn', ''),
- ('stoevle', 'Hoppet i en vandpyt', ''),
- ('spire',   'Passet noget, der gror', ''),
- ('jakke',   'Klaret at tage gummistøvler og regntøj på selv', ''),
- ('medalje', 'Blevet den, der viser en ny, mindre ven mudderkøkkenet', ''),
+ ('🖐️',   'Lavet et mudderhåndaftryk', ''),
+ ('👣',     'Fodaftryk i sandkassen', ''),
+ ('💧',  'Bare tæer i en vandpyt', ''),
+ ('🐰',   'Klappet en kanin', ''),
+ ('🥚',     'Samlet æg ved hønsene', ''),
+ ('🍞',    'Første gang med hænderne i dejen', 'når der bages brød'),
+ ('🐛',     'Fundet en regnorm', ''),
+ ('🌧️',   'Første rigtige vandpyt-hop', 'med begge fødder på én gang'),
+ ('🥕', 'Hjulpet med at give dyrene mad', ''),
+ ('🍂',    'Samlet blade eller kastanjer', ''),
+ ('🚜', 'Første tur i traktorvognen', 'op til baghaveskoven'),
+ ('⛰️',   'Bygget et &bdquo;slot&ldquo; eller hul', 'i sandkassen'),
+ ('🥘',   'Lavet en lækker ret i mudderkøkkenet', ''),
+ ('🌈', 'Set en regnbue efter regn', ''),
+ ('🪵',    'Kravlet på den første gren eller stub', ''),
+ ('🐔',    'Kendt en af gårdens dyr ved navn', ''),
+ ('🫧', 'Hoppet i en vandpyt', ''),
+ ('🌻',   'Passet noget, der gror', ''),
+ ('🧤',   'Klaret at tage gummistøvler og regntøj på selv', ''),
+ ('🏅', 'Blevet den, der viser en ny, mindre ven mudderkøkkenet', ''),
 ]
 stempel_html = '\n'.join(
-    '        <li><span class="stempel-ikon">%s</span><span class="stempel-tekst">%s%s</span></li>'
-    % (stempel_ikon(i), t, f'<span>{u}</span>' if u else '')
+    '        <li><span class="stempel-ikon" aria-hidden="true">%s</span><span class="stempel-tekst">%s%s</span></li>'
+    % (i, t, f'<span>{u}</span>' if u else '')
     for i, t, u in STEMPLER)
 
 FORDELE = [
@@ -725,12 +736,9 @@ fordel_html = '\n'.join(
 #     mk-skovhule) er flyttet ned i galleriet, så de ikke går tabt.
 mudder = f'''
 <div class="wrap">
-  <div class="sidehoved">
-    {sol('sol-hjoerne')}
-    <p class="brodkrumme">Mudder Klubben</p>
+  <div class="sidehoved sidehoved-lav">
+    {sol('sol-titel')}
     <h1>Velkommen til Mudder&nbsp;Klubben</h1>
-    <p class="forord">Der findes et lille selskab i Børnegården GRO, som ikke alle børn
-    kender til, før de selv bliver en del af det:</p>
   </div>
 </div>
 
@@ -738,13 +746,13 @@ mudder = f'''
   <div class="wrap">
     <div class="blok">
       <div class="blok-billede">{karrusel([
-        ('mk-mudder',    'Barn i regntøj der graver i mudderet med legetøjsgravemaskine'),
-        ('mk-koekken',   'Børn der rører mudder i mudderkøkkenet'),
-        ('mk-legeplads', 'Sandkassen med køretøjer, dæk og mursten'),
+        ('mk-vandloeb',  'Barn i gul regnjakke ved et gravet vandløb i mudderet'),
+        ('mk-koekken',   'To børn der rører mudder i mudderkøkkenet'),
+        ('sted-have2',   'Mudderkøkkenets bord med gryder, urter og blade'),
       ], 'Billeder fra Mudder Klubben')}</div>
       <div class="blok-tekst">
         <div class="prose">
-          <p><strong>Mudder Klubben.</strong> Første dag i GRO får jeres barn en lille kuffert
+          <p>Første dag i GRO får jeres barn en lille kuffert
           til minder og sit helt eget mudderpas &ndash; et lille, personligt hæfte, der
           stemples, første gang der graves, mudres eller opdages noget nyt. Og så er det op
           til stemplerne at vise, hvor mange ekspeditioner det er blevet til.</p>
@@ -756,37 +764,32 @@ mudder = f'''
 
 <section>
   <div class="wrap">
-    <div class="kort">
-      <h2>Medlemsfordele</h2>
-      <p class="daempet">Som medlem af Mudder Klubben får jeres barn:</p>
-      <ul class="fordele">
+    <div class="mk-saet">
+      <div class="kort flad">
+        <h2>Medlemsfordele <span aria-hidden="true">🏅</span></h2>
+        <p class="daempet">Som medlem af Mudder Klubben får jeres barn:</p>
+        <ul class="fordele">
 {fordel_html}
-      </ul>
-    </div>
-
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="kort smal">
-      <p>En rigtig sjov tur begynder med traktoren. Den holder klar med plads i vognen
-      &ndash; alle spændt godt fast &ndash; og så går turen op gennem baghaven og ind i
-      klubbens egen lille bitte skovlegeplads. Grene der skal klatres i, stier der skal
-      udforskes, og skjulesteder, kun medlemmer kender til.</p>
-      <p>Ingen dag i baghaveskoven er ens &ndash; én dag er det pinde og balancebroer, en
-      anden dag er det en helt ny sti, ingen har prøvet før.</p>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="kort fremhaevet smal">
-      <p class="stor-tekst nulmargen"><strong>Bag legen ligger der noget rigtig godt:</strong>
-      mudder og vand er nogle af de bedste redskaber, vi har til at styrke børns sanser,
-      finmotorik og nysgerrighed. Men det behøver ikke at lyde kedeligt og fagligt for at
-      virke &ndash; det skal bare føles som ren sjov. Og det gør det.</p>
+        </ul>
+      </div>
+      <div class="kort flad kortkort mk-tur">
+        <div class="mk-tur-billede">{karrusel([
+          ('mk-skovsti',   'Børn på tur på en sti i skoven'),
+          ('mk-vandkanal', 'Vandkanal gravet gennem sandet'),
+        ], 'Flere billeder fra Mudder Klubben')}</div>
+        <div class="mk-tur-tekst prose">
+          <p>En rigtig sjov tur begynder med traktoren. Den holder klar med plads i vognen
+          &ndash; alle spændt godt fast &ndash; og så går turen op gennem baghaven og ind i
+          klubbens egen lille bitte skovlegeplads. Grene der skal klatres i, stier der skal
+          udforskes, og skjulesteder, kun medlemmer kender til. Ingen dag i baghaveskoven er
+          ens &ndash; én dag er det pinde og balancebroer, en anden dag er det en helt ny sti,
+          ingen har prøvet før.</p>
+          <p><strong>Bag legen ligger der noget rigtig godt:</strong> mudder og vand er nogle af
+          de bedste redskaber, vi har til at styrke børns sanser, finmotorik og nysgerrighed.
+          Men det behøver ikke at lyde kedeligt og fagligt for at virke &ndash; det skal bare
+          føles som ren sjov. Og det gør det.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -811,15 +814,6 @@ mudder = f'''
       <p class="luft-over"><strong>Passet følger, hvad det enkelte barn rent faktisk
       oplever og er klar til.</strong> Nogle stempler kommer tidligt, andre sent, og det er
       meningen. Det er barnets egen rejse, ikke en tjekliste, der skal nås.</p>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="galleri to">
-      <figure>{billede('mk-vandkanal', 'Vandkanal gravet gennem sandet', 'galleri2')}<figcaption>Vand, jord og et spadestik</figcaption></figure>
-      <figure>{billede('mk-skovsti', 'Børn på tur i skoven', 'galleri2')}<figcaption>Stier, der skal udforskes</figcaption></figure>
     </div>
   </div>
 </section>
@@ -947,6 +941,7 @@ sted = f'''
   <div class="wrap">
     <div class="blok vendt">
       <div class="blok-billede">{karrusel([
+        ('stald-legerum',    'Legerummet i stalden med sandgulv og legetøj'),
         ('sted-stald',       'Lille gris i græsset ved stalden'),
         ('stald-kanin',      'Barn der klapper en kanin i halmen inde i stalden'),
         ('stald-aeg',        'Barn der samler æg i reden'),
@@ -954,7 +949,6 @@ sted = f'''
         ('stald-kyllinger',  'Kyllinger under varmelampen, mens et barn kigger på'),
         ('stald-aellinger',  'And med tre ællinger ved vandfadet'),
         ('stald-halmballer', 'To børn der sidder i en hule af halmballer'),
-        ('stald-legerum',    'Legerummet i stalden med sandgulv og legetøj'),
       ], 'Billeder fra stalden')}</div>
       <div class="blok-tekst">
         <div class="prose">
@@ -977,7 +971,7 @@ sted = f'''
         ('skov-daekgynge',    'Dækgynge der hænger i et træ på skovstien'),
         ('sted-skov',         'Børn der klatrer på dæk mellem træerne'),
         ('skov-tovgynge',     'Barn der gynger i en tovgynge mellem træerne'),
-        ('skov-trae',         'Stort træ med bord og hyggekrog under grenene'),
+        ('skov-boern-graver', 'To børn i gummistøvler der graver med hver deres skovl i jorden'),
       ], 'Billeder fra baghaveskoven')}</div>
       <div class="blok-tekst">
         <div class="prose">
@@ -1014,7 +1008,7 @@ sted = f'''
 <section>
   <div class="wrap">
     <div class="citat">
-      Fire steder, én hverdag. Dagplejehuset, stalden, baghaveskoven og haven hænger sammen
+      Dagplejehuset, stalden, baghaveskoven og haven hænger sammen
       som ét stort legelandskab &ndash; og det er her, jeres barns dage kommer til at udspille sig.
     </div>
   </div>
@@ -1179,8 +1173,8 @@ om_mig = f'''
   <div class="wrap">
     <div class="kort smal">
       {billede('jeanette', 'Jeanette Riis, der driver Børnegården GRO', 'portraet', straks=True, cls='portraet-plads')}
-      <p>Jeg hedder Jeanette. Jeg er 39 år, har været mor i 17 år, og har haft privat
-      pasningsordning siden 2015.</p>
+      <p>Jeg hedder Jeanette. Jeg er 39 år, har været mor i 17 år, og har næsten 10
+      års erfaring med dagpleje/privat pasningsordning.</p>
       <p>De første 36 måneder af et barns liv kommer ikke igen. Det er i de år, hjernen
       udvikler sig hurtigere end på noget andet tidspunkt i livet, og det er i de år, et barn
       lægger grunden for tryghed, tillid og selvværd &ndash; ofte uden at vi voksne lægger
@@ -1190,19 +1184,18 @@ om_mig = f'''
       har mest gavn af en voksen, der er til stede &ndash; og af selv at være en del af det,
       der sker, i stedet for kun at kigge på.</p>
       <p>Derfor tager jeg børnene med, når der skal fodres dyr, bages brød eller ordnes ting
-      i haven. Ikke fordi det er en aktivitet, men fordi et barn, der får lov at bidrage til
-      noget rigtigt, mærker sig selv som en del af et fællesskab &ndash; og bygger en
-      selvtillid, der sidder dybere end ros nogensinde kan give.</p>
-      <p>Jeg har brugt mange timer på at forstå, hvordan et lille barns hjerne og følelser
-      udvikler sig i de første leveår. Et lille barn kan endnu ikke berolige sig selv i en
-      svær følelse &ndash; det låner roen fra den voksne, det er sammen med. Når jeg selv er
-      rolig, smitter det: et barns gråd, vrede eller frustration kan finde et sted at lande,
-      fordi der er en tryg voksen at læne sig op ad.</p>
+      i haven. Fordi et barn, der får lov at være med og føle at det bidrager til noget
+      rigtigt, mærker sig selv som en del af et fællesskab &ndash; og bygger en selvtillid,
+      der sidder dybere end ros nogensinde kan give.</p>
+      <p>Jeg har brugt mange år på at uddanne mig og forstå mig på, hvordan et lille barns
+      hjerne og følelser udvikler sig i de første leveår. Et lille barn kan endnu ikke
+      berolige sig selv i en svær følelse &ndash; det låner roen fra den voksne, det er
+      sammen med. Når jeg selv er rolig, smitter det: et barns gråd, vrede eller frustration
+      kan finde et sted at lande, fordi der er en tryg voksen at læne sig op ad.</p>
       <p>Det er den viden, jeg tager med ind i mødet med de mindste, hver eneste dag. Men lige
       så vigtigt er det, I finder mig med gummistøvlerne på midt i det hele. Jeg hopper selv i
-      vandpytterne, graver med i mudderet, og sætter mig på gyngen, hvis der er brug for et
-      skub eller to. For mig er rigtig leg noget, man er en del af, ikke noget, man kun står
-      ved siden af og kigger på.</p>
+      vandpytterne, graver med i mudderet, og sætter mig på gyngen, og deler begejstringen for
+      de små ting naturen og livet kan.</p>
       <p>Den barndom, et barn får fra de er helt små, spiller ind igennem hele deres liv,
       derfor er den så vigtig.</p>
     </div>
@@ -1217,43 +1210,50 @@ om_mig = f'''
 # bare fanens navn. Kassen "Kom forbi" hedder "Adresse", og kassen med
 # ledige pladser er væk – de står under "Praktisk" og skal kun stå ét sted,
 # så der ikke er to tal at holde opdateret, når noget bliver besat.
+# Overskrift og manchet: den byggede side (rettet i september) havde ingen manchet,
+# en lav sidetop med solen over titlen og notetekst "Ring, skriv eller læg en
+# besked". byg.py var ikke fulgt med; det er rettet her, så en ny kørsel ikke
+# ruller det tilbage.
+# Tredje rettelse: e-mail, sms og Messenger står nu ved siden af Ring og
+# Instagram. Messenger vises først, når FACEBOOK er udfyldt øverst i filen.
+def _vej(href, ikonnavn, navn, vaerdi, note, ekstern=False, titel='', lang=False):
+    e = ' target="_blank" rel="noopener"' if ekstern else ''
+    t = f' title="{titel}"' if titel else ''
+    return f'''      <li>
+        <a href="{href}"{e}{t}>
+          <span class="kontaktvej-ikon">{ikon(ikonnavn)}</span>
+          <span class="kontaktvej-navn">{navn}</span>
+          <span class="kontaktvej-vaerdi{' lang' if lang else ''}">{vaerdi}</span>
+          <span class="kontaktvej-note">{note}</span>
+        </a>
+      </li>'''
+
+_veje = [
+    _vej(f'tel:+45{TLF}', 'tlf', 'Ring', TLF_VIS, 'Ring, skriv eller læg en besked'),
+    _vej(f'sms:+45{TLF}', 'sms', 'SMS', TLF_VIS, 'Send en sms'),
+    _vej(f'mailto:{MAIL}', 'mail', 'E-mail', MAIL, 'Skriv en mail', lang=True),
+    _vej(f'https://www.instagram.com/{INSTA}/', 'insta', 'Instagram', INSTA,
+         'Send en besked på Instagram', ekstern=True),
+]
+if FACEBOOK:
+    _veje.append(_vej(f'https://m.me/{FACEBOOK}', 'messenger', 'Messenger', 'Børnegården GRO',
+                      'Skriv på Messenger eller se Facebook-siden', ekstern=True))
+_veje.append(_vej(KORT_URL, 'pin', 'Adresse', 'Vinderslevvej 45', 'Vinderslev, 8620 Kjellerup',
+                  ekstern=True, titel='Åbn adressen i Google Maps'))
+_veje_html = '\n'.join(_veje)
+
 kontakt = f'''
 <div class="wrap">
-  <div class="sidehoved">
-    {sol('sol-hjoerne')}
+  <div class="sidehoved sidehoved-lav">
+    {sol('sol-titel')}
     <h1>Kontakt</h1>
-    <p class="manchet">Ring eller skriv &ndash; og kom endelig forbi. Vil I se stedet, aftaler vi
-    bare et tidspunkt. Det er altid nemmest at mærke et sted ved at stå i det.</p>
   </div>
 </div>
 
 <section>
   <div class="wrap">
     <ul class="kontaktveje">
-      <li>
-        <a href="tel:+45{TLF}">
-          <span class="kontaktvej-ikon">{ikon('tlf')}</span>
-          <span class="kontaktvej-navn">Ring</span>
-          <span class="kontaktvej-vaerdi">{TLF_VIS}</span>
-          <span class="kontaktvej-note">Hverdage &ndash; læg gerne en besked</span>
-        </a>
-      </li>
-      <li>
-        <a href="https://www.instagram.com/{INSTA}/" target="_blank" rel="noopener">
-          <span class="kontaktvej-ikon">{ikon('insta')}</span>
-          <span class="kontaktvej-navn">Skriv</span>
-          <span class="kontaktvej-vaerdi">{INSTA}</span>
-          <span class="kontaktvej-note">Send en besked på Instagram</span>
-        </a>
-      </li>
-      <li>
-        <a href="{KORT_URL}" target="_blank" rel="noopener" title="Åbn adressen i Google Maps">
-          <span class="kontaktvej-ikon">{ikon('pin')}</span>
-          <span class="kontaktvej-navn">Adresse</span>
-          <span class="kontaktvej-vaerdi">Vinderslevvej 45</span>
-          <span class="kontaktvej-note">Vinderslev, 8620 Kjellerup</span>
-        </a>
-      </li>
+{_veje_html}
     </ul>
   </div>
 </section>
@@ -1302,8 +1302,8 @@ skriv('praktisk.html',
       'Egenbetaling 3.213 kr./md., kommunalt tilskud 8.027 kr. Se ledige pladser, pakkeliste og hvad der er inkluderet i Børnegården GRO ved Kjellerup.',
       praktisk)
 skriv('om-mig.html',
-      'Børnegården GRO | Om Jeanette Riis, dagplejer siden 2015',
-      'Jeanette Riis har haft privat pasningsordning siden 2015. Om ro, nærvær og at være med i legen fremfor at kigge på.',
+      'Børnegården GRO | Om Jeanette Riis, næsten 10 års erfaring',
+      'Jeanette Riis har næsten 10 års erfaring med dagpleje og privat pasningsordning. Om ro, nærvær og at være med i legen fremfor at kigge på.',
       om_mig)
 skriv('kontakt.html',
       'Børnegården GRO | Kontakt og find vej i Vinderslev',
